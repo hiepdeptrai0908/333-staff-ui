@@ -1,0 +1,112 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+:root {
+    --primary: #c32032;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: rgb(238, 174, 202);
+    background: linear-gradient(rgb(235, 152, 65), rgb(179, 0, 255));
+    background-image: url('https://img.freepik.com/free-vector/gradient-smooth-background_23-2148976779.jpg?w=2000');
+    background-size: cover;
+    object-fit: cover;
+}
+
+body {
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+    display: flex;
+}
+
+// Custom toast
+
+.Toastify__toast-container--top-right {
+    top: 2em;
+    right: 4em;
+}
+
+.Toastify__toast-theme--light {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--toastify-text-color-light);
+    width: 500px;
+    height: auto;
+    right: 90px;
+}
+
+.Toastify__progress-bar {
+    background-color: rgb(15, 237, 112);
+    animation: changeColor linear 1 forwards;
+    animation-duration: 5000ms !important;
+}
+
+.Toastify__toast-body {
+    padding: 0;
+}
+
+.Toastify__toast-body > div:last-child {
+    font-size: 1rem;
+    color: black;
+    font-weight: 600;
+}
+
+.Toastify__close-button {
+}
+
+.Toastify__close-button--light {
+    height: 100%;
+    line-height: 50px;
+    color: #000;
+    opacity: 0.3;
+    position: relative;
+    top: 5px;
+}
+
+.Toastify__close-button > svg {
+    height: 20px;
+    width: 20px;
+}
+
+@keyframes changeColor {
+    100% {
+        width: 0;
+        background-color: rgb(237, 15, 30);
+    }
+}
+
+// sidebar
+.active > .Sidebar_item__n0BXY {
+    background-color: #333;
+    color: #fff;
+}
+
+//input
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+// Time page
+.action-link {
+    display: flex;
+    text-decoration: none;
+    height: 40px;
+
+    & + .action-link {
+        padding-left: 20px;
+    }
+}

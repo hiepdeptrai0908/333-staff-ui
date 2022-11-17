@@ -1,0 +1,43 @@
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background-color: #e15b5b4d;
+}
+
+.logo-box {
+    z-index: 9999;
+}
+
+.logo-img {
+    margin-top: 60px;
+    margin-left: -30px;
+    width: auto;
+    height: 100%;
+    transform: scale(0.6);
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.logo-img:hover {
+    transform: scale(0.7) rotate(-12deg);
+}
+
+.manage-btn {
+    width: 100px;
+    height: 40px;
+    border-color: var(--primary);
+    border-radius: 5555px;
+    font-size: 1rem;
+    margin-right: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.manage-btn:hover {
+    opacity: 0.9;
+    transform: rotate(4deg);
+}

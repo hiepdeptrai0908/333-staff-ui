@@ -1,0 +1,373 @@
+.wrapper {
+    width: 100%;
+}
+
+.search-action {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-style: ridge;
+}
+
+.action {
+    display: flex;
+    width: 50%;
+    height: 60%;
+}
+
+.items,
+.now-btn {
+    width: 16%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: solid 2px rgb(159, 45, 45);
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.now-btn {
+    width: 150px;
+    height: auto;
+    & + .now-btn {
+        margin-left: 20px;
+    }
+
+    &:hover {
+        animation: changeBgColor linear 0.2s forwards;
+    }
+
+    &.active {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+.action-item:hover {
+    animation: changeBgColor linear 0.2s forwards;
+}
+
+@keyframes changeBgColor {
+    to {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+.date-item {
+    width: 70px;
+    height: 40px;
+    margin-top: 0;
+    border: solid 2px rgb(159, 45, 45);
+    text-align: center;
+    text-align-last: center;
+    font-weight: 600;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    & + .date-item {
+        border-left: none;
+    }
+
+    &:first-child {
+        border-top-left-radius: 14px;
+    }
+
+    &:nth-child(3) {
+        border-bottom-right-radius: 14px;
+    }
+
+    &:nth-child(4) {
+        width: 100px;
+        border-radius: 44px;
+        margin-left: 20px;
+        border-left: solid 2px rgb(159, 45, 45);
+    }
+
+    &:hover {
+        animation: changeBgColor linear 0.2s forwards;
+    }
+}
+
+.select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.date-time-btn {
+    margin: left;
+}
+
+.content {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 200px;
+}
+
+.background-image {
+    position: absolute;
+    top: 460px;
+    right: 50%;
+    transform: translate(50%, 00%);
+    width: 200px;
+    height: 200px;
+    opacity: 0.1;
+    // z-index: -1;
+}
+
+.content-heading {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 20px;
+}
+
+// table
+
+.styled-table {
+    border-collapse: collapse;
+    margin-top: 4px;
+    font-size: small;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    max-height: 300px;
+}
+
+.styled-table thead tr {
+    z-index: 1;
+    background: #333;
+
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    text-align: center;
+    padding: 8px 10px;
+    border-right: solid 1px rgb(222, 219, 219);
+}
+
+.styled-table th {
+    border: solid 2px #333;
+}
+
+.styled-table th:nth-child(2),
+.styled-table td:nth-child(2) {
+    max-width: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+.styled-table th:nth-child(4) {
+    width: 95px;
+}
+
+.styled-table th:nth-child(5),
+.styled-table th:nth-child(6),
+.styled-table th:nth-child(7),
+.styled-table th:nth-child(8),
+.styled-table th:nth-child(9) {
+    width: 80px;
+}
+
+.styled-table td:first-child {
+    width: 10px;
+    border-left: solid 2px #333;
+    text-align: center;
+}
+
+.styled-table td:last-child {
+    border-right: solid 2px #333;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f35b;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #333;
+}
+
+.update-btn,
+.break-btn {
+    width: 70px;
+    height: 30px;
+    border-radius: 55px;
+    border: none;
+    cursor: pointer;
+    background-color: #252422cb;
+    color: rgb(235, 229, 229);
+    font-size: small;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.break-btn {
+    font-size: small;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(249, 0, 0, 1) 100%);
+    color: #fff;
+}
+
+.online-icon {
+    color: #11a00f;
+}
+
+.off-icon {
+    color: #333;
+}
+
+// popover
+
+.break-btn.detal-show ~ .break-popover {
+    display: flex;
+}
+
+.detal-btn {
+    position: relative;
+    transform-origin: calc(100% - 10px) top;
+}
+
+.break-btn:hover ~ .break-popover {
+    display: flex;
+}
+
+.break-popover {
+    position: absolute;
+    top: -20%;
+    right: 110px;
+    width: 330px;
+    padding: 10px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, #375650 100%);
+    color: #fff;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    transform-origin: calc(100% - 10px) top;
+    animation: showDetal ease-in 0.3s;
+    box-shadow: -2px 2px 15px #666, 0 -2px 20px #fff;
+    border-radius: 6px;
+
+    &::before {
+        content: '';
+        border-width: 10px 12px;
+        border-style: solid;
+        border-right: none;
+        border-color: transparent transparent transparent #34504b;
+        position: absolute;
+        right: -10px;
+        top: 28px;
+    }
+}
+
+.popover-group {
+    border-bottom: solid 1px #333;
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.group-title {
+    width: 130px;
+    padding: 4px;
+    margin: 1px;
+    border-right: solid 1px #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+.group-data {
+    line-height: 100%;
+    margin: 0 12px;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+.break-total {
+    position: relative;
+    margin-left: 50px;
+}
+
+.right-icon {
+    color: #fff;
+    position: absolute;
+    right: 45px;
+    font-weight: 600;
+}
+
+.date {
+    padding-left: 20px;
+}
+
+.to {
+    color: #fff;
+    padding: 0 6px;
+}
+
+// download button
+.download-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 330px;
+    width: 150px;
+    font-size: medium;
+    height: 40px;
+    border-radius: 50px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.7;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.download-icon {
+    padding: 0 8px;
+    color: #28fe24;
+}
+
+@keyframes showDetal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.download-day {
+    margin-top: 50px;
+    display: flex;
+    justify-content: end;
+    font-size: small;
+    font-weight: 600;
+    color: #999;
+}
+
+.download-day-title {
+    margin-right: 6px;
+}

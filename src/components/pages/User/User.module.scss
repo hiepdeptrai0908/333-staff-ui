@@ -1,0 +1,99 @@
+.wrapper {
+    width: 100%;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.content {
+    width: 100%;
+    overflow: auto;
+    max-height: 84vh;
+    overflow-y: auto;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin-top: 4px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.styled-table thead tr {
+    z-index: 1;
+    background: #333;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f35b;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #333;
+}
+
+.update-btn {
+    width: 70px;
+    height: 30px;
+    border-radius: 55px;
+    border: none;
+    cursor: pointer;
+    background-color: #252422cb;
+    color: rgb(235, 229, 229);
+    font-size: 1rem;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+// download button
+.download-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 300px;
+    width: 150px;
+    font-size: medium;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.7;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.download-icon {
+    padding: 0 8px;
+    color: #28fe24;
+}

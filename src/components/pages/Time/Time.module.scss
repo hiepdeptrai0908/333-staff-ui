@@ -1,0 +1,348 @@
+.wrapper {
+    width: 100%;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background: #333;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.search-action {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action {
+    display: flex;
+    width: 44%;
+    height: 60%;
+}
+
+.items,
+.now-btn {
+    width: 16%;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: solid 2px rgb(159, 45, 45);
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.now-btn {
+    width: 150px;
+    height: auto;
+    & + .now-btn {
+        margin-left: 20px;
+    }
+
+    &:hover {
+        animation: changeBgColor linear 0.2s forwards;
+    }
+
+    &.active {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+.action-item:hover {
+    animation: changeBgColor linear 0.2s forwards;
+}
+
+@keyframes changeBgColor {
+    to {
+        background-color: #333;
+        color: #fff;
+    }
+}
+
+.date-item {
+    width: 70px;
+    height: 40px;
+    margin-top: 0;
+    border: solid 2px rgb(159, 45, 45);
+    text-align: center;
+    text-align-last: center;
+    font-weight: 600;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    & + .date-item {
+        border-left: none;
+    }
+
+    &:first-child {
+        border-top-left-radius: 14px;
+    }
+
+    &:nth-child(3) {
+        border-bottom-right-radius: 14px;
+    }
+
+    &:nth-child(4) {
+        width: 100px;
+        border-radius: 44px;
+        margin-left: 20px;
+        border-left: solid 2px rgb(159, 45, 45);
+    }
+
+    &:hover {
+        animation: changeBgColor linear 0.2s forwards;
+    }
+}
+
+.select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+
+.date-time-btn {
+    margin: left;
+}
+
+.content {
+    padding-top: 10px;
+    padding-bottom: 200px;
+}
+
+// table
+.styled-table {
+    border-collapse: collapse;
+    margin-top: 4px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    max-height: 300px;
+}
+
+.styled-table thead tr {
+    z-index: 1;
+    background: #333;
+
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 8px 10px;
+}
+
+.styled-table td:nth-child(2),
+.styled-table td:nth-child(7) {
+    text-align: center;
+    padding-right: 0;
+}
+
+.styled-table th:nth-child(3),
+.styled-table td:nth-child(3) {
+    text-align: center;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.styled-table td:first-child {
+    text-align: center;
+}
+
+.styled-table td:last-child {
+    width: 10px;
+    text-align: center;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f35b;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #333;
+}
+
+.detal-btn {
+    position: relative;
+    transform-origin: calc(100% - 10px) top;
+}
+
+.break-btn-box {
+    position: relative;
+}
+
+.update-btn,
+.break-btn {
+    width: 70px;
+    height: 30px;
+    border-radius: 55px;
+    border: none;
+    cursor: pointer;
+    background-color: #252422cb;
+    color: rgb(235, 229, 229);
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.break-btn {
+    font-size: small;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(249, 0, 0, 1) 100%);
+    color: #fff;
+}
+
+.online-icon {
+    color: #11a00f;
+}
+
+.off-icon {
+    color: #333;
+}
+
+// popover
+
+.break-btn.detal-show ~ .break-popover {
+    display: flex;
+}
+
+// .break-btn:hover ~ .break-popover {
+//     display: flex;
+// }
+
+.break-popover {
+    position: absolute;
+    top: -18px;
+    right: 126px;
+    width: 330px;
+    padding: 10px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, #375650 100%);
+    color: #fff;
+    z-index: 1;
+    display: none;
+    flex-direction: column;
+    transform-origin: calc(100% - 10px) top;
+    animation: showDetal ease-in 0.3s;
+    box-shadow: -2px 2px 15px #666, 0 -2px 20px #fff;
+    border-radius: 6px;
+    cursor: default;
+
+    &::before {
+        content: '';
+        border-width: 10px 12px;
+        border-style: solid;
+        border-right: none;
+        border-color: transparent transparent transparent #34504b;
+        position: absolute;
+        right: -10px;
+        top: 22px;
+    }
+}
+
+.popover-group {
+    border-bottom: solid 1px #333;
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.group-title {
+    width: 130px;
+    padding: 4px;
+    margin: 1px;
+    border-right: solid 1px #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+.group-data {
+    line-height: 100%;
+    margin: 0 12px;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+.break-total {
+    position: relative;
+    margin-left: 50px;
+}
+
+.right-icon {
+    color: #fff;
+    position: absolute;
+    right: 45px;
+    font-weight: 600;
+}
+
+.date {
+    padding-left: 20px;
+}
+
+.to {
+    color: #fff;
+    padding: 0 6px;
+}
+
+// download button
+.download-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 300px;
+    width: 150px;
+    font-size: medium;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.7;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.download-icon {
+    padding: 0 8px;
+    color: #28fe24;
+}
+
+@keyframes showDetal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

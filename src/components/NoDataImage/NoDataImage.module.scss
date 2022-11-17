@@ -1,0 +1,19 @@
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    text-transform: uppercase;
+    margin-top: 74px;
+    padding: 20px 0;
+}
+
+.no-data-img {
+    opacity: 0.9;
+    border-radius: 20px;
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 5px 10px #666;
+}

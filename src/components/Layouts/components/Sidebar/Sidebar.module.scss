@@ -1,0 +1,62 @@
+.wrapper {
+    width: 25%;
+    height: auto;
+    background-color: #ffffff4d;
+}
+.logo-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    background-color: #333;
+}
+.logo-img {
+    width: 100px;
+    height: 100px;
+    transform: scale(1);
+    position: relative;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.logo-img:hover {
+    transform: scale(1.2) rotate(-4deg);
+}
+
+.items {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.item {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: solid 2px rgb(159, 45, 45);
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.item:hover {
+    animation: changeBgColor linear 0.2s forwards;
+}
+
+.item:active {
+    animation: changeBgColor linear 0.2s forwards;
+}
+
+@keyframes changeBgColor {
+    to {
+        background-color: #333;
+        color: #fff;
+    }
+}
