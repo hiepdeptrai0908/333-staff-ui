@@ -12,7 +12,9 @@ import { useEffect, useState } from 'react'
 const cx = classname.bind(styles)
 
 function Header() {
+    const nextBtnClass = 'out-right'
     const [userName, setUserName] = useState('')
+    const [outRightClass, setOutRightClass] = useState(undefined)
     useEffect(() => {
         setUserName('Triệu Quang Hiệp')
     })
@@ -25,11 +27,20 @@ function Header() {
             </div>
             <div className={cx('search')}>
                 <input className={cx('search-input')} type="text" placeholder="Nhập mã số nhân viên..." />
-                <FontAwesomeIcon className={cx('search-icon')} icon={faArrowCircleRight} />
+                <FontAwesomeIcon
+                    className={cx('search-icon', outRightClass)}
+                    onClick={() => {
+                        setOutRightClass(nextBtnClass)
+                        setTimeout(() => {
+                            setOutRightClass(undefined)
+                        }, 1500)
+                    }}
+                    icon={faArrowCircleRight}
+                />
             </div>
             {userName ? (
                 <div className={cx('staff-name')}>
-                    Xin chào: <span>{userName}</span>
+                    Xin chào : <span>{userName}</span>
                 </div>
             ) : (
                 <></>

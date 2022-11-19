@@ -65,6 +65,22 @@
     cursor: pointer;
 }
 
+.out-right {
+    animation: fadeOut 1.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+    50% {
+        opacity: 1;
+        transform: translateX(25px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(40px);
+        color: red;
+    }
+}
+
 .staff-name {
     flex: 2;
     font-size: 1rem;
@@ -90,5 +106,5 @@
 
 .manage-btn:hover {
     opacity: 0.9;
-    transform: rotate(10deg);
+    transform: rotate(4deg);
 }
