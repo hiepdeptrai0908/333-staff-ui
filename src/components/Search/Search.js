@@ -39,7 +39,7 @@ function Search() {
             .then((data) => {
                 userInfo = data[0]
                 if (userInfo.staff_id) {
-                    toast.success('Bạn đã đăng nhập thành công.', {
+                    toast.success(userInfo.fullname + ' đã đăng nhập thành công.', {
                         position: toast.POSITION.TOP_RIGHT,
                     })
                 } else {
