@@ -24,3 +24,61 @@ body {
     background: gradient(rgb(243, 127, 177), rgb(255, 213, 0));
     background-image: url('https://img.freepik.com/free-vector/gradient-smooth-background_23-2148976779.jpg?w=2000');
 }
+
+// Custom toast
+
+.Toastify__toast-container--top-right {
+    top: 2em;
+    right: 2.5em;
+}
+
+.Toastify__toast-theme--light {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: var(--toastify-text-color-light);
+    width: 450px;
+    height: auto;
+    right: 90px;
+}
+
+.Toastify__progress-bar {
+    background-color: rgb(15, 237, 112);
+    animation: changeColor linear 1 forwards;
+    animation-duration: 5000ms !important;
+}
+
+.Toastify__toast-body {
+    padding: 0;
+}
+
+.Toastify__toast-body > div:last-child {
+    font-size: 1rem;
+    color: black;
+    font-weight: 600;
+}
+
+.Toastify__close-button {
+}
+
+.Toastify__close-button--light {
+    height: 100%;
+    line-height: 50px;
+    color: #000;
+    opacity: 0.3;
+    position: relative;
+    top: 5px;
+}
+
+.Toastify__close-button > svg {
+    height: 20px;
+    width: 20px;
+}
+
+@keyframes changeColor {
+    100% {
+        width: 0;
+        background-color: rgb(237, 15, 30);
+    }
+}

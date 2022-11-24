@@ -1,12 +1,14 @@
 import configRoutes from '~/config/routes'
 import Home from '~/components/pages/Home'
 import Admin from '~/components/pages/Admin'
+import ListUsers from '~/components/pages/ListUsers'
 import Info from '~/components/pages/Info'
 import { AdminLayout } from '~/components/Layouts'
 
 const publicRoutes = [
     { path: configRoutes.home, component: Home },
     { path: configRoutes.admin, component: Admin, layout: AdminLayout },
+    { path: configRoutes.listUsers, component: ListUsers, layout: AdminLayout },
     { path: configRoutes.info, component: Info, layout: AdminLayout },
 ]
 

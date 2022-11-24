@@ -1,33 +1,72 @@
 import classname from 'classnames/bind'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import Clock from '~/components/Clock'
+import { userInfo } from '~/components/Search/Search'
+import { ToastContainer, toast } from 'react-toastify'
+import { baseURL } from '~/utils'
+export { userInfo } from '~/components/Search/Search'
 
 const cx = classname.bind(styles)
 function Home() {
-    const [data, setData] = useState({})
-    console.log(data.type === 'error')
+    const btnTitles = ['出勤', '退勤', '休憩開始', '休憩終了']
 
-    const handleOnclick = () => {
-        setData({ type: 'error' })
+    const idBtn = ['time-in', 'time-out', 'break-in', 'break-out']
+
+    const handleOnclick = (e) => {
+        console.log(e.target.id)
+        if (!userInfo) {
+            const toastMessage = toast.warning('Bạn chưa nhập mã số nhân viên !', {
+                position: toast.POSITION.TOP_RIGHT,
+            })
+            return toastMessage
+        }
+        fetch(baseURL + e.target.id, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data)
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+            })
+        // if (userInfo) {
+        //     setData(userInfo)
+        //     setHasUser(true)
+        //     toast.success(`${userInfo.fullname} check in thành công`, {
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     })
+        // } else {
+        //     setData({})
+        //     setHasUser(false)
+        //     toast.warning('Bạn chưa đăng nhập !', {
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     })
+        // }
     }
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('actions')}>
-                <button className={cx('action-btn')} onClick={handleOnclick}>
-                    出勤
-                </button>
-                <button className={cx('action-btn')} onClick={handleOnclick}>
-                    退勤
-                </button>
-                <button className={cx('action-btn')} onClick={handleOnclick}>
-                    休憩開始
-                </button>
-                <button className={cx('action-btn')} onClick={handleOnclick}>
-                    休憩終了
-                </button>
+                {btnTitles.map((btnTitle, index) => {
+                    return (
+                        <button
+                            id={idBtn[index]}
+                            className={cx('action-btn')}
+                            onClick={(event) => handleOnclick(event)}
+                            key={index}
+                        >
+                            {btnTitle}
+                        </button>
+                    )
+                })}
             </div>
+            <ToastContainer />
             <Clock />
         </div>
     )

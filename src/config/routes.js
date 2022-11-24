@@ -1,6 +1,7 @@
 const configRoutes = {
     home: '/',
     admin: '/admin',
+    listUsers: '/listusers',
     info: '/info',
 }
 
