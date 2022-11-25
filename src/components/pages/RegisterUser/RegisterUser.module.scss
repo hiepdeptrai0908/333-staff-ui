@@ -1,0 +1,174 @@
+.wrapper {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.container {
+    padding: 10px 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+input,
+select {
+    width: 300px;
+    height: 34px;
+    line-height: 30px;
+    background: linear-gradient(to top left, rgb(56, 46, 46), hsl(1, 76%, 32%));
+    outline: none;
+    border-radius: 4px;
+    padding: 0 10px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+
+.box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.staff-id-input,
+.sex-input {
+    width: 300px;
+}
+
+.fullname-input,
+.birthday-input,
+.phone-input,
+.email-input {
+    width: 300px;
+    text-align: left;
+}
+
+.icon {
+    color: red;
+    padding-right: 10px;
+}
+
+.address {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.address-item {
+    display: flex;
+    width: auto;
+}
+
+.post-code {
+    display: inline-block;
+    justify-items: center;
+}
+
+.post-input {
+    width: 200px;
+}
+
+.search-btn {
+    width: 100px;
+    margin-left: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(to top right, rgb(185, 58, 158), gold);
+    transition: all;
+    cursor: pointer;
+}
+
+.post-input {
+    margin-left: 20px;
+}
+
+.search-btn:hover {
+    transition: all 0.4s;
+    color: #fff;
+    background: linear-gradient(to top right, rgb(151, 60, 0), rgb(182, 79, 35));
+}
+
+.search-btn:active {
+    animation: btnOut 1s liner forwards;
+}
+
+.address-value {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.account {
+    margin-top: 40px;
+}
+
+.password-input {
+    width: 210px;
+}
+
+.register-btn {
+    width: 400px;
+    height: 50px;
+    margin: 10px auto;
+    border: none;
+    border-radius: 55px;
+    background: rgb(0, 0, 0);
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(249, 0, 0, 1) 100%);
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgb(255, 255, 255);
+    cursor: pointer;
+
+    span {
+        display: block;
+        width: 400px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 50px;
+        color: #fff;
+        font-weight: 600;
+
+        transition: all;
+    }
+}
+
+.register-btn:hover > span {
+    animation: slideLeft ease-in-out 1s forwards;
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(300px);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(-300px);
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

@@ -5,14 +5,11 @@ import images from '~/assets/images'
 import { Link } from 'react-router-dom'
 
 import configRoutes from '~/config/routes'
-import { useEffect, useState } from 'react'
 import Search from '~/components/Search'
 
 const cx = classname.bind(styles)
 
 function Header() {
-    const [userName, setUserName] = useState('')
-
     return (
         <header className={cx('wrapper')}>
             <div className={cx('logo-box')}>
@@ -22,7 +19,7 @@ function Header() {
             </div>
             <Search />
 
-            <Link to={configRoutes.admin}>
+            <Link to={configRoutes.user}>
                 <button className={cx('manage-btn')}>管理</button>
             </Link>
         </header>

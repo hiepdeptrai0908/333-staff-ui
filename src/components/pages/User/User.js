@@ -1,9 +1,9 @@
 import className from 'classnames/bind'
-import styles from './Admin.module.scss'
+import styles from './User.module.scss'
 
 const cx = className.bind(styles)
 
-function Admin() {
+function User() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}></div>
@@ -12,4 +12,4 @@ function Admin() {
     )
 }
 
-export default Admin
+export default User

@@ -1,8 +1,9 @@
 const configRoutes = {
     home: '/',
-    admin: '/admin',
-    listUsers: '/listusers',
+    user: '/user',
+    time: '/time',
     info: '/info',
+    register: '/register',
 }
 
 export default configRoutes

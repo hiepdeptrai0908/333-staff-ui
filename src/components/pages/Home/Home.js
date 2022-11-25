@@ -30,7 +30,11 @@ function Home() {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log('Success:', data)
+                const title = data.title
+                const status = data.status
+                toast[status](title, {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
             })
             .catch((error) => {
                 console.error('Error:', error)

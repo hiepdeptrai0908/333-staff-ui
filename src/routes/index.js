@@ -1,15 +1,17 @@
 import configRoutes from '~/config/routes'
 import Home from '~/components/pages/Home'
-import Admin from '~/components/pages/Admin'
-import ListUsers from '~/components/pages/ListUsers'
+import User from '~/components/pages/User'
+import Time from '~/components/pages/Time'
 import Info from '~/components/pages/Info'
+import RegisterUser from '~/components/pages/RegisterUser'
 import { AdminLayout } from '~/components/Layouts'
 
 const publicRoutes = [
     { path: configRoutes.home, component: Home },
-    { path: configRoutes.admin, component: Admin, layout: AdminLayout },
-    { path: configRoutes.listUsers, component: ListUsers, layout: AdminLayout },
+    { path: configRoutes.user, component: User, layout: AdminLayout },
+    { path: configRoutes.time, component: Time, layout: AdminLayout },
     { path: configRoutes.info, component: Info, layout: AdminLayout },
+    { path: configRoutes.register, component: RegisterUser, layout: AdminLayout },
 ]
 
 const privateRoutes = []

@@ -1,6 +1,6 @@
 .wrapper {
-    width: 30%;
-    min-height: 100vh;
+    width: 25%;
+    height: auto;
     background-color: #ffffff4d;
 }
 .logo-box {
@@ -49,11 +49,6 @@
 
 .item:hover {
     animation: changeBgColor linear 0.2s forwards;
-}
-
-.item.active {
-    background-color: #333;
-    color: #fff;
 }
 
 @keyframes changeBgColor {

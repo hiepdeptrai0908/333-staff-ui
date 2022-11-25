@@ -33,8 +33,7 @@ function Search() {
     }
 
     const handleClick = () => {
-        resetUser()
-        const fetchApi = fetch(baseURL + 'search-staff-id/' + `${searchValue}`)
+        const fetchApi = fetch(baseURL + `search-staff-id/${searchValue}`)
             .then((response) => response.json())
             .then((data) => {
                 userInfo = data[0]
@@ -42,21 +41,24 @@ function Search() {
                     toast.success(userInfo.fullname + ' đã đăng nhập thành công.', {
                         position: toast.POSITION.TOP_RIGHT,
                     })
+                    resetUser()
                 } else {
                     toast.error('Mã nhân viên không đúng !', {
                         position: toast.POSITION.TOP_RIGHT,
                     })
+                    setUser({})
+                    userInfo = null
                 }
 
                 return setUser(data[0])
             })
-            .catch(
-                (error) =>
-                    toast.error('Mã nhân viên không đúng !', {
-                        position: toast.POSITION.TOP_RIGHT,
-                    }),
-                setUser({}),
-            )
+            .catch((error) => {
+                toast.error('Mã nhân viên không đúng !', {
+                    position: toast.POSITION.TOP_RIGHT,
+                })
+                setUser({})
+                userInfo = null
+            })
 
         setSearchValue('')
         inputRef.current.focus()
@@ -95,7 +97,7 @@ function Search() {
             </div>
             {user.fullname ? (
                 <div className={cx('staff-name')}>
-                    Xin chào : <span>{user.fullname}</span>
+                    Xin chào<span>{user.fullname}</span>
                 </div>
             ) : (
                 <></>
