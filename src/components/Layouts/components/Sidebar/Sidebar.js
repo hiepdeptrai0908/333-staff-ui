@@ -1,7 +1,6 @@
 import classname from 'classnames/bind'
 import styles from './Sidebar.module.scss'
 import { Link, NavLink } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 
 import configRoutes from '~/config/routes'
 import images from '~/assets/images'
@@ -17,14 +16,17 @@ function Sidebar() {
                 </Link>
             </div>
             <div className={cx('items')}>
-                <NavLink to={configRoutes.user}>
-                    <button className={cx('item')}>Quản lý nhân viên</button>
-                </NavLink>
                 <NavLink to={configRoutes.time}>
                     <button className={cx('item')}>Quản lý giờ làm</button>
                 </NavLink>
+                <NavLink to={configRoutes.user}>
+                    <button className={cx('item')}>Quản lý nhân viên</button>
+                </NavLink>
                 <NavLink to={configRoutes.register}>
                     <button className={cx('item')}>Tạo tài khoản</button>
+                </NavLink>
+                <NavLink to={configRoutes.download}>
+                    <button className={cx('item')}>Download Layout</button>
                 </NavLink>
             </div>
         </div>

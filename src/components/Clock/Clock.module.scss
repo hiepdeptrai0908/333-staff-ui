@@ -12,13 +12,13 @@
 
 .title {
     position: relative;
-    color: #fff;
+    color: rgb(0, 0, 0);
     text-align: center;
     margin: 10px 0;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.4em;
-    text-shadow: 2px 0 20px #333;
+    text-shadow: -2px 5px 5px rgb(255, 255, 255), -2px -5px 5px rgb(255, 255, 255);
     border-radius: 10px;
 }
 
@@ -55,7 +55,6 @@
     font-size: 2rem;
     letter-spacing: 0.3rem;
     z-index: 2;
-    box-shadow: none;
     background: #127fd6;
     text-transform: uppercase;
 }

@@ -14,7 +14,6 @@ function Home() {
     const idBtn = ['time-in', 'time-out', 'break-in', 'break-out']
 
     const handleOnclick = (e) => {
-        console.log(e.target.id)
         if (!userInfo) {
             const toastMessage = toast.warning('Bạn chưa nhập mã số nhân viên !', {
                 position: toast.POSITION.TOP_RIGHT,

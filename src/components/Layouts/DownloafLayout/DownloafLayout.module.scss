@@ -1,0 +1,42 @@
+.wrapper {
+    position: relative;
+    min-width: 1100px;
+    min-height: 100vh;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.back-btn {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 20px;
+    left: 300px;
+    width: 250px;
+    font-size: medium;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    text-decoration: none !important;
+
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.7;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.back-icon {
+    padding: 0 8px;
+    color: #28fe24;
+}
+
+a {
+    all: unset;
+}

@@ -29,16 +29,16 @@ body {
 
 .Toastify__toast-container--top-right {
     top: 2em;
-    right: 2.5em;
+    right: 4em;
 }
 
 .Toastify__toast-theme--light {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.9);
     color: var(--toastify-text-color-light);
-    width: 450px;
+    width: 500px;
     height: auto;
     right: 90px;
 }
@@ -89,10 +89,22 @@ body {
     color: #fff;
 }
 
+//input
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     margin: 0;
+}
+
+// Time page
+.action-link {
+    display: flex;
+    text-decoration: none;
+    height: 40px;
+
+    & + .action-link {
+        padding-left: 20px;
+    }
 }

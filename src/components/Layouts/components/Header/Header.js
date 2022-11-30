@@ -19,7 +19,7 @@ function Header() {
             </div>
             <Search />
 
-            <Link to={configRoutes.user}>
+            <Link to={configRoutes.time}>
                 <button className={cx('manage-btn')}>管理</button>
             </Link>
         </header>

@@ -47,7 +47,7 @@ function Search() {
                         position: toast.POSITION.TOP_RIGHT,
                     })
                     setUser({})
-                    userInfo = null
+                    userInfo = undefined
                 }
 
                 return setUser(data[0])
@@ -57,7 +57,7 @@ function Search() {
                     position: toast.POSITION.TOP_RIGHT,
                 })
                 setUser({})
-                userInfo = null
+                userInfo = undefined
             })
 
         setSearchValue('')
@@ -73,6 +73,12 @@ function Search() {
         }, 1500)
     }
 
+    function handleKeypress(e) {
+        if (e.charCode === 13) {
+            ClickFc()
+        }
+    }
+
     return (
         <Fragment>
             <div className={cx('search')}>
@@ -81,10 +87,10 @@ function Search() {
                     ref={inputRef}
                     value={searchValue}
                     onChange={handleChange}
+                    onKeyPress={handleKeypress}
                     className={cx('search-input')}
-                    type="text"
+                    type="number"
                     placeholder="Nhập mã số nhân viên..."
-                    maxLength={3}
                     autoComplete="off"
                 />
                 <FontAwesomeIcon
