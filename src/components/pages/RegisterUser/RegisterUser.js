@@ -563,7 +563,7 @@ function RegisterUser() {
                                 ref={passwordRef}
                                 value={passwordValue}
                                 onChange={handleChangePassword}
-                                type="text"
+                                type="password"
                                 className={cx('input', 'password-input')}
                                 required
                                 minLength={6}
@@ -581,7 +581,7 @@ function RegisterUser() {
                                 ref={retypePasswordRef}
                                 value={retypePasswordValue}
                                 onChange={handleChangeRetypePassword}
-                                type="text"
+                                type="password"
                                 className={cx('input', 'password-input')}
                                 required
                                 minLength={6}
@@ -606,9 +606,12 @@ function RegisterUser() {
                             <div className={cx('login-group')}>
                                 <div className={cx('login-title')}>
                                     <FontAwesomeIcon className={cx('icon')} icon={faUser} />
-                                    <label className={cx('title')}>Tài khoản</label>
+                                    <label htmlFor="user-name-login" className={cx('title')}>
+                                        Tài khoản
+                                    </label>
                                 </div>
                                 <input
+                                    id="user-name-login"
                                     ref={loginUserNameRef}
                                     value={loginUserName}
                                     onChange={handleChangeLoginUser}
@@ -621,14 +624,17 @@ function RegisterUser() {
                             <div className={cx('login-group')}>
                                 <div className={cx('login-title')}>
                                     <FontAwesomeIcon className={cx('icon')} icon={faKey} />
-                                    <label className={cx('title')}>Mật khẩu</label>
+                                    <label htmlFor="password-login" className={cx('title')}>
+                                        Mật khẩu
+                                    </label>
                                 </div>
                                 <input
+                                    id="password-login"
                                     ref={loginPasswordRef}
                                     value={loginPassword}
                                     onChange={handleChangeLoginPassword}
                                     onKeyPress={handleKeypress}
-                                    type="text"
+                                    type="password"
                                     className={cx('login-input')}
                                     autoComplete="off"
                                 />

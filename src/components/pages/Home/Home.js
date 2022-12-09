@@ -38,19 +38,6 @@ function Home() {
             .catch((error) => {
                 console.error('Error:', error)
             })
-        // if (userInfo) {
-        //     setData(userInfo)
-        //     setHasUser(true)
-        //     toast.success(`${userInfo.fullname} check in thành công`, {
-        //         position: toast.POSITION.TOP_RIGHT,
-        //     })
-        // } else {
-        //     setData({})
-        //     setHasUser(false)
-        //     toast.warning('Bạn chưa đăng nhập !', {
-        //         position: toast.POSITION.TOP_RIGHT,
-        //     })
-        // }
     }
 
     return (

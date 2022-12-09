@@ -2,12 +2,14 @@ import className from 'classnames/bind'
 import { useRef, useEffect, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleDot, faDownload, faRightLong } from '@fortawesome/free-solid-svg-icons'
+import { faCircleDot, faDownload, faRightLong, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Time.module.scss'
 import images from '~/assets/images'
 import { baseURL } from '~/utils'
 import NoDataImage from '~/components/NoDataImage'
+import { Link } from 'react-router-dom'
+import configRoutes from '~/config/routes'
 
 const cx = className.bind(styles)
 
@@ -15,25 +17,31 @@ const dateValues = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 ]
 const monthValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-const yearValues = [2022, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
+const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function Time() {
-    console.log(images)
     const [show, setShow] = useState('today')
+    const [datas, setDatas] = useState([])
     const contentRef = useRef()
+    const staffIdRef = useRef()
+    const dayRef = useRef()
+    const monthRef = useRef()
+    const yearRef = useRef()
 
     const handleClick = (e) => {
         const actionElement = document.querySelector(`.${cx('active')}`)
-        actionElement.classList.remove(cx('active'))
+        if (actionElement) {
+            actionElement.classList.remove(cx('active'))
+        }
         e.target.classList.add(cx('active'))
         e.target.name === 'today' ? setShow('today') : setShow('online')
     }
 
-    const [datas, setDatas] = useState([])
     useEffect(() => {
         const fetchApi = fetch(baseURL + show)
         fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
     }, [show])
+    console.log(datas)
 
     const handleDetalClick = (e) => {
         const detal = document.querySelector(`.${cx('detal-show')}`)
@@ -42,6 +50,38 @@ function Time() {
         } else {
             e.target.classList.add(cx('detal-show'))
         }
+    }
+
+    const handleSearchClick = (e) => {
+        const actionElement = document.querySelector(`.${cx('active')}`)
+        if (actionElement) {
+            actionElement.classList.remove(cx('active'))
+        }
+        const searchData = {
+            day:
+                dayRef.current.value === ''
+                    ? null
+                    : dayRef.current.value < 10
+                    ? '0' + String(dayRef.current.value)
+                    : String(dayRef.current.value),
+            month:
+                monthRef.current.value === ''
+                    ? null
+                    : monthRef.current.value < 10
+                    ? '0' + String(monthRef.current.value)
+                    : String(monthRef.current.value),
+            year: String(yearRef.current.value),
+        }
+        console.log(searchData)
+        fetch(baseURL + 'time/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(searchData),
+        })
+            .then((response) => response.json())
+            .then((datas) => {
+                setDatas([...datas])
+            })
     }
 
     const handlePrint = useReactToPrint({
@@ -60,8 +100,8 @@ function Time() {
                     </button>
                 </div>
                 <div className={cx('date')}>
-                    <select className={cx('date-item')}>
-                        <option>Ngày</option>
+                    <select ref={dayRef} className={cx('date-item')}>
+                        <option value="">Ngày</option>
                         {dateValues.map((date, index) => {
                             return (
                                 <option key={index} value={date}>
@@ -70,8 +110,8 @@ function Time() {
                             )
                         })}
                     </select>
-                    <select className={cx('date-item')}>
-                        <option>Tháng</option>
+                    <select ref={monthRef} className={cx('date-item')}>
+                        <option value="">Tháng</option>
                         {monthValues.map((month, index) => {
                             return (
                                 <option key={index} value={month}>
@@ -80,7 +120,7 @@ function Time() {
                             )
                         })}
                     </select>
-                    <select className={cx('date-item')}>
+                    <select ref={yearRef} className={cx('date-item')}>
                         {yearValues.map((year, index) => {
                             return (
                                 <option key={index} value={year}>
@@ -89,7 +129,9 @@ function Time() {
                             )
                         })}
                     </select>
-                    <button className={cx('date-item', 'date-time-btn')}>Tìm kiếm</button>
+                    <button className={cx('date-item', 'date-time-btn')} onClick={handleSearchClick}>
+                        Tìm kiếm
+                    </button>
                 </div>
             </div>
             <div className={cx('content')} ref={contentRef}>
@@ -175,7 +217,7 @@ function Time() {
                                                                         </span>
                                                                     </span>
                                                                 ) : (
-                                                                    'Chưa kết thúc giải lao'
+                                                                    'Đang giải lao'
                                                                 )}
                                                             </span>
                                                         ) : (
@@ -225,7 +267,15 @@ function Time() {
                                             </div>
                                         </td>
                                         <td className={cx('table-data')}>
-                                            <button className={cx('update-btn')}>Edit</button>
+                                            <Link
+                                                to={configRoutes.editTime}
+                                                onClick={() => {
+                                                    localStorage.setItem('time_id', data.time_id)
+                                                }}
+                                                className={cx('update-btn')}
+                                            >
+                                                Edit
+                                            </Link>
                                         </td>
                                     </tr>
                                 )
@@ -235,6 +285,11 @@ function Time() {
                 ) : (
                     <NoDataImage />
                 )}
+            </div>
+            <div className={cx('form-update')}>
+                <form className={cx('form')}>
+                    <div></div>
+                </form>
             </div>
             <button onClick={handlePrint} className={cx('download-btn')}>
                 <FontAwesomeIcon className={cx('download-icon')} icon={faDownload} />

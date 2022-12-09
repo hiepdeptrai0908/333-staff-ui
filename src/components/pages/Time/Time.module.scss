@@ -1,5 +1,7 @@
 .wrapper {
     width: 100%;
+    min-height: 200vh;
+    overflow: scroll;
 }
 
 .header {
@@ -26,7 +28,7 @@
 
 .action {
     display: flex;
-    width: 50%;
+    width: 44%;
     height: 60%;
 }
 
@@ -190,6 +192,9 @@
     background-color: #252422cb;
     color: rgb(235, 229, 229);
     font-size: small;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
         opacity: 0.8;
@@ -249,7 +254,7 @@
         border-color: transparent transparent transparent #34504b;
         position: absolute;
         right: -10px;
-        top: 28px;
+        top: 22px;
     }
 }
 

@@ -17,7 +17,7 @@ function Sidebar() {
             </div>
             <div className={cx('items')}>
                 <NavLink to={configRoutes.time}>
-                    <button className={cx('item')}>Quản lý giờ làm</button>
+                    <button className={cx('item')}>Quản lý thời gian</button>
                 </NavLink>
                 <NavLink to={configRoutes.user}>
                     <button className={cx('item')}>Quản lý nhân viên</button>
