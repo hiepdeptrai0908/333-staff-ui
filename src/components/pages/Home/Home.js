@@ -9,6 +9,20 @@ export { userInfo } from '~/components/Search/Search'
 
 const cx = classname.bind(styles)
 function Home() {
+    const date = new Date(Date.now())
+    let year = String(date.getFullYear())
+    let month = String(date.getMonth() + 1)
+    let day = String(date.getDate())
+
+    if (month.length < 2) {
+        month = '0' + month
+    }
+    if (day.length < 2) {
+        day = '0' + day
+    }
+
+    console.log(day)
+
     const btnTitles = ['出勤', '退勤', '休憩開始', '休憩終了']
 
     const idBtn = ['time-in', 'time-out', 'break-in', 'break-out']
@@ -43,6 +57,14 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('actions')}>
+                <div className={cx('today')}>
+                    {year}
+                    <span>年</span>
+                    {month}
+                    <span>月</span>
+                    {day}
+                    <span>日</span>
+                </div>
                 {btnTitles.map((btnTitle, index) => {
                     return (
                         <button

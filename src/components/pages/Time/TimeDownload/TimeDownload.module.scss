@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom-style: ridge;
 }
 
 .action {
@@ -169,12 +170,16 @@
     padding: 0;
 }
 
-.styled-table th:nth-child(4),
+.styled-table th:nth-child(4) {
+    width: 95px;
+}
+
 .styled-table th:nth-child(5),
 .styled-table th:nth-child(6),
 .styled-table th:nth-child(7),
-.styled-table th:nth-child(8) {
-    max-width: 110px;
+.styled-table th:nth-child(8),
+.styled-table th:nth-child(9) {
+    width: 80px;
 }
 
 .styled-table td:first-child {
@@ -320,11 +325,11 @@
 .download-btn {
     position: fixed;
     bottom: 20px;
-    right: 300px;
+    right: 330px;
     width: 150px;
     font-size: medium;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 50px;
     border: none;
     background-color: #333;
     color: #fff;

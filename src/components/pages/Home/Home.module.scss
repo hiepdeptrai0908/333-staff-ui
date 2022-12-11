@@ -1,4 +1,5 @@
 .wrapper {
+    position: relative;
     height: calc(100vh - 55px);
     display: flex;
     justify-content: center;
@@ -63,5 +64,29 @@
     }
     100% {
         transform: scale(1);
+    }
+}
+
+.today {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 6px;
+    width: 250px;
+    background-color: #2196f3;
+    text-align: center;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    color: #f1f0ee;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    border: solid 2px #fff;
+    cursor: default;
+
+    span {
+        font-weight: 400;
+        padding: 6px;
+        font-size: medium;
     }
 }

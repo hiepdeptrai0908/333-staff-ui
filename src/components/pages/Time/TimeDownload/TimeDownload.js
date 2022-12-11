@@ -153,15 +153,15 @@ function TimeDownload() {
                                             {index + 1}
                                         </td>
                                         <td className={cx('table-data')}>{data.staff_id}</td>
-                                        <td className={cx('table-data')}>{data.fullname}</td>
+                                        <td className={cx('table-data')}>Nguyễn Thị Hồng Phượng</td>
                                         <td className={cx('table-data')}>{data.date_in}</td>
                                         <td className={cx('table-data')}>{data.time_in}</td>
                                         <td className={cx('table-data')}>
                                             {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
                                         </td>
                                         <td className={cx('table-data')}>{data.break_time || '00:00'}</td>
-                                        <td className={cx('table-data')}>{data.work_time || ''}</td>
-                                        <td className={cx('table-data')}>{data.work_total || ''}</td>
+                                        <td className={cx('table-data')}>{data.work_time || '00:00'}</td>
+                                        <td className={cx('table-data')}>{data.work_total || '00:00'}</td>
                                     </tr>
                                 )
                             })}
