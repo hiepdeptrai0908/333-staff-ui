@@ -163,6 +163,10 @@
     margin-left: 0;
 }
 
+.styled-table td:first-child {
+    text-align: center;
+}
+
 .styled-table td:last-child {
     width: 10px;
     text-align: center;
@@ -178,6 +182,15 @@
 
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #333;
+}
+
+.detal-btn {
+    position: relative;
+    transform-origin: calc(100% - 10px) top;
+}
+
+.break-btn-box {
+    position: relative;
 }
 
 .update-btn,
@@ -219,19 +232,14 @@
     display: flex;
 }
 
-.detal-btn {
-    position: relative;
-    transform-origin: calc(100% - 10px) top;
-}
-
-.break-btn:hover ~ .break-popover {
-    display: flex;
-}
+// .break-btn:hover ~ .break-popover {
+//     display: flex;
+// }
 
 .break-popover {
     position: absolute;
-    top: -20%;
-    right: 148px;
+    top: -18px;
+    right: 126px;
     width: 330px;
     padding: 10px;
     background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, #375650 100%);
@@ -243,6 +251,7 @@
     animation: showDetal ease-in 0.3s;
     box-shadow: -2px 2px 15px #666, 0 -2px 20px #fff;
     border-radius: 6px;
+    cursor: default;
 
     &::before {
         content: '';

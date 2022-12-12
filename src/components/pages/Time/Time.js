@@ -21,7 +21,7 @@ const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function Time() {
     const [show, setShow] = useState('today')
-    const [datas, setDatas] = useState([])
+    const [data, setData] = useState([])
     const contentRef = useRef()
     const staffIdRef = useRef()
     const dayRef = useRef()
@@ -39,19 +39,21 @@ function Time() {
 
     useEffect(() => {
         const fetchApi = fetch(baseURL + show)
-        fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
+        fetchApi.then((response) => response.json()).then((datas) => setData([...datas]))
     }, [show])
-    console.log(datas)
 
+    // bật tắt bảng chi tiết
     const handleDetalClick = (e) => {
         const detal = document.querySelector(`.${cx('detal-show')}`)
-        if (detal) {
+        if (e.target.classList.contains(cx('detal-show'))) {
+            return e.target.classList.remove(cx('detal-show'))
+        } else if (detal) {
             detal.classList.remove(cx('detal-show'))
-        } else {
-            e.target.classList.add(cx('detal-show'))
         }
+        e.target.classList.add(cx('detal-show'))
     }
 
+    // tìm theo ngày
     const handleSearchClick = (e) => {
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement) {
@@ -80,7 +82,7 @@ function Time() {
         })
             .then((response) => response.json())
             .then((datas) => {
-                setDatas([...datas])
+                setData([...datas])
             })
     }
 
@@ -135,7 +137,7 @@ function Time() {
                 </div>
             </div>
             <div className={cx('content')} ref={contentRef}>
-                {datas.length !== 0 ? (
+                {data.length !== 0 ? (
                     <table id="list-time" className={cx('styled-table')}>
                         <thead>
                             <tr>
@@ -150,7 +152,7 @@ function Time() {
                             </tr>
                         </thead>
                         <tbody>
-                            {datas.map((data, index) => {
+                            {data.map((data, index) => {
                                 return (
                                     <tr key={index}>
                                         <td className={cx('table-data')} style={{ fontWeight: '600', width: '20px' }}>
@@ -174,95 +176,97 @@ function Time() {
                                             {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
                                         </td>
                                         <td className={cx('table-data', 'detal-btn')}>
-                                            <button className={cx('break-btn')} onClick={handleDetalClick}>
-                                                Chi tiết
-                                            </button>
-                                            <div className={cx('break-popover')}>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>Họ và Tên</div>
-                                                    <div className={cx('group-data')}>{data.fullname}</div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>Giờ vào</div>
-                                                    <div className={cx('group-data')}>
-                                                        {data.time_in}
-                                                        <span className={cx('date')}>{data.date_in}</span>
+                                            <div className={cx('break-btn-box')}>
+                                                <button className={cx('break-btn')} onClick={handleDetalClick}>
+                                                    Chi tiết
+                                                </button>
+                                                <div className={cx('break-popover')}>
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>Họ và Tên</div>
+                                                        <div className={cx('group-data')}>{data.fullname}</div>
                                                     </div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>Giờ ra</div>
-                                                    <div className={cx('group-data')}>
-                                                        {data.time_out}
-                                                        {data.date_out && (
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>Giờ vào</div>
+                                                        <div className={cx('group-data')}>
+                                                            {data.time_in}
                                                             <span className={cx('date')}>{data.date_in}</span>
-                                                        )}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>Giải lao lần 1</div>
-                                                    <div className={cx('group-data')}>
-                                                        {data.break_in1 ? (
-                                                            <span>
-                                                                {data.break_in1}
-                                                                <span className={cx('to')}>~</span>
-                                                                {data.break_out1 ? (
-                                                                    <span>
-                                                                        {data.break_out1}
-                                                                        <span className={cx('break-total')}>
-                                                                            <FontAwesomeIcon
-                                                                                className={cx('right-icon')}
-                                                                                icon={faRightLong}
-                                                                            ></FontAwesomeIcon>
-                                                                            {data.break_time1}
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>Giờ ra</div>
+                                                        <div className={cx('group-data')}>
+                                                            {data.time_out}
+                                                            {data.date_out && (
+                                                                <span className={cx('date')}>{data.date_out}</span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>Giải lao lần 1</div>
+                                                        <div className={cx('group-data')}>
+                                                            {data.break_in1 ? (
+                                                                <span>
+                                                                    {data.break_in1}
+                                                                    <span className={cx('to')}>~</span>
+                                                                    {data.break_out1 ? (
+                                                                        <span>
+                                                                            {data.break_out1}
+                                                                            <span className={cx('break-total')}>
+                                                                                <FontAwesomeIcon
+                                                                                    className={cx('right-icon')}
+                                                                                    icon={faRightLong}
+                                                                                ></FontAwesomeIcon>
+                                                                                {data.break_time1}
+                                                                            </span>
                                                                         </span>
-                                                                    </span>
-                                                                ) : (
-                                                                    'Đang giải lao'
-                                                                )}
-                                                            </span>
-                                                        ) : (
-                                                            ''
-                                                        )}
+                                                                    ) : (
+                                                                        'Đang giải lao'
+                                                                    )}
+                                                                </span>
+                                                            ) : (
+                                                                ''
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>Giải lao lần 2</div>
-                                                    <div className={cx('group-data')}>
-                                                        {data.break_in2 ? (
-                                                            <span>
-                                                                {data.break_in2}
-                                                                <span className={cx('to')}>~</span>
-                                                                {data.break_out2 ? (
-                                                                    <span>
-                                                                        {data.break_out2}
-                                                                        <span className={cx('break-total')}>
-                                                                            <FontAwesomeIcon
-                                                                                className={cx('right-icon')}
-                                                                                icon={faRightLong}
-                                                                            ></FontAwesomeIcon>
-                                                                            {data.break_time1}
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>Giải lao lần 2</div>
+                                                        <div className={cx('group-data')}>
+                                                            {data.break_in2 ? (
+                                                                <span>
+                                                                    {data.break_in2}
+                                                                    <span className={cx('to')}>~</span>
+                                                                    {data.break_out2 ? (
+                                                                        <span>
+                                                                            {data.break_out2}
+                                                                            <span className={cx('break-total')}>
+                                                                                <FontAwesomeIcon
+                                                                                    className={cx('right-icon')}
+                                                                                    icon={faRightLong}
+                                                                                ></FontAwesomeIcon>
+                                                                                {data.break_time1}
+                                                                            </span>
                                                                         </span>
-                                                                    </span>
-                                                                ) : (
-                                                                    'Chưa kết thúc giải lao'
-                                                                )}
-                                                            </span>
-                                                        ) : (
-                                                            ''
-                                                        )}
+                                                                    ) : (
+                                                                        'Chưa kết thúc giải lao'
+                                                                    )}
+                                                                </span>
+                                                            ) : (
+                                                                ''
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>合計休憩 (1)</div>
-                                                    <div className={cx('group-data')}>{data.break_total}</div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>合計勤怠 (2)</div>
-                                                    <div className={cx('group-data')}>{data.work_time}</div>
-                                                </div>
-                                                <div className={cx('popover-group')}>
-                                                    <div className={cx('group-title')}>時間　(2-1)</div>
-                                                    <div className={cx('group-data')}>{data.work_total}</div>
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>合計休憩 (1)</div>
+                                                        <div className={cx('group-data')}>{data.break_total}</div>
+                                                    </div>
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>合計勤怠 (2)</div>
+                                                        <div className={cx('group-data')}>{data.work_time}</div>
+                                                    </div>
+                                                    <div className={cx('popover-group')}>
+                                                        <div className={cx('group-title')}>時間　(2-1)</div>
+                                                        <div className={cx('group-data')}>{data.work_total}</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
