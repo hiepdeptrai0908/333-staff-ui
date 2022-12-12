@@ -16,10 +16,10 @@ function DownloafLayout({ children }) {
             <div className={cx('container')}>
                 <div className={cx('content')}>{children}</div>
             </div>
-            <div className={cx('back-btn')} style={{ backgroundColor: 'red' }}>
+            <Link to={configRoutes.time} className={cx('back-btn')} style={{ backgroundColor: 'red' }}>
                 <FontAwesomeIcon className={cx('back-icon')} icon={faRotateLeft} />
-                <Link to={configRoutes.time}>Quay lại</Link>
-            </div>
+                <div>Quay lại</div>
+            </Link>
         </div>
     )
 }
