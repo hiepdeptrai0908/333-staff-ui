@@ -67,7 +67,7 @@
     position: relative;
 
     .group-item-title:hover {
-        cursor: pointer;
+        cursor: context-menu;
         background-color: #444;
         color: #fff;
 
@@ -127,15 +127,24 @@
 
 .hyphen {
     position: relative;
-    top: -2px;
+    top: -1px;
     font-weight: 600;
 }
 
 .hyphen-time {
     position: relative;
-    top: -2px;
+    top: -1px;
     font-size: 1rem;
     font-weight: 700;
+}
+
+.hyphen-work-time {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    width: 20px;
+    height: auto;
+    text-align: center;
 }
 
 .group-item-title {
@@ -183,6 +192,13 @@
     width: 40px;
 }
 
+.item-work-time {
+    font-size: 1rem;
+    font-weight: 700;
+    width: 100px;
+    margin-left: 16px;
+}
+
 .action-btn {
     font-size: 1rem;
     width: 70px;
@@ -209,7 +225,7 @@
 .refresh-btn {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 30px;
     transform: translateY(-50%);
     display: inline-flex;
     background-color: red;
@@ -225,4 +241,24 @@
 
 .refresh-icon {
     margin-right: 6px;
+}
+
+.update-btn {
+    margin: 20px 20px;
+    margin-bottom: 0;
+    padding: 10px;
+    border-radius: 50px;
+    border: none;
+    background-color: #681fde;
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 100%;
+
+    &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+    }
 }

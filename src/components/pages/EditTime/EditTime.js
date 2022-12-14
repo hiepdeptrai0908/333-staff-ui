@@ -14,17 +14,17 @@ function EditTime() {
     const timeId = Number(localStorage.getItem('time_id'))
     const [isRefresh, setIsRefresh] = useState(false)
 
+    const [staffIdDisabled, setStaffIdDisabled] = useState(true)
     const [fullnameValue, setFullnameValue] = useState('')
     const [staffIdValue, setStaffIdValue] = useState('')
-    const [staffIdDisabled, setStaffIdDisabled] = useState(true)
 
+    const [timeInDisabled, setTimeInDisabled] = useState(true)
     const [hourInValue, setHourInValue] = useState('')
     const [minuteInValue, setMinuteInValue] = useState('')
-    const [timeInDisabled, setTimeInDisabled] = useState(true)
 
+    const [timeOutDisabled, setTimeOutDisabled] = useState(true)
     const [hourOutValue, setHourOutValue] = useState('')
     const [minuteOutValue, setMinuteOutValue] = useState('')
-    const [timeOutDisabled, setTimeOutDisabled] = useState(true)
 
     const [dateInDisabled, setDateInDisabled] = useState(true)
     const [yearInValue, setYearInValue] = useState('')
@@ -36,9 +36,13 @@ function EditTime() {
     const [monthOutValue, setMonthOutValue] = useState('')
     const [dayOutValue, setDayOutValue] = useState('')
 
+    const [timeBreakTotalDisabled, setTimeBreakTotalDisabled] = useState(true)
     const [hourBreakTotalValue, setHourBreakTotalValue] = useState('')
     const [minuteBreakTotalValue, setMinuteBreakTotalValue] = useState('')
-    const [timeBreakTotalDisabled, setTimeBreakTotalDisabled] = useState(true)
+    const [breakTotalDatabase, setBreakTotalDatabase] = useState('')
+
+    const [hourWorkTotal, setHourWorkTotal] = useState('')
+    const [minuteWorkTotal, setMinuteWorkTotal] = useState('')
 
     const [breakIn1Value, setBreakIn1Value] = useState('')
     const [breakOut1Value, setBreakOut1Value] = useState('')
@@ -47,7 +51,27 @@ function EditTime() {
     const [breakOut2Value, setBreakOut2Value] = useState('')
 
     const [breakTotalValue, setBreakTotalValue] = useState('')
+    const [workTime, setWorkTime] = useState('')
     const [workTotalValue, setWorkTotalValue] = useState('')
+
+    let count = 0
+
+    const checkValue = {
+        for: (value) => {
+            if (/[0-9]/.test(value)) {
+                return value.length < 4 ? '0' + value : value
+            }
+
+            return (value = '0000')
+        },
+        two: (value) => {
+            if (/[0-9]/.test(value)) {
+                return value.length < 2 ? '0' + value : value
+            }
+
+            return (value = '00')
+        },
+    }
 
     //ref
     const fullnameRef = useRef()
@@ -75,6 +99,42 @@ function EditTime() {
     const breakTotalRef = useRef()
     const work_totalRef = useRef()
 
+    const convertDatas = {
+        time_id: timeId,
+        fullname: fullnameValue,
+        staff_id: staffIdValue,
+        time_in: checkValue.two(hourInValue) + ':' + checkValue.two(minuteInValue),
+        time_out: checkValue.two(hourOutValue) + ':' + checkValue.two(minuteOutValue),
+        date_in: checkValue.for(yearInValue) + '-' + checkValue.two(monthInValue) + '-' + checkValue.two(dayInValue),
+        date_out:
+            checkValue.for(yearOutValue) + '-' + checkValue.two(monthOutValue) + '-' + checkValue.two(dayOutValue),
+        break_total: checkValue.two(hourBreakTotalValue) + ':' + checkValue.two(minuteBreakTotalValue),
+    }
+
+    const caculatorWorkTimeValue = () => {
+        const dateIn = convertDatas.date_in.split('-')
+        const dateOut = convertDatas.date_out.split('-')
+        const timeIn = convertDatas.time_in.split(':')
+        const timeOut = convertDatas.time_out.split(':')
+
+        const miliSeconds = Math.floor(
+            new Date(dateOut[0], dateOut[1], dateOut[2], timeOut[0], timeOut[1]) -
+                new Date(dateIn[0], dateIn[1], dateIn[2], timeIn[0], timeIn[1]),
+        )
+
+        const second = miliSeconds / 1000
+
+        const minute = (second / 60) % 60
+
+        const hour = Math.floor(second / 60 / 60)
+        const time = {
+            hour: String(hour),
+            minute: String(minute),
+        }
+        // const workTime = hour + ':' + minute
+        return time
+    }
+
     let datas = {
         fullname: fullnameValue,
         staff_id: staffIdValue,
@@ -82,6 +142,9 @@ function EditTime() {
         time_out: (hourOutValue || '--') + ':' + (minuteOutValue || '--'),
         date_in: (yearInValue || '----') + '-' + (monthInValue || '--') + '-' + (dayInValue || '--'),
         date_out: (yearOutValue || '----') + '-' + (monthOutValue || '--') + '-' + (dayOutValue || '--'),
+        break_total: (hourBreakTotalValue || '--') + ':' + (minuteBreakTotalValue || '--'),
+        work_time:
+            checkValue.two(caculatorWorkTimeValue().hour) + ':' + checkValue.two(caculatorWorkTimeValue().minute),
     }
 
     const styleInput = {
@@ -91,26 +154,37 @@ function EditTime() {
 
     //focus
     useEffect(() => {
+        count = count + 1
         staffIdRef.current.focus()
     }, [staffIdDisabled])
 
     useEffect(() => {
+        count = count + 1
+
         yearInRef.current.focus()
     }, [dateInDisabled])
 
     useEffect(() => {
+        count = count + 1
+
         hourInRef.current.focus()
     }, [timeInDisabled])
 
     useEffect(() => {
+        count = count + 1
+
         hourOutRef.current.focus()
     }, [timeOutDisabled])
 
     useEffect(() => {
+        count = count + 1
+
         yearOutRef.current.focus()
     }, [dateOutDisabled])
 
     useEffect(() => {
+        count = count + 1
+
         hourBreakTotalRef.current.focus()
     }, [timeBreakTotalDisabled])
 
@@ -127,6 +201,7 @@ function EditTime() {
             .then((response) => response.json())
             // eslint-disable-next-line react-hooks/exhaustive-deps
             .then((datas) => {
+                count = count + 1
                 const dateIn = datas[0].date_in.split('-')
                 const timeIn = datas[0].time_in.split(':')
                 let timeOut
@@ -141,8 +216,10 @@ function EditTime() {
 
                 let breakTotal
                 if (datas[0].break_total === null) {
+                    setBreakTotalDatabase('--:--')
                     breakTotal = '--:--'.split(':')
                 } else {
+                    setBreakTotalDatabase(datas[0].break_total)
                     breakTotal = datas[0].break_total.split(':')
                 }
 
@@ -173,6 +250,14 @@ function EditTime() {
                 } else {
                     breakOut2 = datas[0].break_out2
                 }
+
+                let workTotal
+                if (datas[0].work_total === null) {
+                    workTotal = '--:--'
+                } else {
+                    workTotal = datas[0].work_total.split(':')
+                }
+
                 setFullnameValue(datas[0].fullname)
                 setStaffIdValue(datas[0].staff_id)
 
@@ -180,18 +265,21 @@ function EditTime() {
                 setMonthInValue(dateIn[1])
                 setDayInValue(dateIn[2])
 
+                setHourInValue(timeIn[0])
+                setMinuteInValue(timeIn[1])
+
                 setYearOutValue(dateOut[0])
                 setMonthOutValue(dateOut[1])
                 setDayOutValue(dateOut[2])
-
-                setHourInValue(timeIn[0])
-                setMinuteInValue(timeIn[1])
 
                 setHourOutValue(timeOut[0])
                 setMinuteOutValue(timeOut[1])
 
                 setHourBreakTotalValue(breakTotal[0])
                 setMinuteBreakTotalValue(breakTotal[1])
+
+                setHourWorkTotal(workTotal[0])
+                setMinuteWorkTotal(workTotal[1])
 
                 setBreakIn1Value(breakIn1)
                 setBreakOut1Value(breakOut1)
@@ -247,8 +335,6 @@ function EditTime() {
         },
     }
 
-    const prevFullname = [...fullnameValue]
-
     //click
     const handleStaffIdEdit = (e) => {
         if (e.target.innerHTML === 'Xong') {
@@ -291,6 +377,24 @@ function EditTime() {
     const handleRefresh = (e) => {
         setIsRefresh(!isRefresh)
         toast.success(`Đã làm mới dữ liệu ...`)
+    }
+
+    const handleUpdateData = () => {
+        if (
+            staffIdDisabled === true &&
+            timeInDisabled === true &&
+            timeOutDisabled === true &&
+            dateInDisabled === true &&
+            dateOutDisabled === true &&
+            timeBreakTotalDisabled === true
+        ) {
+            if (count === 0) {
+                return toast.info('Dữ liệu không thay đổi !')
+            }
+            return toast.success('Update thành công !')
+        } else {
+            return toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu !')
+        }
     }
 
     return (
@@ -471,18 +575,24 @@ function EditTime() {
                     <div className={cx('group-item')}>
                         <label className={cx('group-item-title')}>Thời gian giải lao</label>
                         <div className={cx('break-popover')}>
-                            <div className={cx('break-popover-item')}>
-                                <p>Lần 1:</p>
-                                <p>{breakIn1Value}</p>
-                                <p>đến</p>
-                                <p>{breakOut1Value}</p>
-                            </div>
-                            <div className={cx('break-popover-item')}>
-                                <p>Lần 2:</p>
-                                <p>{breakIn2Value}</p>
-                                <p>đến</p>
-                                <p>{breakOut2Value}</p>
-                            </div>
+                            {breakTotalDatabase === datas.break_total ? (
+                                <>
+                                    <div className={cx('break-popover-item')}>
+                                        <p>Lần 1:</p>
+                                        <p>{breakIn1Value}</p>
+                                        <p>đến</p>
+                                        <p>{breakOut1Value}</p>
+                                    </div>
+                                    <div className={cx('break-popover-item')}>
+                                        <p>Lần 2:</p>
+                                        <p>{breakIn2Value}</p>
+                                        <p>đến</p>
+                                        <p>{breakOut2Value}</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <p style={{ padding: '14px' }}>Đã có dữ liệu mới !</p>
+                            )}
                         </div>
                         <input
                             className={cx('group-item-input', 'group-item-input-time')}
@@ -510,6 +620,32 @@ function EditTime() {
                         {timeBreakTotalDisabled ? 'Sửa' : 'Xong'}
                     </button>
                 </div>
+
+                <div className={cx('group-items')}>
+                    <div className={cx('group-item')}>
+                        <label className={cx('group-item-title')}>Thời gian Check in</label>
+                        <div className={cx('item-work-time')}>
+                            {checkValue.two(caculatorWorkTimeValue().hour)}
+                            <span className={cx('hyphen-work-time')}>:</span>
+                            {checkValue.two(caculatorWorkTimeValue().minute)}
+                        </div>
+                    </div>
+                </div>
+
+                <div className={cx('group-items')}>
+                    <div className={cx('group-item')}>
+                        <label className={cx('group-item-title')}>Trừ giải lao</label>
+                        <div className={cx('item-work-time')}>
+                            {hourWorkTotal}
+                            <span className={cx('hyphen-work-time')}>:</span>
+                            {minuteWorkTotal}
+                        </div>
+                    </div>
+                </div>
+
+                <button className={cx('update-btn')} onClick={handleUpdateData}>
+                    Update
+                </button>
             </div>
         </div>
     )

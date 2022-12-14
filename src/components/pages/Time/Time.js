@@ -257,14 +257,16 @@ function Time() {
                                                     </div>
                                                     <div className={cx('popover-group')}>
                                                         <div className={cx('group-title')}>合計休憩 (1)</div>
-                                                        <div className={cx('group-data')}>{data.break_total}</div>
+                                                        <div className={cx('group-data')}>
+                                                            {data.break_total || '00:00'}
+                                                        </div>
                                                     </div>
                                                     <div className={cx('popover-group')}>
                                                         <div className={cx('group-title')}>合計勤怠 (2)</div>
                                                         <div className={cx('group-data')}>{data.work_time}</div>
                                                     </div>
                                                     <div className={cx('popover-group')}>
-                                                        <div className={cx('group-title')}>時間　(2-1)</div>
+                                                        <div className={cx('group-title')}>合計　(2-1)</div>
                                                         <div className={cx('group-data')}>{data.work_total}</div>
                                                     </div>
                                                 </div>
