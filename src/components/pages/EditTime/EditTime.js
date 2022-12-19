@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import { baseURL } from '~/utils'
 import styles from './EditTime.module.scss'
+import configRoutes from '~/config/routes'
+import { Link } from 'react-router-dom'
 
 const cx = classNames.bind(styles)
 
@@ -47,9 +49,7 @@ function EditTime() {
     const [breakIn2Value, setBreakIn2Value] = useState('')
     const [breakOut2Value, setBreakOut2Value] = useState('')
 
-    const [breakTotalValue, setBreakTotalValue] = useState('')
-    const [workTime, setWorkTime] = useState('')
-    const [workTotalValue, setWorkTotalValue] = useState('')
+    const [dataUpdate, setDataUpdate] = useState({})
 
     const [count, setCount] = useState(0)
 
@@ -89,12 +89,6 @@ function EditTime() {
 
     const hourBreakTotalRef = useRef()
     const minuteBreakTotalRef = useRef()
-    const breakIn1Ref = useRef()
-    const breakIn2Ref = useRef()
-    const breakOut1Ref = useRef()
-    const breakOut2Ref = useRef()
-    const breakTotalRef = useRef()
-    const work_totalRef = useRef()
 
     const convertDatas = {
         time_id: timeId,
@@ -184,6 +178,7 @@ function EditTime() {
         break_total: convertDatas.break_total === '00:00' ? null : convertDatas.break_total,
         work_time: checkValue.two(caculatorWorkTimeValue().hour) < 0 ? null : datas.work_time,
         work_total: datas.work_total.split(':')[0] < 0 ? null : datas.work_total,
+        status: convertDatas.time_out === '00:00' ? 'online' : 'offline',
     }
 
     const styleInput = {
@@ -229,6 +224,7 @@ function EditTime() {
             .then((response) => response.json())
             // eslint-disable-next-line react-hooks/exhaustive-deps
             .then((datas) => {
+                setDataUpdate(datas[0])
                 const dateIn = datas[0].date_in.split('-')
                 const timeIn = datas[0].time_in.split(':')
                 let timeOut
@@ -409,7 +405,7 @@ function EditTime() {
         toast.success(`Đã làm mới dữ liệu ...`)
     }
 
-    const handleUpdateData = () => {
+    const handleUpdateData = (e) => {
         if (
             staffIdDisabled === true &&
             timeInDisabled === true &&
@@ -418,13 +414,22 @@ function EditTime() {
             dateOutDisabled === true &&
             timeBreakTotalDisabled === true
         ) {
-            console.log(count)
             if (count === 0) {
+                e.preventDefault()
                 return toast.info('Dữ liệu không thay đổi !')
             }
-            console.log(updateData)
-            // return toast.success('Update thành công !')
+            fetch(baseURL + 'update-time', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updateData),
+            })
+
+            toast.success('Update thành công !')
+            setCount(0)
         } else {
+            e.preventDefault()
             return toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu !')
         }
     }
@@ -432,7 +437,7 @@ function EditTime() {
     return (
         <div className={cx('wrapper')}>
             <ToastContainer />
-            <div className={cx('header')}>Chỉnh sửa thời gian</div>
+            {/* <div className={cx('header')}>Chỉnh sửa thời gian</div> */}
             <div className={cx('headding')}>
                 {datas.fullname}
                 <button className={cx('action-btn', 'refresh-btn')} onClick={handleRefresh}>
@@ -679,9 +684,23 @@ function EditTime() {
                     </div>
                 </div>
 
-                <button className={cx('update-btn')} onClick={handleUpdateData}>
+                <div className={cx('group-items')}>
+                    <div className={cx('group-item')}>
+                        <label className={cx('group-item-title')}>Lần chỉnh sửa gần nhất</label>
+                        <div className={cx('item-update-time')}>
+                            {dataUpdate.update_date && (
+                                <div>
+                                    <p>{dataUpdate.update_date}</p>
+                                    <p>{dataUpdate.update_time}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <Link to={configRoutes.time} className={cx('update-btn')} onClick={handleUpdateData}>
                     Update
-                </button>
+                </Link>
             </div>
         </div>
     )

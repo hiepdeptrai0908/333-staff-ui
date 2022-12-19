@@ -151,7 +151,7 @@
     font-size: 1rem;
     margin-right: 20px;
     font-weight: 500;
-    width: 200px;
+    min-width: 200px;
     height: 30px;
     background-color: #681fde;
     color: #fff;
@@ -192,13 +192,33 @@
     width: 40px;
 }
 
-.item-work-time {
+.item-work-time,
+.item-update-time {
     font-size: 1.1rem;
     font-weight: 700;
     width: 100px;
     margin-left: 10px;
     color: green;
     transition: all 0.5s;
+}
+
+.item-update-time {
+    font-weight: 600;
+    width: 100%;
+    color: rgb(171, 9, 9);
+
+    div {
+        width: 100%;
+        display: flex;
+
+        p {
+            display: block;
+
+            & + p {
+                margin-left: 20px;
+            }
+        }
+    }
 }
 
 .action-btn {
@@ -246,6 +266,7 @@
 }
 
 .update-btn {
+    text-align: center;
     margin: 20px 20px;
     margin-bottom: 0;
     padding: 10px;
