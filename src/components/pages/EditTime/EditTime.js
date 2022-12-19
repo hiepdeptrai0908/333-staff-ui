@@ -175,9 +175,9 @@ function EditTime() {
         time_out: convertDatas.time_out === '00:00' ? null : convertDatas.time_out,
         date_in: convertDatas.date_in,
         date_out: convertDatas.date_out === '0000-00-00' ? null : convertDatas.date_out,
-        break_total: convertDatas.break_total === '00:00' ? null : convertDatas.break_total,
-        work_time: checkValue.two(caculatorWorkTimeValue().hour) < 0 ? null : datas.work_time,
-        work_total: datas.work_total.split(':')[0] < 0 ? null : datas.work_total,
+        break_total: convertDatas.break_total,
+        work_time: datas.work_time,
+        work_total: datas.work_total,
         status: convertDatas.time_out === '00:00' ? 'online' : 'offline',
     }
 
