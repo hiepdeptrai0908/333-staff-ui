@@ -145,8 +145,10 @@ function EditTime() {
         const resultWork = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate(), hourWork, minuteWork)
         const resultBreak = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate(), hourBreak, minuteBreak)
         const resultTime = resultWork - resultBreak
-        const hour = String(Math.floor(resultTime / 1000 / 60 / 60))
-        const minute = String(Math.floor((resultTime / 1000 / 60) % 60))
+        const hour = String(Math.floor(resultTime / 1000 / 60 / 60) < 0 ? 0 : Math.floor(resultTime / 1000 / 60 / 60))
+        const minute = String(
+            Math.floor((resultTime / 1000 / 60) % 60) < 0 ? 0 : Math.floor((resultTime / 1000 / 60) % 60),
+        )
 
         const result = checkValue.two(hour) + ':' + checkValue.two(minute)
 
