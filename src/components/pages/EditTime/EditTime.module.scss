@@ -193,10 +193,12 @@
 }
 
 .item-work-time {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
     width: 100px;
-    margin-left: 16px;
+    margin-left: 10px;
+    color: green;
+    transition: all 0.5s;
 }
 
 .action-btn {

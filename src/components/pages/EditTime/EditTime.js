@@ -41,9 +41,6 @@ function EditTime() {
     const [minuteBreakTotalValue, setMinuteBreakTotalValue] = useState('')
     const [breakTotalDatabase, setBreakTotalDatabase] = useState('')
 
-    const [hourWorkTotal, setHourWorkTotal] = useState('')
-    const [minuteWorkTotal, setMinuteWorkTotal] = useState('')
-
     const [breakIn1Value, setBreakIn1Value] = useState('')
     const [breakOut1Value, setBreakOut1Value] = useState('')
 
@@ -54,7 +51,7 @@ function EditTime() {
     const [workTime, setWorkTime] = useState('')
     const [workTotalValue, setWorkTotalValue] = useState('')
 
-    let count = 0
+    const [count, setCount] = useState(0)
 
     const checkValue = {
         for: (value) => {
@@ -109,6 +106,8 @@ function EditTime() {
         date_out:
             checkValue.for(yearOutValue) + '-' + checkValue.two(monthOutValue) + '-' + checkValue.two(dayOutValue),
         break_total: checkValue.two(hourBreakTotalValue) + ':' + checkValue.two(minuteBreakTotalValue),
+        work_time: '00:00',
+        work_total: '00:00',
     }
 
     const caculatorWorkTimeValue = () => {
@@ -127,12 +126,38 @@ function EditTime() {
         const minute = (second / 60) % 60
 
         const hour = Math.floor(second / 60 / 60)
+
+        convertDatas.work_time = checkValue.two(hour) + ':' + checkValue.two(minute)
         const time = {
             hour: String(hour),
             minute: String(minute),
         }
         // const workTime = hour + ':' + minute
         return time
+    }
+
+    const calculateWorkTotal = (work, breakTotal) => {
+        const d = new Date(Date.now())
+
+        const workTime = work.split(':')
+        const breakTime = breakTotal.split(':')
+
+        const hourWork = Number(workTime[0])
+        const minuteWork = Number(workTime[1])
+
+        const hourBreak = Number(breakTime[0])
+        const minuteBreak = Number(breakTime[1])
+
+        const resultWork = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate(), hourWork, minuteWork)
+        const resultBreak = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate(), hourBreak, minuteBreak)
+        const resultTime = resultWork - resultBreak
+        const hour = String(Math.floor(resultTime / 1000 / 60 / 60))
+        const minute = String(Math.floor((resultTime / 1000 / 60) % 60))
+
+        const result = checkValue.two(hour) + ':' + checkValue.two(minute)
+
+        convertDatas.work_total = result
+        return result
     }
 
     let datas = {
@@ -145,6 +170,20 @@ function EditTime() {
         break_total: (hourBreakTotalValue || '--') + ':' + (minuteBreakTotalValue || '--'),
         work_time:
             checkValue.two(caculatorWorkTimeValue().hour) + ':' + checkValue.two(caculatorWorkTimeValue().minute),
+        work_total: calculateWorkTotal(convertDatas.work_time, convertDatas.break_total),
+    }
+
+    const updateData = {
+        time_id: convertDatas.time_id,
+        fullname: convertDatas.fullname,
+        staff_id: convertDatas.staff_id,
+        time_in: convertDatas.time_in,
+        time_out: convertDatas.time_out === '00:00' ? null : convertDatas.time_out,
+        date_in: convertDatas.date_in,
+        date_out: convertDatas.date_out === '0000-00-00' ? null : convertDatas.date_out,
+        break_total: convertDatas.break_total === '00:00' ? null : convertDatas.break_total,
+        work_time: checkValue.two(caculatorWorkTimeValue().hour) < 0 ? null : datas.work_time,
+        work_total: datas.work_total.split(':')[0] < 0 ? null : datas.work_total,
     }
 
     const styleInput = {
@@ -154,37 +193,26 @@ function EditTime() {
 
     //focus
     useEffect(() => {
-        count = count + 1
         staffIdRef.current.focus()
     }, [staffIdDisabled])
 
     useEffect(() => {
-        count = count + 1
-
         yearInRef.current.focus()
     }, [dateInDisabled])
 
     useEffect(() => {
-        count = count + 1
-
         hourInRef.current.focus()
     }, [timeInDisabled])
 
     useEffect(() => {
-        count = count + 1
-
         hourOutRef.current.focus()
     }, [timeOutDisabled])
 
     useEffect(() => {
-        count = count + 1
-
         yearOutRef.current.focus()
     }, [dateOutDisabled])
 
     useEffect(() => {
-        count = count + 1
-
         hourBreakTotalRef.current.focus()
     }, [timeBreakTotalDisabled])
 
@@ -201,7 +229,6 @@ function EditTime() {
             .then((response) => response.json())
             // eslint-disable-next-line react-hooks/exhaustive-deps
             .then((datas) => {
-                count = count + 1
                 const dateIn = datas[0].date_in.split('-')
                 const timeIn = datas[0].time_in.split(':')
                 let timeOut
@@ -251,13 +278,6 @@ function EditTime() {
                     breakOut2 = datas[0].break_out2
                 }
 
-                let workTotal
-                if (datas[0].work_total === null) {
-                    workTotal = '--:--'
-                } else {
-                    workTotal = datas[0].work_total.split(':')
-                }
-
                 setFullnameValue(datas[0].fullname)
                 setStaffIdValue(datas[0].staff_id)
 
@@ -277,9 +297,6 @@ function EditTime() {
 
                 setHourBreakTotalValue(breakTotal[0])
                 setMinuteBreakTotalValue(breakTotal[1])
-
-                setHourWorkTotal(workTotal[0])
-                setMinuteWorkTotal(workTotal[1])
 
                 setBreakIn1Value(breakIn1)
                 setBreakOut1Value(breakOut1)
@@ -338,6 +355,8 @@ function EditTime() {
     //click
     const handleStaffIdEdit = (e) => {
         if (e.target.innerHTML === 'Xong') {
+            setCount(count + 1)
+            console.log(count)
             fetch(baseURL + `search-staff-id/${staffIdRef.current.value}`)
                 .then((response) => response.json())
                 .then((data) => {
@@ -355,26 +374,37 @@ function EditTime() {
     }
 
     const handleDateInEdit = (e) => {
+        setCount(count + 1)
+
         dateInDisabled === true ? setDateInDisabled(false) : setDateInDisabled(true)
     }
 
     const handleDateOutEdit = (e) => {
+        setCount(count + 1)
+
         dateOutDisabled === true ? setDateOutDisabled(false) : setDateOutDisabled(true)
     }
 
     const handleTimeInEdit = (e) => {
+        setCount(count + 1)
+
         timeInDisabled === true ? setTimeInDisabled(false) : setTimeInDisabled(true)
     }
 
     const handleTimeOutEdit = (e) => {
+        setCount(count + 1)
+
         timeOutDisabled === true ? setTimeOutDisabled(false) : setTimeOutDisabled(true)
     }
 
     const handleTimeBeakTotalEdit = (e) => {
+        setCount(count + 1)
+
         timeBreakTotalDisabled === true ? setTimeBreakTotalDisabled(false) : setTimeBreakTotalDisabled(true)
     }
 
     const handleRefresh = (e) => {
+        setCount(0)
         setIsRefresh(!isRefresh)
         toast.success(`Đã làm mới dữ liệu ...`)
     }
@@ -388,10 +418,12 @@ function EditTime() {
             dateOutDisabled === true &&
             timeBreakTotalDisabled === true
         ) {
+            console.log(count)
             if (count === 0) {
                 return toast.info('Dữ liệu không thay đổi !')
             }
-            return toast.success('Update thành công !')
+            console.log(updateData)
+            // return toast.success('Update thành công !')
         } else {
             return toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu !')
         }
@@ -623,22 +655,26 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Thời gian Check in</label>
+                        <label className={cx('group-item-title')}>Thời gian làm việc</label>
                         <div className={cx('item-work-time')}>
-                            {checkValue.two(caculatorWorkTimeValue().hour)}
+                            {checkValue.two(caculatorWorkTimeValue().hour) < 0
+                                ? '00'
+                                : checkValue.two(caculatorWorkTimeValue().hour)}
                             <span className={cx('hyphen-work-time')}>:</span>
-                            {checkValue.two(caculatorWorkTimeValue().minute)}
+                            {checkValue.two(caculatorWorkTimeValue().minute) < 0
+                                ? '00'
+                                : checkValue.two(caculatorWorkTimeValue().minute)}
                         </div>
                     </div>
                 </div>
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Trừ giải lao</label>
+                        <label className={cx('group-item-title')}>Trừ giải lao còn</label>
                         <div className={cx('item-work-time')}>
-                            {hourWorkTotal}
+                            {datas.work_total.split(':')[0] < 0 ? '00' : datas.work_total.split(':')[0]}
                             <span className={cx('hyphen-work-time')}>:</span>
-                            {minuteWorkTotal}
+                            {datas.work_total.split(':')[1] < 0 ? '00' : datas.work_total.split(':')[1]}
                         </div>
                     </div>
                 </div>

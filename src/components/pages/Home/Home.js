@@ -21,8 +21,6 @@ function Home() {
         day = '0' + day
     }
 
-    console.log(day)
-
     const btnTitles = ['出勤', '退勤', '休憩開始', '休憩終了']
 
     const idBtn = ['time-in', 'time-out', 'break-in', 'break-out']
