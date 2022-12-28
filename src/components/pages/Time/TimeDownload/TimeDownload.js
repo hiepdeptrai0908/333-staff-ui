@@ -153,7 +153,7 @@ function TimeDownload() {
                                             {index + 1}
                                         </td>
                                         <td className={cx('table-data')}>{data.staff_id}</td>
-                                        <td className={cx('table-data')}>Nguyễn Thị Hồng Phượng</td>
+                                        <td className={cx('table-data')}>{data.full_name}</td>
                                         <td className={cx('table-data')}>{data.date_in}</td>
                                         <td className={cx('table-data')}>{data.time_in}</td>
                                         <td className={cx('table-data')}>
