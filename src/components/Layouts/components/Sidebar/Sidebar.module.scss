@@ -50,6 +50,10 @@
     animation: changeBgColor linear 0.2s forwards;
 }
 
+.item:active {
+    animation: changeBgColor linear 0.2s forwards;
+}
+
 @keyframes changeBgColor {
     to {
         background-color: #333;
