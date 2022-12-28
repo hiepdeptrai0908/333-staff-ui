@@ -44,13 +44,12 @@
     cursor: pointer;
     overflow: hidden;
     transition: 0.2s;
+    &:active {
+        animation: changeBgColor linear 0.2s forwards;
+    }
 }
 
 .item:hover {
-    animation: changeBgColor linear 0.2s forwards;
-}
-
-.item:active {
     animation: changeBgColor linear 0.2s forwards;
 }
 
