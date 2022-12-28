@@ -44,6 +44,8 @@
     cursor: pointer;
     overflow: hidden;
     transition: 0.2s;
+    -moz-appearance: none;
+    -webkit-appearance: none;
     &:active {
         animation: changeBgColor linear 0.2s forwards;
     }
