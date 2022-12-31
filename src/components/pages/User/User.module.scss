@@ -58,14 +58,17 @@
     border-bottom: 2px solid #333;
 }
 
-.update-btn {
+.info-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 70px;
     height: 30px;
     border-radius: 55px;
     border: none;
     cursor: pointer;
-    background-color: #252422cb;
-    color: rgb(235, 229, 229);
+    background: linear-gradient(20deg, #c20bffcb, rgb(255, 25, 25));
+    color: rgb(255, 255, 255);
     font-size: 1rem;
 
     &:hover {

@@ -2,10 +2,13 @@ import className from 'classnames/bind'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react'
+
 import { baseURL } from '~/utils'
 import styles from './User.module.scss'
-import { useEffect, useState, useRef } from 'react'
 import NoDataImage from '~/components/NoDataImage'
+import configRoutes from '~/config/routes'
 const cx = className.bind(styles)
 
 function User() {
@@ -49,7 +52,15 @@ function User() {
                                         <td className={cx('table-data')}>{data.birthday}</td>
                                         <td className={cx('table-data')}>{data.phone_number}</td>
                                         <td className={cx('table-data')}>
-                                            <button className={cx('update-btn')}>Edit</button>
+                                            <Link
+                                                to={configRoutes.info}
+                                                onClick={() => {
+                                                    localStorage.setItem('userId', JSON.stringify(data.user_id))
+                                                }}
+                                                className={cx('info-btn')}
+                                            >
+                                                Chi tiết
+                                            </Link>
                                         </td>
                                     </tr>
                                 )
