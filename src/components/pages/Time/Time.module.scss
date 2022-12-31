@@ -150,8 +150,7 @@
     padding: 8px 10px;
 }
 
-.styled-table td:nth-child(2),
-.styled-table td:nth-child(7) {
+.styled-table td:nth-child(2) {
     text-align: center;
     padding-right: 0;
 }
@@ -168,7 +167,6 @@
 }
 
 .styled-table td:last-child {
-    width: 10px;
     text-align: center;
 }
 
@@ -194,6 +192,7 @@
 }
 
 .update-btn,
+.delete-btn,
 .break-btn {
     width: 70px;
     height: 30px;
@@ -210,6 +209,14 @@
     &:hover {
         opacity: 0.8;
     }
+}
+
+.update-btn {
+    background-color: rgba(10, 52, 159, 0.846);
+}
+
+.delete-btn {
+    color: #fff;
 }
 
 .break-btn {

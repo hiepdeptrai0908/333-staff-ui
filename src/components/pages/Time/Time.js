@@ -2,10 +2,9 @@ import className from 'classnames/bind'
 import { useRef, useEffect, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleDot, faDownload, faRightLong, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faCircleDot, faDownload, faRightLong } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Time.module.scss'
-import images from '~/assets/images'
 import { baseURL } from '~/utils'
 import NoDataImage from '~/components/NoDataImage'
 import { Link } from 'react-router-dom'
@@ -23,12 +22,13 @@ function Time() {
     const [show, setShow] = useState('today')
     const [data, setData] = useState([])
     const contentRef = useRef()
-    const staffIdRef = useRef()
     const dayRef = useRef()
     const monthRef = useRef()
     const yearRef = useRef()
 
     const handleClick = (e) => {
+        setShow(e.target.name)
+        console.log(show)
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement) {
             actionElement.classList.remove(cx('active'))
@@ -36,8 +36,35 @@ function Time() {
         e.target.classList.add(cx('active'))
         e.target.name === 'today' ? setShow('today') : setShow('online')
     }
-
     useEffect(() => {
+        if (show === 'date') {
+            const searchData = {
+                day:
+                    dayRef.current.value === ''
+                        ? null
+                        : dayRef.current.value < 10
+                        ? '0' + String(dayRef.current.value)
+                        : String(dayRef.current.value),
+                month:
+                    monthRef.current.value === ''
+                        ? null
+                        : monthRef.current.value < 10
+                        ? '0' + String(monthRef.current.value)
+                        : String(monthRef.current.value),
+                year: String(yearRef.current.value),
+            }
+
+            fetch(baseURL + 'time/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(searchData),
+            })
+                .then((response) => response.json())
+                .then((datas) => {
+                    setData([...datas])
+                })
+            return
+        }
         const fetchApi = fetch(baseURL + show)
         fetchApi.then((response) => response.json()).then((datas) => setData([...datas]))
     }, [show])
@@ -55,6 +82,7 @@ function Time() {
 
     // tìm theo ngày
     const handleSearchClick = (e) => {
+        setShow('date')
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement) {
             actionElement.classList.remove(cx('active'))
@@ -147,6 +175,7 @@ function Time() {
                                 <th>Họ và Tên</th>
                                 <th>Giờ vào</th>
                                 <th>Giờ ra</th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -282,6 +311,22 @@ function Time() {
                                             >
                                                 Edit
                                             </Link>
+                                        </td>
+                                        <td className={cx('table-data')}>
+                                            <a
+                                                href={configRoutes.time}
+                                                onClick={() => {
+                                                    // eslint-disable-next-line no-restricted-globals
+                                                    if (!confirm('Bạn thực sự muốn xoá ?')) {
+                                                        return false
+                                                    } else {
+                                                        fetch(baseURL + `delete-time/${data.time_id}`)
+                                                    }
+                                                }}
+                                                className={cx('delete-btn')}
+                                            >
+                                                Xoá
+                                            </a>
                                         </td>
                                     </tr>
                                 )
