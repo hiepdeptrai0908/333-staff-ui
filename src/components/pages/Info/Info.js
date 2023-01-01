@@ -78,14 +78,18 @@ function Info() {
             ) {
                 toast.info('Bạn chưa thay đổi thông tin !')
             } else {
-                fetch(baseURL + 'update-user', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updateDatas),
-                })
-                toast.success('Đã update thành công.')
+                if (mesageUsername === '') {
+                    fetch(baseURL + 'update-user', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updateDatas),
+                    })
+                    toast.success('Đã update thành công.')
+                } else {
+                    toast.warning('Tên tài khoản không hợp lệ !')
+                }
             }
         }
     }
@@ -123,7 +127,7 @@ function Info() {
             .then((datas) => {
                 if (datas === 1 && usernameValue !== currentDatas.username) {
                     console.log(datas)
-                    setMessageUsername('Tên tài khoản này đã được sử dụng !')
+                    setMessageUsername('Tài khoản này đã được sử dụng !')
                 } else {
                     setMessageUsername('')
                 }
@@ -153,7 +157,7 @@ function Info() {
                         type="text"
                         value={staffIdValue}
                         onChange={() => setStaffIdValue(staffIdRef.current.value)}
-                        disabled={disabledGlobal}
+                        disabled={true}
                     />
                 </div>
                 <div className={cx('group-item')}>
@@ -240,7 +244,7 @@ function Info() {
                     </div>
                 </div>
                 <div className={cx('group-item')}>
-                    <div className={cx('item-title')}>Người đăng ký:</div>
+                    <div className={cx('item-title')}>Người tạo TK:</div>
                     <input
                         className={cx('item-input')}
                         ref={addressRef}
