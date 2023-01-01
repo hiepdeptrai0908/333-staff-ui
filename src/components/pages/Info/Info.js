@@ -78,6 +78,7 @@ function Info() {
             ) {
                 toast.info('Bạn chưa thay đổi thông tin !')
             } else {
+                currentDatas.username = updateDatas.username
                 if (mesageUsername === '') {
                     fetch(baseURL + 'update-user', {
                         method: 'POST',
@@ -231,7 +232,7 @@ function Info() {
                     <div className={cx('item--message')}>
                         <span className={cx('validate-message')}>{mesageUsername}</span>
                         <input
-                            className={cx('item-input')}
+                            className={cx('item-input', 'item-input--username')}
                             ref={userNameRef}
                             onChange={handleChangeUserName}
                             onKeyUp={() => {

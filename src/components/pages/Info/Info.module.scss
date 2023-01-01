@@ -68,6 +68,14 @@
     }
 }
 
+.item--message {
+    min-width: calc(100% - 150px);
+}
+
+.item-input--username {
+    width: 100%;
+}
+
 .item-input--password {
     padding-left: 14px;
     min-width: calc(100% - 200px);
