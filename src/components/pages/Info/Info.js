@@ -239,6 +239,17 @@ function Info() {
                         />
                     </div>
                 </div>
+                <div className={cx('group-item')}>
+                    <div className={cx('item-title')}>Người đăng ký:</div>
+                    <input
+                        className={cx('item-input')}
+                        ref={addressRef}
+                        type="text"
+                        value={currentDatas.create_user}
+                        onChange={() => {}}
+                        disabled={true}
+                    />
+                </div>
 
                 <div className={cx('group-item')}>
                     <div className={cx('update-btn', disabledGlobal ? 'disabled' : '')} onClick={handleUpdateGlobal}>
