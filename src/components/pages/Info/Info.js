@@ -78,8 +78,8 @@ function Info() {
             ) {
                 toast.info('Bạn chưa thay đổi thông tin !')
             } else {
-                currentDatas.username = updateDatas.username
                 if (mesageUsername === '') {
+                    currentDatas.username = updateDatas.username
                     fetch(baseURL + 'update-user', {
                         method: 'POST',
                         headers: {
