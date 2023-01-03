@@ -3,6 +3,10 @@ import { useEffect, useRef, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { baseURL } from '~/utils'
 import styles from './Info.module.scss'
+import NoDataImage from '~/components/NoDataImage'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { useReactToPrint } from 'react-to-print'
 
 const cx = classNames.bind(styles)
 
@@ -20,7 +24,17 @@ function Info() {
     const [usernameValue, setUserNameValue] = useState('')
     const [isCheckUser, setIsCheckUser] = useState(false)
 
+    const [yearValue, setYearValue] = useState(new Date().getFullYear())
+    const [monthValue, setMonthValue] = useState(new Date().getMonth() + 1)
+
     const [currentDatas, setCurrentDatas] = useState({})
+    const [timeDatas, setTimeDatas] = useState([])
+
+    const [monthResutl, setMonthResutl] = useState(monthValue)
+
+    const [isSearchTime, setIsSearchTime] = useState(false)
+
+    const [timeTotal, setTimeTotal] = useState({})
 
     const updateDatas = {
         user_id: userId,
@@ -45,6 +59,16 @@ function Info() {
     const currentPasswordRef = useRef()
     const newPasswordRef = useRef()
     const retypePasswordRef = useRef()
+
+    const yearRef = useRef()
+    const monthRef = useRef()
+    const contentRef = useRef()
+
+    const searchTimeData = {
+        staff_id: updateDatas.staff_id,
+        month: monthValue === '' ? '0' : String(monthValue).length < 2 ? '0' + String(monthValue) : String(monthValue),
+        year: yearValue === '' ? '0000' : String(yearValue),
+    }
 
     useEffect(() => {
         fetch(baseURL + `get-account/${userId}`)
@@ -115,6 +139,36 @@ function Info() {
         }
     }
 
+    const handleSearchTime = () => {
+        if (searchTimeData.month === '') return toast.warning('Tháng không được để trống !')
+        if (searchTimeData.year === '') return toast.warning('Năm không được để trống !')
+        setIsSearchTime(true)
+        fetch(baseURL + 'search-time-user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(searchTimeData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setTimeDatas([...data])
+                setMonthResutl(monthValue)
+            })
+
+        fetch(baseURL + 'total-month-time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(searchTimeData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setTimeTotal(data)
+            })
+    }
+
     useEffect(() => {
         const fetchUserApi = fetch(baseURL + 'check-user', {
             method: 'POST', // or 'PUT'
@@ -144,6 +198,10 @@ function Info() {
         setUserNameValue(userNameRef.current.value)
         setTimeout(() => {}, 500)
     }
+
+    const handlePrint = useReactToPrint({
+        content: () => contentRef.current,
+    })
 
     return (
         <div className={cx('wrapper')}>
@@ -287,7 +345,84 @@ function Info() {
                         Đổi mật khẩu
                     </div>
                 </div>
+                <h3 className={cx('group-heading')}>Chấm công</h3>
+                <div className={cx('group-item')}>
+                    <div className={cx('item-title', 'item-title--time')}>Tháng</div>
+                    <input
+                        className={cx('item-input', 'item-input--time')}
+                        ref={monthRef}
+                        value={monthValue}
+                        onChange={() => setMonthValue(monthRef.current.value)}
+                    />
+                    <div className={cx('item-title', 'item-title--time')}>Năm</div>
+                    <input
+                        className={cx('item-input', 'item-input--time')}
+                        ref={yearRef}
+                        value={yearValue}
+                        onChange={() => setYearValue(yearRef.current.value)}
+                    />
+                    <div className={cx('group-item')}>
+                        <div className={cx('search-btn')} onClick={handleSearchTime}>
+                            Tìm kiếm
+                        </div>
+                    </div>
+                </div>
+                {isSearchTime && timeDatas.length !== 0 ? (
+                    <div className={cx('table-wrapper')} ref={contentRef}>
+                        <div className={cx('table-headding')}>
+                            Bảng chấm công tháng {monthResutl} của
+                            <span style={{ color: 'green', paddingLeft: '10px' }}>{fullnameValue}</span>
+                        </div>
+                        <table id="list-time" className={cx('styled-table')}>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Ngày</th>
+                                    <th>出勤</th>
+                                    <th>退勤</th>
+                                    <th>休憩</th>
+                                    <th>合計</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {timeDatas ? (
+                                    timeDatas.map((timeData, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td
+                                                    className={cx('table-data')}
+                                                    style={{ fontWeight: '600', width: '20px' }}
+                                                >
+                                                    {index + 1}
+                                                </td>
+                                                <td className={cx('table-data')}>{timeData.date_in}</td>
+                                                <td className={cx('table-data')}>{timeData.time_in}</td>
+                                                <td className={cx('table-data')}>{timeData.time_out}</td>
+                                                <td className={cx('table-data')}>{timeData.break_total}</td>
+                                                <td className={cx('table-data')}>{timeData.work_total}</td>
+                                            </tr>
+                                        )
+                                    })
+                                ) : (
+                                    <NoDataImage />
+                                )}
+                            </tbody>
+                        </table>
+                        <div className={cx('total-time')}>
+                            Tổng
+                            <span className={cx('total-time-result')}>{timeTotal.work_total}</span>
+                        </div>
+                    </div>
+                ) : (
+                    <div>{isSearchTime ? <NoDataImage /> : <div></div>}</div>
+                )}
             </div>
+            {isSearchTime && timeDatas.length !== 0 && (
+                <button onClick={handlePrint} className={cx('download-btn')}>
+                    <FontAwesomeIcon className={cx('download-icon')} icon={faDownload} />
+                    Tải file PDF
+                </button>
+            )}
             <ToastContainer />
         </div>
     )
