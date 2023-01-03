@@ -150,7 +150,7 @@ function Time() {
                             )
                         })}
                     </select>
-                    <select ref={yearRef} className={cx('date-item')}>
+                    <select ref={yearRef} className={cx('date-item')} defaultValue={new Date().getFullYear()}>
                         {yearValues.map((year, index) => {
                             return (
                                 <option key={index} value={year}>
