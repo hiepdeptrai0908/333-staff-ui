@@ -2,13 +2,14 @@ import className from 'classnames/bind'
 import { useRef, useEffect, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleDot, faDownload, faRightLong } from '@fortawesome/free-solid-svg-icons'
+import { faCircleDot, faDownload, faRightLong, faClose } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Time.module.scss'
 import { baseURL } from '~/utils'
 import NoDataImage from '~/components/NoDataImage'
 import { Link } from 'react-router-dom'
 import configRoutes from '~/config/routes'
+import { toast, ToastContainer } from 'react-toastify'
 
 const cx = className.bind(styles)
 
@@ -21,10 +22,24 @@ const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 function Time() {
     const [show, setShow] = useState('today')
     const [data, setData] = useState([])
+    const [isShowModal, setIsShowModal] = useState(false)
     const contentRef = useRef()
     const dayRef = useRef()
     const monthRef = useRef()
     const yearRef = useRef()
+    const loginUserRef = useRef()
+    const loginPasswordRef = useRef()
+    const [adminAccount, setAdminAccount] = useState({})
+
+    useEffect(() => {
+        fetch(baseURL + 'admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+        })
+            .then((response) => response.json())
+            .then((data) => setAdminAccount(data[0]))
+    }, [])
 
     const handleClick = (e) => {
         setShow(e.target.name)
@@ -117,6 +132,23 @@ function Time() {
     const handlePrint = useReactToPrint({
         content: () => contentRef.current,
     })
+
+    const handleLogin = (e) => {
+        if (loginUserRef.current.value === '' || loginPasswordRef.current.value === '') {
+            e.preventDefault()
+            return toast.warning('Tài khoản, mật khẩu không được để trống !')
+        } else {
+            if (
+                loginUserRef.current.value === adminAccount.username &&
+                loginPasswordRef.current.value === adminAccount.password
+            ) {
+                toast.success('Đăng nhập thành công.')
+            } else {
+                e.preventDefault()
+                toast.error('Đăng nhập thất bại !')
+            }
+        }
+    }
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>Danh sách giờ làm</div>
@@ -304,7 +336,9 @@ function Time() {
                                         <td className={cx('table-data')}>
                                             <Link
                                                 to={configRoutes.editTime}
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    setIsShowModal(!isShowModal)
                                                     localStorage.setItem('time_id', data.time_id)
                                                 }}
                                                 className={cx('update-btn')}
@@ -342,10 +376,46 @@ function Time() {
                     <div></div>
                 </form>
             </div>
+
+            {/**Modal */}
+            <div className={cx('modal-wrapper')} style={{ display: isShowModal ? 'flex' : 'none' }}>
+                <div className={cx('modal-box')}>
+                    <div className={cx('heading')}>Đăng nhập quyền ADMIN</div>
+                    <div className={cx('login-group')}>
+                        <div className={cx('group-item')}>
+                            <label htmlFor="tk" className={cx('item-title')}>
+                                Tài khoản
+                            </label>
+                            <input ref={loginUserRef} id="tk" className={cx('item-input')} />
+                        </div>
+                        <div className={cx('group-item')}>
+                            <label htmlFor="mk" className={cx('item-title')}>
+                                Mật khẩu
+                            </label>
+                            <input
+                                ref={loginPasswordRef}
+                                id="mk"
+                                type="password"
+                                className={cx('item-input', 'item-input--password')}
+                            />
+                        </div>
+                        <div className={cx('group-item')}>
+                            <Link to={configRoutes.editTime} className={cx('login-btn')} onClick={handleLogin}>
+                                Đăng nhập
+                            </Link>
+                        </div>
+                    </div>
+                    <div className={cx('close-btn')} onClick={() => setIsShowModal(false)}>
+                        <FontAwesomeIcon icon={faClose} />
+                    </div>
+                </div>
+            </div>
+
             <button onClick={handlePrint} className={cx('download-btn')}>
                 <FontAwesomeIcon className={cx('download-icon')} icon={faDownload} />
                 Tải file PDF
             </button>
+            <ToastContainer />
         </div>
     )
 }
