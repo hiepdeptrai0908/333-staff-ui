@@ -146,6 +146,9 @@ function Time() {
             } else {
                 e.preventDefault()
                 toast.error('Đăng nhập thất bại !')
+                loginUserRef.current.value = ''
+                loginPasswordRef.current.value = ''
+                loginUserRef.current.focus()
             }
         }
     }
