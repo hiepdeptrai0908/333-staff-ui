@@ -113,10 +113,6 @@
     align-items: center;
     z-index: 999;
 
-    &.show {
-        display: flex;
-    }
-
     .modal-box {
         position: relative;
         width: 500px;
