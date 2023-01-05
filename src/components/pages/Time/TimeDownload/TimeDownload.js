@@ -39,7 +39,7 @@ function TimeDownload() {
         setSearchAction(e.target.name)
         sessionStorage.setItem('searchTimeAction', e.target.name)
         const actionElement = document.querySelector(`.${cx('active')}`)
-        if (actionElement || searchAction === 'date') {
+        if (actionElement && searchAction === 'date') {
             actionElement.classList.remove(cx('active'))
         }
         e.target.classList.add(cx('active'))
@@ -140,17 +140,17 @@ function TimeDownload() {
                         {dateValues.map((date, index) => {
                             return (
                                 <option key={index} value={date}>
-                                    {date}
+                                    {date < 10 ? '0' + String(date) : String(date)}
                                 </option>
                             )
                         })}
                     </select>
-                    <select ref={monthRef} className={cx('date-item')}>
+                    <select ref={monthRef} className={cx('date-item')} defaultValue={new Date().getMonth() + 1}>
                         <option value="">Tháng</option>
                         {monthValues.map((month, index) => {
                             return (
                                 <option key={index} value={month}>
-                                    {month}
+                                    {month < 10 ? '0' + String(month) : String(month)}
                                 </option>
                             )
                         })}

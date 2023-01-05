@@ -21,7 +21,6 @@ const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function Time() {
     const [searchAction, setSearchAction] = useState(sessionStorage.getItem('searchTimeAction') || 'today')
-    console.log(searchAction)
 
     const [data, setData] = useState([])
     const [isShowModal, setIsShowModal] = useState(false)
@@ -52,7 +51,7 @@ function Time() {
         sessionStorage.setItem('searchTimeAction', e.target.name)
         console.log(searchAction)
         const actionElement = document.querySelector(`.${cx('active')}`)
-        if (actionElement || searchAction === 'date') {
+        if (actionElement && searchAction === 'date') {
             actionElement.classList.remove(cx('active'))
         }
         e.target.classList.add(cx('active'))
@@ -184,17 +183,17 @@ function Time() {
                         {dateValues.map((date, index) => {
                             return (
                                 <option key={index} value={date}>
-                                    {date}
+                                    {date < 10 ? '0' + String(date) : String(date)}
                                 </option>
                             )
                         })}
                     </select>
-                    <select ref={monthRef} className={cx('date-item')}>
+                    <select ref={monthRef} className={cx('date-item')} defaultValue={new Date().getMonth() + 1}>
                         <option value="">Tháng</option>
                         {monthValues.map((month, index) => {
                             return (
                                 <option key={index} value={month}>
-                                    {month}
+                                    {month < 10 ? '0' + String(month) : String(month)}
                                 </option>
                             )
                         })}
@@ -224,6 +223,7 @@ function Time() {
                                 <th>Họ và Tên</th>
                                 <th>Giờ vào</th>
                                 <th>Giờ ra</th>
+                                <th>Tổng</th>
                                 <th colSpan={2}></th>
                             </tr>
                         </thead>
@@ -250,6 +250,9 @@ function Time() {
                                         <td className={cx('table-data')}>{data.time_in}</td>
                                         <td className={cx('table-data')}>
                                             {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
+                                        </td>
+                                        <td className={cx('table-data')}>
+                                            {data.work_total === '00:00' ? '' : data.work_total}
                                         </td>
                                         <td className={cx('table-data', 'detal-btn')}>
                                             <div className={cx('break-btn-box')}>
