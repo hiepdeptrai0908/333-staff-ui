@@ -19,7 +19,7 @@
 .group {
     width: 100%;
     min-height: 88vh;
-    background: linear-gradient(25deg, rgb(162, 17, 164), rgb(34, 101, 202));
+    background: linear-gradient(25deg, rgb(34, 101, 202), rgb(162, 17, 164), rgb(34, 101, 202));
     border-radius: 10px;
     padding: 20px 20px 70px 20px;
     color: #fff;
@@ -98,6 +98,7 @@
     min-width: unset;
     width: 100px;
     margin: 0 10px;
+    text-align: center;
 }
 
 .update-btn,

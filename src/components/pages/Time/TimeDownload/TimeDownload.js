@@ -19,7 +19,8 @@ const monthValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function TimeDownload() {
-    const [show, setShow] = useState('today')
+    const [searchAction, setSearchAction] = useState(sessionStorage.getItem('searchTimeAction') || 'today')
+    console.log(searchAction)
     const [datas, setDatas] = useState([])
     const contentRef = useRef()
     const dayRef = useRef()
@@ -29,24 +30,57 @@ function TimeDownload() {
     // get time today
     const date = new Date()
     let year = date.getFullYear()
-    let month = date.getMonth()
+    let month = date.getMonth() + 1
     let day = date.getDate()
     let hour = date.getHours()
     let minute = date.getMinutes()
 
     const handleClick = (e) => {
+        setSearchAction(e.target.name)
+        sessionStorage.setItem('searchTimeAction', e.target.name)
         const actionElement = document.querySelector(`.${cx('active')}`)
-        actionElement.classList.remove(cx('active'))
+        if (actionElement || searchAction === 'date') {
+            actionElement.classList.remove(cx('active'))
+        }
         e.target.classList.add(cx('active'))
-        e.target.name === 'today' ? setShow('today') : setShow('online')
+        e.target.name === 'today' ? setSearchAction('today') : setSearchAction('online')
     }
 
     useEffect(() => {
-        const fetchApi = fetch(baseURL + show)
+        if (searchAction === 'date') {
+            const searchData = {
+                day:
+                    dayRef.current.value === ''
+                        ? null
+                        : dayRef.current.value < 10
+                        ? '0' + String(dayRef.current.value)
+                        : String(dayRef.current.value),
+                month:
+                    monthRef.current.value === ''
+                        ? null
+                        : monthRef.current.value < 10
+                        ? '0' + String(monthRef.current.value)
+                        : String(monthRef.current.value),
+                year: String(yearRef.current.value),
+            }
+
+            fetch(baseURL + 'time/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(searchData),
+            })
+                .then((response) => response.json())
+                .then((datas) => {
+                    setDatas([...datas])
+                })
+            return
+        }
+        const fetchApi = fetch(baseURL + searchAction)
         fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
-    }, [show])
+    }, [searchAction])
 
     const handleSearchClick = (e) => {
+        sessionStorage.setItem('searchTimeAction', 'date')
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement) {
             actionElement.classList.remove(cx('active'))
@@ -85,10 +119,18 @@ function TimeDownload() {
         <div className={cx('wrapper')}>
             <div className={cx('search-action')}>
                 <div className={cx('action')}>
-                    <button className={cx('now-btn', 'active')} name="today" onClick={handleClick}>
+                    <button
+                        className={cx('now-btn', searchAction === 'today' && 'active')}
+                        name="today"
+                        onClick={handleClick}
+                    >
                         Hôm nay
                     </button>
-                    <button className={cx('now-btn')} name="online" onClick={handleClick}>
+                    <button
+                        className={cx('now-btn', searchAction === 'online' && 'active')}
+                        name="online"
+                        onClick={handleClick}
+                    >
                         Đang online
                     </button>
                 </div>
@@ -113,7 +155,7 @@ function TimeDownload() {
                             )
                         })}
                     </select>
-                    <select ref={yearRef} className={cx('date-item')}>
+                    <select ref={yearRef} className={cx('date-item')} defaultValue={new Date().getFullYear()}>
                         {yearValues.map((year, index) => {
                             return (
                                 <option key={index} value={year}>
@@ -140,9 +182,8 @@ function TimeDownload() {
                                 <th>出勤日</th>
                                 <th>出勤</th>
                                 <th>退勤</th>
-                                <th>休憩(1)</th>
-                                <th>勤務(2)</th>
-                                <th>合計(2-1)</th>
+                                <th>休憩</th>
+                                <th>合計</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,8 +200,9 @@ function TimeDownload() {
                                         <td className={cx('table-data')}>
                                             {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
                                         </td>
-                                        <td className={cx('table-data')}>{data.break_time || '00:00'}</td>
-                                        <td className={cx('table-data')}>{data.work_time || '00:00'}</td>
+                                        <td className={cx('table-data')}>
+                                            {data.break_total === '00:00' ? '' : data.break_total || ''}
+                                        </td>
                                         <td className={cx('table-data')}>{data.work_total || '00:00'}</td>
                                     </tr>
                                 )

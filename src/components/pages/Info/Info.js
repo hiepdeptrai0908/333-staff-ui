@@ -12,6 +12,7 @@ const cx = classNames.bind(styles)
 
 function Info() {
     const userId = localStorage.getItem('userId')
+    const [isLogin, setIslogin] = useState(sessionStorage.getItem('isLogin') || false)
     const [disabledGlobal, setDisabledGlobal] = useState(true)
     const [staffIdValue, setStaffIdValue] = useState('')
     const [fullnameValue, setFullnameValue] = useState('')
@@ -22,6 +23,10 @@ function Info() {
     const [addressValue, setAddressValue] = useState('')
     const [mesageUsername, setMessageUsername] = useState('')
     const [usernameValue, setUserNameValue] = useState('')
+    const [currentPasswordValue, setCurrentPasswordValue] = useState('')
+    const [newPasswordValue, setNewPassword] = useState('')
+    const [retypePasswordValue, setRetypePasswordValue] = useState('')
+
     const [isCheckUser, setIsCheckUser] = useState(false)
 
     const [yearValue, setYearValue] = useState(new Date().getFullYear())
@@ -70,6 +75,14 @@ function Info() {
         year: yearValue === '' ? '0000' : String(yearValue),
     }
 
+    useEffect(() => {
+        if (isLogin == 'true') {
+            console.log(isLogin)
+            toast.success('Đăng nhập thành công !')
+            setIslogin('')
+            sessionStorage.removeItem('isLogin')
+        }
+    }, [])
     useEffect(() => {
         fetch(baseURL + `get-account/${userId}`)
             .then((res) => res.json())
@@ -120,13 +133,13 @@ function Info() {
     }
 
     const handleUpdatePassword = () => {
-        if (currentPasswordRef.current.value !== currentDatas.password) {
+        if (currentPasswordValue !== currentDatas.password) {
             toast.error('Mật khẩu cũ không đúng !')
         } else {
-            if (newPasswordRef.current.value !== retypePasswordRef.current.value) {
-                toast.error('Nhập lại mật khẩu không chính xác !')
+            if (newPasswordValue !== retypePasswordValue) {
+                toast.error('Nhập lại mật khẩu không đúng !')
             } else {
-                updateDatas.password = retypePasswordRef.current.value
+                updateDatas.password = retypePasswordValue
                 fetch(baseURL + 'update-password', {
                     method: 'POST',
                     headers: {
@@ -325,18 +338,28 @@ function Info() {
                     <input
                         className={cx('item-input', 'item-input--password')}
                         ref={currentPasswordRef}
+                        value={currentPasswordValue}
+                        onChange={() => setCurrentPasswordValue(currentPasswordRef.current.value)}
                         type="password"
                     />
                 </div>
                 <div className={cx('group-item')}>
                     <div className={cx('item-title', 'item-title--password')}>Mật khẩu mới:</div>
-                    <input className={cx('item-input', 'item-input--password')} ref={newPasswordRef} type="password" />
+                    <input
+                        className={cx('item-input', 'item-input--password')}
+                        ref={newPasswordRef}
+                        value={newPasswordValue}
+                        onChange={() => setNewPassword(newPasswordRef.current.value)}
+                        type="password"
+                    />
                 </div>
                 <div className={cx('group-item')}>
                     <div className={cx('item-title', 'item-title--password')}>Nhập lại mật khẩu:</div>
                     <input
                         className={cx('item-input', 'item-input--password')}
                         ref={retypePasswordRef}
+                        value={retypePasswordValue}
+                        onChange={() => setRetypePasswordValue(retypePasswordRef.current.value)}
                         type="password"
                     />
                 </div>
@@ -398,7 +421,9 @@ function Info() {
                                                 <td className={cx('table-data')}>{timeData.date_in}</td>
                                                 <td className={cx('table-data')}>{timeData.time_in}</td>
                                                 <td className={cx('table-data')}>{timeData.time_out}</td>
-                                                <td className={cx('table-data')}>{timeData.break_total}</td>
+                                                <td className={cx('table-data')}>
+                                                    {timeData.break_total === '00:00' ? '' : timeData.break_total}
+                                                </td>
                                                 <td className={cx('table-data')}>{timeData.work_total}</td>
                                             </tr>
                                         )
