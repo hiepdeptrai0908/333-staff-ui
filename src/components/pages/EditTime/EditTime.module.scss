@@ -285,3 +285,25 @@
         cursor: pointer;
     }
 }
+
+.delete-btn {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100px;
+    margin: auto;
+    margin-top: 20px;
+    cursor: pointer;
+    border: solid 1px transparent;
+    border-bottom: solid 2px red;
+
+    // text-transform: uppercase;
+    padding: 4px;
+    transition: all 0.3s linear;
+
+    &:hover {
+        border-radius: 50px;
+        background-color: red;
+        color: #fff;
+    }
+}

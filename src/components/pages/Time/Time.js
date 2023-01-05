@@ -20,15 +20,21 @@ const monthValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function Time() {
-    const [show, setShow] = useState('today')
+    const [searchAction, setSearchAction] = useState(sessionStorage.getItem('searchTimeAction') || 'today')
+    console.log(searchAction)
+
     const [data, setData] = useState([])
     const [isShowModal, setIsShowModal] = useState(false)
+    const [loginUsernameValue, setLoginUsernameValue] = useState('')
+    const [loginPasswordValue, setLoginPasswordValue] = useState('')
+
     const contentRef = useRef()
     const dayRef = useRef()
     const monthRef = useRef()
     const yearRef = useRef()
     const loginUserRef = useRef()
     const loginPasswordRef = useRef()
+    const loginBtnRef = useRef()
     const [adminAccount, setAdminAccount] = useState({})
 
     useEffect(() => {
@@ -42,17 +48,18 @@ function Time() {
     }, [])
 
     const handleClick = (e) => {
-        setShow(e.target.name)
-        console.log(show)
+        setSearchAction(e.target.name)
+        sessionStorage.setItem('searchTimeAction', e.target.name)
+        console.log(searchAction)
         const actionElement = document.querySelector(`.${cx('active')}`)
-        if (actionElement) {
+        if (actionElement || searchAction === 'date') {
             actionElement.classList.remove(cx('active'))
         }
         e.target.classList.add(cx('active'))
-        e.target.name === 'today' ? setShow('today') : setShow('online')
+        e.target.name === 'today' ? setSearchAction('today') : setSearchAction('online')
     }
     useEffect(() => {
-        if (show === 'date') {
+        if (searchAction === 'date') {
             const searchData = {
                 day:
                     dayRef.current.value === ''
@@ -80,9 +87,9 @@ function Time() {
                 })
             return
         }
-        const fetchApi = fetch(baseURL + show)
+        const fetchApi = fetch(baseURL + searchAction)
         fetchApi.then((response) => response.json()).then((datas) => setData([...datas]))
-    }, [show])
+    }, [searchAction])
 
     // bật tắt bảng chi tiết
     const handleDetalClick = (e) => {
@@ -97,7 +104,8 @@ function Time() {
 
     // tìm theo ngày
     const handleSearchClick = (e) => {
-        setShow('date')
+        setSearchAction('date')
+        sessionStorage.setItem('searchTimeAction', 'date')
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement) {
             actionElement.classList.remove(cx('active'))
@@ -138,11 +146,9 @@ function Time() {
             e.preventDefault()
             return toast.warning('Tài khoản, mật khẩu không được để trống !')
         } else {
-            if (
-                loginUserRef.current.value === adminAccount.username &&
-                loginPasswordRef.current.value === adminAccount.password
-            ) {
-                toast.success('Đăng nhập thành công.')
+            if (loginUsernameValue === adminAccount.username && loginPasswordValue === adminAccount.password) {
+                sessionStorage.setItem('isLogin', 'true')
+                loginBtnRef.current.click()
             } else {
                 e.preventDefault()
                 toast.error('Đăng nhập thất bại !')
@@ -157,10 +163,18 @@ function Time() {
             <div className={cx('header')}>Danh sách giờ làm</div>
             <div className={cx('search-action')}>
                 <div className={cx('action')}>
-                    <button className={cx('now-btn', 'active')} name="today" onClick={handleClick}>
+                    <button
+                        className={cx('now-btn', searchAction === 'today' && 'active')}
+                        name="today"
+                        onClick={handleClick}
+                    >
                         Hôm nay
                     </button>
-                    <button className={cx('now-btn')} name="online" onClick={handleClick}>
+                    <button
+                        className={cx('now-btn', searchAction === 'online' && 'active')}
+                        name="online"
+                        onClick={handleClick}
+                    >
                         Đang online
                     </button>
                 </div>
@@ -210,9 +224,7 @@ function Time() {
                                 <th>Họ và Tên</th>
                                 <th>Giờ vào</th>
                                 <th>Giờ ra</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th colSpan={2}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -337,33 +349,15 @@ function Time() {
                                             </div>
                                         </td>
                                         <td className={cx('table-data')}>
-                                            <Link
-                                                to={configRoutes.editTime}
+                                            <button
                                                 onClick={(e) => {
-                                                    e.preventDefault()
                                                     setIsShowModal(!isShowModal)
                                                     localStorage.setItem('time_id', data.time_id)
                                                 }}
                                                 className={cx('update-btn')}
                                             >
                                                 Edit
-                                            </Link>
-                                        </td>
-                                        <td className={cx('table-data')}>
-                                            <a
-                                                href={configRoutes.time}
-                                                onClick={() => {
-                                                    // eslint-disable-next-line no-restricted-globals
-                                                    if (!confirm('Bạn thực sự muốn xoá ?')) {
-                                                        return false
-                                                    } else {
-                                                        fetch(baseURL + `delete-time/${data.time_id}`)
-                                                    }
-                                                }}
-                                                className={cx('delete-btn')}
-                                            >
-                                                Xoá
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 )
@@ -389,7 +383,14 @@ function Time() {
                             <label htmlFor="tk" className={cx('item-title')}>
                                 Tài khoản
                             </label>
-                            <input ref={loginUserRef} id="tk" className={cx('item-input')} />
+                            <input
+                                ref={loginUserRef}
+                                id="tk"
+                                className={cx('item-input')}
+                                autoComplete="off"
+                                value={loginUsernameValue}
+                                onChange={() => setLoginUsernameValue(loginUserRef.current.value)}
+                            />
                         </div>
                         <div className={cx('group-item')}>
                             <label htmlFor="mk" className={cx('item-title')}>
@@ -400,10 +401,23 @@ function Time() {
                                 id="mk"
                                 type="password"
                                 className={cx('item-input', 'item-input--password')}
+                                autoComplete="off"
+                                value={loginPasswordValue}
+                                onChange={() => setLoginPasswordValue(loginPasswordRef.current.value)}
+                                onKeyPress={(e) => {
+                                    if (e.charCode === 13) {
+                                        loginBtnRef.current.click()
+                                    }
+                                }}
                             />
                         </div>
                         <div className={cx('group-item')}>
-                            <Link to={configRoutes.editTime} className={cx('login-btn')} onClick={handleLogin}>
+                            <Link
+                                ref={loginBtnRef}
+                                to={configRoutes.editTime}
+                                className={cx('login-btn')}
+                                onClick={handleLogin}
+                            >
                                 Đăng nhập
                             </Link>
                         </div>

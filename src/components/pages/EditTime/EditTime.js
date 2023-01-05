@@ -14,6 +14,7 @@ const cx = classNames.bind(styles)
 function EditTime() {
     //state
     const timeId = Number(localStorage.getItem('time_id'))
+    const [isLogin, setIslogin] = useState(sessionStorage.getItem('isLogin') || false)
     const [isRefresh, setIsRefresh] = useState(false)
 
     const [staffIdDisabled, setStaffIdDisabled] = useState(true)
@@ -103,6 +104,15 @@ function EditTime() {
         work_time: '00:00',
         work_total: '00:00',
     }
+
+    useEffect(() => {
+        if (isLogin == 'true') {
+            console.log(isLogin)
+            toast.success('Đăng nhập thành công !')
+            setIslogin('')
+            sessionStorage.removeItem('isLogin')
+        }
+    }, [])
 
     const caculatorWorkTimeValue = () => {
         const dateIn = convertDatas.date_in.split('-')
@@ -231,7 +241,7 @@ function EditTime() {
                 const timeIn = datas[0].time_in.split(':')
                 let timeOut
                 let dateOut
-                if (datas[0].time_out === null) {
+                if (datas[0].time_out === null || datas[0].date_out === null) {
                     timeOut = '--:--'.split(':')
                     dateOut = '----:--:--'.split(':')
                 } else {
@@ -302,6 +312,7 @@ function EditTime() {
                 setBreakIn2Value(breakIn2)
                 setBreakOut2Value(breakOut2)
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isRefresh])
 
     //func
@@ -405,6 +416,16 @@ function EditTime() {
         setCount(0)
         setIsRefresh(!isRefresh)
         toast.success(`Đã làm mới dữ liệu ...`)
+    }
+
+    const handleDeleteData = (e) => {
+        // eslint-disable-next-line no-restricted-globals
+        if (!confirm('Dữ liệu này không thể khôi phục. Bạn thực sự muốn xoá ?')) {
+            e.preventDefault()
+            return false
+        } else {
+            fetch(baseURL + `delete-time/${timeId}`)
+        }
     }
 
     const handleUpdateData = (e) => {
@@ -702,6 +723,10 @@ function EditTime() {
 
                 <Link to={configRoutes.time} className={cx('update-btn')} onClick={handleUpdateData}>
                     Update
+                </Link>
+
+                <Link to={configRoutes.time} className={cx('delete-btn')} onClick={handleDeleteData}>
+                    Delete
                 </Link>
             </div>
         </div>

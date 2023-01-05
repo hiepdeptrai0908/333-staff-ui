@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import className from 'classnames/bind'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDownload } from '@fortawesome/free-solid-svg-icons'
+import { faDownload, faClose } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 
 import { baseURL } from '~/utils'
 import styles from './User.module.scss'
@@ -12,12 +14,53 @@ import configRoutes from '~/config/routes'
 const cx = className.bind(styles)
 
 function User() {
-    const contentRef = useRef()
     const [datas, setDatas] = useState([])
+    const [isShowModal, setIsShowModal] = useState(false)
+    const [toProfile, setToProfile] = useState()
+    const [wantToProfileUser, setWantToProfileUser] = useState([])
+    const [adminAccount, setAdminAccount] = useState({})
+    const [loginUsernameValue, setLoginUsernameValue] = useState('')
+    const [loginPasswordValue, setLoginPasswordValue] = useState('')
+
+    const contentRef = useRef()
+    const loginUserRef = useRef()
+    const loginPasswordRef = useRef()
+    const loginBtnRef = useRef()
+
     useEffect(() => {
         const fetchApi = fetch(baseURL + 'get-accounts')
         fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
+
+        const getAdmin = fetch(baseURL + 'admin-login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({}),
+        })
+        getAdmin.then((response) => response.json()).then((data) => setAdminAccount(data[0]))
     }, [])
+
+    const handleLogin = (e) => {
+        if (loginUserRef.current.value === '' || loginPasswordRef.current.value === '') {
+            e.preventDefault()
+            return toast.warning('Tài khoản, mật khẩu không được để trống !')
+        } else {
+            if (
+                (loginUsernameValue === wantToProfileUser[0].username &&
+                    loginPasswordValue === wantToProfileUser[0].password) ||
+                (loginUsernameValue === adminAccount.username && loginPasswordValue === adminAccount.password)
+            ) {
+                sessionStorage.setItem('isLogin', 'true')
+                loginBtnRef.current.click()
+            } else {
+                e.preventDefault()
+                console.log(toProfile)
+                toast.error('Đăng nhập thất bại !')
+                loginUserRef.current.value = ''
+                loginPasswordRef.current.value = ''
+                loginUserRef.current.focus()
+            }
+        }
+    }
 
     const handlePrint = useReactToPrint({
         content: () => contentRef.current,
@@ -52,15 +95,21 @@ function User() {
                                         <td className={cx('table-data')}>{data.birthday}</td>
                                         <td className={cx('table-data')}>{data.phone_number}</td>
                                         <td className={cx('table-data')}>
-                                            <Link
-                                                to={configRoutes.info}
-                                                onClick={() => {
+                                            <button
+                                                onClick={(e) => {
+                                                    setToProfile(data.staff_id)
+                                                    setIsShowModal(!isShowModal)
                                                     localStorage.setItem('userId', JSON.stringify(data.user_id))
+                                                    setWantToProfileUser(
+                                                        datas.filter((user) => {
+                                                            return user.staff_id === data.staff_id
+                                                        }),
+                                                    )
                                                 }}
                                                 className={cx('info-btn')}
                                             >
                                                 Chi tiết
-                                            </Link>
+                                            </button>
                                         </td>
                                     </tr>
                                 )
@@ -70,10 +119,65 @@ function User() {
                 ) : (
                     <NoDataImage />
                 )}
+
+                <div className={cx('modal-wrapper')} style={{ display: isShowModal ? 'flex' : 'none' }}>
+                    <div className={cx('modal-box')}>
+                        <div className={cx('heading')}>Đăng nhập</div>
+                        <div className={cx('login-group')}>
+                            <div className={cx('group-item')}>
+                                <label htmlFor="tk" className={cx('item-title')}>
+                                    Tài khoản
+                                </label>
+                                <input
+                                    ref={loginUserRef}
+                                    id="tk"
+                                    className={cx('item-input')}
+                                    autoComplete="off"
+                                    value={loginUsernameValue}
+                                    onChange={() => setLoginUsernameValue(loginUserRef.current.value)}
+                                />
+                            </div>
+                            <div className={cx('group-item')}>
+                                <label htmlFor="mk" className={cx('item-title')}>
+                                    Mật khẩu
+                                </label>
+                                <input
+                                    ref={loginPasswordRef}
+                                    id="mk"
+                                    type="password"
+                                    className={cx('item-input', 'item-input--password')}
+                                    autoComplete="off"
+                                    value={loginPasswordValue}
+                                    onChange={() => setLoginPasswordValue(loginPasswordRef.current.value)}
+                                    onKeyPress={(e) => {
+                                        if (e.charCode === 13) {
+                                            loginBtnRef.current.click()
+                                        }
+                                    }}
+                                />
+                            </div>
+                            <div className={cx('group-item')}>
+                                <Link
+                                    ref={loginBtnRef}
+                                    to={configRoutes.info}
+                                    className={cx('login-btn')}
+                                    onClick={handleLogin}
+                                >
+                                    Đăng nhập
+                                </Link>
+                            </div>
+                        </div>
+                        <div className={cx('close-btn')} onClick={() => setIsShowModal(false)}>
+                            <FontAwesomeIcon icon={faClose} />
+                        </div>
+                    </div>
+                </div>
+
                 <button onClick={handlePrint} className={cx('download-btn')}>
                     <FontAwesomeIcon className={cx('download-icon')} icon={faDownload} />
                     Tải file PDF
                 </button>
+                <ToastContainer />
             </div>
         </div>
     )
