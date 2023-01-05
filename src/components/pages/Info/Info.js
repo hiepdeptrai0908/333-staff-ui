@@ -76,12 +76,13 @@ function Info() {
     }
 
     useEffect(() => {
-        if (isLogin == 'true') {
+        if (isLogin === 'true') {
             console.log(isLogin)
             toast.success('Đăng nhập thành công !')
             setIslogin('')
             sessionStorage.removeItem('isLogin')
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     useEffect(() => {
         fetch(baseURL + `get-account/${userId}`)
