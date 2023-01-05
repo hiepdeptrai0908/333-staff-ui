@@ -156,6 +156,7 @@
     animation: tableShow 2s forwards ease-in-out;
     transition: all 2s;
     margin-top: 20px;
+    z-index: 10;
 }
 @keyframes tableShow {
     from {
