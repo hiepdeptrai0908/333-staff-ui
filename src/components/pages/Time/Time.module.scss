@@ -366,10 +366,6 @@
     align-items: center;
     z-index: 999;
 
-    &.show {
-        display: flex;
-    }
-
     .modal-box {
         position: relative;
         width: 500px;
@@ -381,7 +377,7 @@
         padding: 20px 60px;
         border-radius: 10px;
         color: #333;
-        animation: show 0.8s ease-in-out;
+        animation: show 0.5s ease-in-out;
     }
 
     @keyframes show {
