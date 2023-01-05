@@ -106,12 +106,12 @@ function EditTime() {
     }
 
     useEffect(() => {
-        if (isLogin == 'true') {
-            console.log(isLogin)
+        if (isLogin === 'true') {
             toast.success('Đăng nhập thành công !')
             setIslogin('')
             sessionStorage.removeItem('isLogin')
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const caculatorWorkTimeValue = () => {

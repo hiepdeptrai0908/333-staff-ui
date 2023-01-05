@@ -68,7 +68,6 @@ function RegisterUser() {
         create_at: today,
         create_user: userLogin.fullname,
     }
-    console.log(userLogin.fullname)
     // get user when change input value
     useEffect(() => {
         const fetchUserApi = fetch(baseURL + 'check-user', {
@@ -82,7 +81,6 @@ function RegisterUser() {
             .then((response) => response.json())
             .then((datas) => {
                 if (datas === 1) {
-                    console.log(datas)
                     setMessageUsername('Tên tài khoản này đã được sử dụng !')
                 } else {
                     setMessageUsername('')
@@ -103,7 +101,6 @@ function RegisterUser() {
             .then((response) => response.json())
             .then((datas) => {
                 if (datas === 1) {
-                    console.log(datas)
                     setMessageStaffId('Mã này đã được sử dụng !')
                 } else {
                     setMessageStaffId('')
