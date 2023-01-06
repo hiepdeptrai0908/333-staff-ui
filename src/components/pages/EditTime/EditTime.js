@@ -1,4 +1,4 @@
-import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons'
+import { faArrowsRotate, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
 import { useEffect, useState, useRef } from 'react'
@@ -726,6 +726,7 @@ function EditTime() {
                 </Link>
 
                 <Link to={configRoutes.time} className={cx('delete-btn')} onClick={handleDeleteData}>
+                    <FontAwesomeIcon icon={faTrashCan} style={{ paddingRight: '10px' }} />
                     Delete
                 </Link>
             </div>
