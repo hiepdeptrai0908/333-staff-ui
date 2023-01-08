@@ -32,7 +32,7 @@ function Info() {
     const [yearValue, setYearValue] = useState(new Date().getFullYear())
     const [monthValue, setMonthValue] = useState(new Date().getMonth() + 1)
 
-    const [currentDatas, setCurrentDatas] = useState({})
+    const [currentDatas, setCurrentDatas] = useState({ create_user: '' })
     const [timeDatas, setTimeDatas] = useState([])
 
     const [monthResutl, setMonthResutl] = useState(monthValue)
