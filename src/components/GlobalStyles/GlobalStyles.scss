@@ -116,3 +116,12 @@ input[type='password'] {
         padding-left: 20px;
     }
 }
+
+// Button
+button,
+a {
+    transition: 0.3s;
+    &:active {
+        transform: translateY(5px);
+    }
+}
