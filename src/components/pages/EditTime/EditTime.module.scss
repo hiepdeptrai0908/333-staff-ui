@@ -67,6 +67,10 @@
 .group-items--break {
     position: relative;
 
+    .group-item-title {
+        background-color: #b10692;
+    }
+
     .group-item-title:hover {
         cursor: context-menu;
         background-color: #444;
@@ -160,6 +164,29 @@
     line-height: 30px;
     border-radius: 4px;
     transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.number-text {
+    margin: 0 10px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    background-color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    font-size: small;
+    font-weight: 600;
+    box-shadow: inset 0 0 8px rgb(90, 240, 48);
+
+    &.number-text--total {
+        width: 50px;
+    }
 }
 
 .group-item-input {
