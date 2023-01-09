@@ -471,7 +471,7 @@ function EditTime() {
             <div className={cx('group')}>
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Mã</label>
+                        <label className={cx('group-item-title')}>Mã nhân viên</label>
                         <input
                             className={cx('group-item-input')}
                             ref={staffIdRef}
@@ -490,7 +490,7 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Giờ check in</label>
+                        <label className={cx('group-item-title')}>Giờ vào</label>
                         <input
                             className={cx('group-item-input', 'group-item-input-time')}
                             ref={hourInRef}
@@ -520,7 +520,7 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Giờ check out</label>
+                        <label className={cx('group-item-title')}>Giờ ra</label>
                         <input
                             className={cx('group-item-input', 'group-item-input-time')}
                             ref={hourOutRef}
@@ -550,7 +550,7 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Ngày bắt đầu</label>
+                        <label className={cx('group-item-title')}>Ngày vào</label>
                         <input
                             className={cx('group-item-input', 'group-item-input-date')}
                             ref={yearInRef}
@@ -591,7 +591,7 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Ngày kết thúc</label>
+                        <label className={cx('group-item-title')}>Ngày ra</label>
                         <input
                             className={cx('group-item-input', 'group-item-input-date')}
                             ref={yearOutRef}
@@ -633,7 +633,9 @@ function EditTime() {
                 {/* Giải lao */}
                 <div className={cx('group-items', 'group-items--break')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Thời gian giải lao</label>
+                        <label className={cx('group-item-title')}>
+                            Giải lao<span className={cx('number-text')}>1</span>
+                        </label>
                         <div className={cx('break-popover')}>
                             {breakTotalDatabase === datas.break_total ? (
                                 <>
@@ -683,7 +685,9 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Thời gian làm việc</label>
+                        <label className={cx('group-item-title')}>
+                            Thời gian làm<span className={cx('number-text')}>2</span>
+                        </label>
                         <div className={cx('item-work-time')}>
                             {checkValue.two(caculatorWorkTimeValue().hour) < 0
                                 ? '00'
@@ -698,7 +702,9 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Trừ giải lao còn</label>
+                        <label className={cx('group-item-title')}>
+                            Tổng<span className={cx('number-text', 'number-text--total')}>2 - 1</span>
+                        </label>
                         <div className={cx('item-work-time')}>
                             {datas.work_total.split(':')[0] < 0 ? '00' : datas.work_total.split(':')[0]}
                             <span className={cx('hyphen-work-time')}>:</span>
@@ -709,7 +715,7 @@ function EditTime() {
 
                 <div className={cx('group-items')}>
                     <div className={cx('group-item')}>
-                        <label className={cx('group-item-title')}>Lần chỉnh sửa gần nhất</label>
+                        <label className={cx('group-item-title')}>Update gần nhất</label>
                         <div className={cx('item-update-time')}>
                             {dataUpdate.update_date && (
                                 <div>
