@@ -20,7 +20,6 @@ const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 
 function TimeDownload() {
     const [searchAction, setSearchAction] = useState(sessionStorage.getItem('searchTimeAction') || 'today')
-    console.log(searchAction)
     const [datas, setDatas] = useState([])
     const contentRef = useRef()
     const dayRef = useRef()
@@ -100,7 +99,6 @@ function TimeDownload() {
                     : String(monthRef.current.value),
             year: String(yearRef.current.value),
         }
-        console.log(searchData)
         fetch(baseURL + 'time/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

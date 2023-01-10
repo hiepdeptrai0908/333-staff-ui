@@ -50,7 +50,6 @@ function Time() {
     const handleClick = (e) => {
         setSearchAction(e.target.name)
         sessionStorage.setItem('searchTimeAction', e.target.name)
-        console.log(searchAction)
         const actionElement = document.querySelector(`.${cx('active')}`)
         if (actionElement && searchAction === 'date') {
             actionElement.classList.remove(cx('active'))
@@ -137,7 +136,6 @@ function Time() {
                     : String(monthRef.current.value),
             year: String(yearRef.current.value),
         }
-        console.log(searchData)
         fetch(baseURL + 'time/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -256,12 +254,6 @@ function Time() {
                             </thead>
                             <tbody>
                                 {datas.map((data, index) => {
-                                    console.log(data)
-                                    if ((data.break_in1 && !data.break_out1) || (data.break_in2 && !data.break_out2)) {
-                                        console.log(true)
-                                    } else {
-                                        console.log(false)
-                                    }
                                     return (
                                         <tr key={index}>
                                             <td
