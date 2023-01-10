@@ -77,7 +77,6 @@ function Info() {
 
     useEffect(() => {
         if (isLogin === 'true') {
-            console.log(isLogin)
             toast.success('Đăng nhập thành công !')
             setIslogin('')
             sessionStorage.removeItem('isLogin')
@@ -195,7 +194,6 @@ function Info() {
             .then((response) => response.json())
             .then((datas) => {
                 if (datas === 1 && usernameValue !== currentDatas.username) {
-                    console.log(datas)
                     setMessageUsername('Tài khoản này đã được sử dụng !')
                 } else {
                     setMessageUsername('')

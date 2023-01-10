@@ -365,7 +365,6 @@ function EditTime() {
     const handleStaffIdEdit = (e) => {
         if (e.target.innerHTML === 'Xong') {
             setCount(count + 1)
-            console.log(count)
             fetch(baseURL + `search-staff-id/${staffIdRef.current.value}`)
                 .then((response) => response.json())
                 .then((data) => {

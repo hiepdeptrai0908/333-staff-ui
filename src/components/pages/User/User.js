@@ -53,7 +53,6 @@ function User() {
                 loginBtnRef.current.click()
             } else {
                 e.preventDefault()
-                console.log(toProfile)
                 toast.error('Đăng nhập thất bại !')
                 loginUserRef.current.value = ''
                 loginPasswordRef.current.value = ''
