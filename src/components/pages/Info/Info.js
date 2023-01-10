@@ -394,7 +394,7 @@ function Info() {
                 {isSearchTime && timeDatas.length !== 0 ? (
                     <div className={cx('table-wrapper')} ref={contentRef}>
                         <div className={cx('table-headding')}>
-                            Bảng chấm công tháng {monthResutl} của
+                            BẢNG CÔNG THÁNG {monthResutl}
                             <span style={{ color: 'green', paddingLeft: '10px' }}>{fullnameValue}</span>
                         </div>
                         <table id="list-time" className={cx('styled-table')}>

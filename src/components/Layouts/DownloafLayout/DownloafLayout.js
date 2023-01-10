@@ -16,7 +16,7 @@ function DownloafLayout({ children }) {
             <div className={cx('container')}>
                 <div className={cx('content')}>{children}</div>
             </div>
-            <Link to={configRoutes.time} className={cx('back-btn')} style={{ backgroundColor: 'red' }}>
+            <Link to={configRoutes.time} className={cx('back-btn')}>
                 <FontAwesomeIcon className={cx('back-icon')} icon={faRotateLeft} />
                 <div>Quay lại</div>
             </Link>
