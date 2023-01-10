@@ -135,6 +135,7 @@
     width: 100%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     max-height: 300px;
+    background: linear-gradient(to right, #d095cfe3, transparent 90%);
 }
 
 .styled-table thead tr {
@@ -175,7 +176,7 @@
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f35b;
+    // background-color: #4241415b;
 }
 
 .styled-table tbody tr:last-of-type {
@@ -227,10 +228,14 @@
 
 .online-icon {
     color: #11a00f;
+
+    &.breaking-icon {
+        color: gold;
+    }
 }
 
 .off-icon {
-    color: #333;
+    color: #9d2424;
 }
 
 // popover
@@ -479,4 +484,35 @@
             opacity: 0.7;
         }
     }
+}
+
+.total-time {
+    color: rgb(132, 128, 128);
+    padding: 10px 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.645);
+    text-transform: uppercase;
+    width: 200px;
+    margin: 10px auto;
+    border-radius: 8px;
+    animation: show 1s ease-in-out forwards;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+        transform: translateY(200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.total-time-result {
+    color: green;
+    padding-left: 20px;
+    font-size: 1.2rem;
 }
