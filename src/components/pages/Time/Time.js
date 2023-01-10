@@ -36,6 +36,7 @@ function Time() {
     const loginPasswordRef = useRef()
     const loginBtnRef = useRef()
     const [adminAccount, setAdminAccount] = useState({})
+    const [searchMonth, setSearchMonth] = useState('')
 
     useEffect(() => {
         fetch(baseURL + 'admin-login', {
@@ -74,6 +75,8 @@ function Time() {
                         : String(monthRef.current.value),
                 year: String(yearRef.current.value),
             }
+
+            setSearchMonth(searchData.month)
 
             fetch(baseURL + 'time/search', {
                 method: 'POST',
@@ -136,6 +139,9 @@ function Time() {
                     : String(monthRef.current.value),
             year: String(yearRef.current.value),
         }
+
+        setSearchMonth(searchData.month)
+
         fetch(baseURL + 'time/search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -294,7 +300,13 @@ function Time() {
                                             )}
                                             <td className={cx('table-data')}>{data.time_in}</td>
                                             <td className={cx('table-data')}>
-                                                {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
+                                                {data.time_out ||
+                                                    ((data.break_in1 && !data.break_out1) ||
+                                                    (data.break_in2 && !data.break_out2) ? (
+                                                        <span style={{ color: 'gold' }}>Đang giải lao</span>
+                                                    ) : (
+                                                        <span style={{ color: '#079d07' }}>Đang làm</span>
+                                                    ))}
                                             </td>
                                             <td className={cx('table-data')}>
                                                 {data.work_total === '00:00' ? '' : data.work_total}
@@ -304,7 +316,10 @@ function Time() {
                                                     <button className={cx('break-btn')} onClick={handleDetalClick}>
                                                         Chi tiết
                                                     </button>
-                                                    <div className={cx('break-popover')}>
+                                                    <div
+                                                        className={cx('break-popover')}
+                                                        style={{ right: searchAction === 'date' ? '96px' : '116px' }}
+                                                    >
                                                         <div className={cx('popover-group')}>
                                                             <div className={cx('group-title')}>Họ và Tên</div>
                                                             <div className={cx('group-data')}>{data.fullname}</div>
@@ -414,7 +429,7 @@ function Time() {
                         </table>
                         {totalTime !== '00:00' && searchAction === 'date' && (
                             <div className={cx('total-time')}>
-                                Tổng
+                                Tổng thời gian tháng {searchMonth}
                                 <span className={cx('total-time-result')}>{totalTime}</span>
                             </div>
                         )}
