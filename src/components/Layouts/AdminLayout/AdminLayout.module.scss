@@ -1,9 +1,10 @@
 .wrapper {
     display: flex;
-    min-width: 1100px;
+    max-width: 1500px;
+    width: 100vw;
     min-height: 100vh;
     border: solid 2px var(--primary);
-    border-radius: 20px;
+    // border-radius: 20px;
     overflow: hidden;
 }
 
