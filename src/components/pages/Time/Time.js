@@ -305,7 +305,7 @@ function Time() {
                                                     (data.break_in2 && !data.break_out2) ? (
                                                         <span style={{ color: 'gold' }}>Đang giải lao</span>
                                                     ) : (
-                                                        <span style={{ color: '#079d07' }}>Đang làm</span>
+                                                        <span style={{ color: '#0ef30e' }}>Đang làm</span>
                                                     ))}
                                             </td>
                                             <td className={cx('table-data')}>
