@@ -1,5 +1,7 @@
 .wrapper {
     width: 100%;
+    height: calc(100vh - 20px);
+    overflow: scroll;
 }
 
 .header {
@@ -327,7 +329,7 @@
 .download-btn {
     position: fixed;
     bottom: 20px;
-    right: 300px;
+    right: 150px;
     width: 150px;
     font-size: medium;
     height: 40px;

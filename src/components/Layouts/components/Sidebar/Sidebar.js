@@ -10,11 +10,9 @@ const cx = classname.bind(styles)
 function Sidebar() {
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('logo-box')}>
-                <Link to={configRoutes.home}>
-                    <img className={cx('logo-img')} src={images.logo} alt="logo" />
-                </Link>
-            </div>
+            <Link to={configRoutes.home} className={cx('logo-box')}>
+                <img className={cx('logo-img')} src={images.logo} alt="logo" />
+            </Link>
             <div className={cx('items')}>
                 <NavLink to={configRoutes.time}>
                     <button className={cx('item')}>Quản lý thời gian</button>
