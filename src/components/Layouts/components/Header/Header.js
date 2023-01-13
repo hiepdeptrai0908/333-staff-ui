@@ -19,11 +19,10 @@ function Header() {
 
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
-        if (btnBgGruop.current.style.display === 'none') {
-            btnBgGruop.current.style.display = 'flex'
-        } else {
-            btnBgGruop.current.style.display = 'none'
+        if (btnBgGruop.current.style.display === 'flex') {
+            return (btnBgGruop.current.style.display = 'none')
         }
+        btnBgGruop.current.style.display = 'flex'
     }
 
     const handleChangeBg = (e) => {
