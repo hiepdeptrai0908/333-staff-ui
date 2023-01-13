@@ -316,10 +316,7 @@ function Time() {
                                                     <button className={cx('break-btn')} onClick={handleDetalClick}>
                                                         Chi tiết
                                                     </button>
-                                                    <div
-                                                        className={cx('break-popover')}
-                                                        style={{ right: searchAction === 'date' ? '96px' : '116px' }}
-                                                    >
+                                                    <div className={cx('break-popover')}>
                                                         <div className={cx('popover-group')}>
                                                             <div className={cx('group-title')}>Họ và Tên</div>
                                                             <div className={cx('group-data')}>{data.fullname}</div>
