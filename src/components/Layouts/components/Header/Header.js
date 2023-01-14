@@ -15,14 +15,7 @@ function Header() {
     const btnBgGruop = useRef()
 
     const htmlEl = document.getElementsByTagName('html')[0]
-    const bodyEl = document.getElementsByTagName('body')[0]
     htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
-
-    if (backgroundLink === 'goldBg') {
-        bodyEl.style.background = 'linear-gradient(to top, #ac19c4 , #ffeb3b)'
-    } else {
-        bodyEl.style.background = 'transparent'
-    }
 
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
@@ -46,14 +39,14 @@ function Header() {
             <div className={cx('logo-box')}>
                 <img className={cx('logo-img')} src={images.logo} alt="logo" onClick={handleTongleBtn} />
                 <div className={cx('bg-group')} ref={btnBgGruop}>
+                    <button className={cx('bg-item', 'bg-item--c')} name="goldBg" onClick={handleChangeBg}>
+                        None
+                    </button>
                     <button className={cx('bg-item', 'bg-item--a')} name="newYearBg1" onClick={handleChangeBg}>
                         Tết 1
                     </button>
                     <button className={cx('bg-item', 'bg-item--b')} name="newYearBg2" onClick={handleChangeBg}>
                         Tết 2
-                    </button>
-                    <button className={cx('bg-item', 'bg-item--c')} name="goldBg" onClick={handleChangeBg}>
-                        Gold
                     </button>
                     <button className={cx('bg-item', 'bg-item--d')} name="snowBg" onClick={handleChangeBg}>
                         Tuyết
