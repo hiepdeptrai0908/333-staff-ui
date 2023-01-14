@@ -35,7 +35,7 @@ function Time() {
     const loginUserRef = useRef()
     const loginPasswordRef = useRef()
     const loginBtnRef = useRef()
-    const [adminAccount, setAdminAccount] = useState({})
+    const [adminAccount, setAdminAccount] = useState({ username: '', password: '' })
     const [searchMonth, setSearchMonth] = useState('')
 
     useEffect(() => {
@@ -173,17 +173,16 @@ function Time() {
         if (loginUserRef.current.value === '' || loginPasswordRef.current.value === '') {
             e.preventDefault()
             return toast.warning('Tài khoản, mật khẩu không được để trống !')
+        }
+
+        if (loginUsernameValue === adminAccount.username && loginPasswordValue === adminAccount.password) {
+            sessionStorage.setItem('isLogin', 'true')
         } else {
-            if (loginUsernameValue === adminAccount.username && loginPasswordValue === adminAccount.password) {
-                sessionStorage.setItem('isLogin', 'true')
-                loginBtnRef.current.click()
-            } else {
-                e.preventDefault()
-                toast.error('Đăng nhập thất bại !')
-                loginUserRef.current.value = ''
-                loginPasswordRef.current.value = ''
-                loginUserRef.current.focus()
-            }
+            e.preventDefault()
+            toast.error('Đăng nhập thất bại !')
+            loginUserRef.current.value = ''
+            loginPasswordRef.current.value = ''
+            loginUserRef.current.focus()
         }
     }
     return (
