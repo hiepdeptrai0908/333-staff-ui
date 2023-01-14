@@ -15,7 +15,14 @@ function Header() {
     const btnBgGruop = useRef()
 
     const htmlEl = document.getElementsByTagName('html')[0]
+    const bodyEl = document.getElementsByTagName('body')[0]
     htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
+
+    if (backgroundLink === 'goldBg') {
+        bodyEl.style.background = 'linear-gradient(to top, #ac19c4 , #ffeb3b)'
+    } else {
+        bodyEl.style.background = 'transparent'
+    }
 
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
