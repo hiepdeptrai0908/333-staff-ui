@@ -26,7 +26,7 @@ function Header() {
     }
 
     const handleChangeBg = (e) => {
-        const nameBtn = e.target.name
+        const nameBtn = e.target.name || 'goldBg'
 
         if (nameBtn) {
             htmlEl.style.backgroundImage = 'url(' + images[nameBtn] + ')'
