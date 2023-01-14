@@ -17,10 +17,6 @@ function Header() {
     const htmlEl = document.getElementsByTagName('html')[0]
     htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
 
-    if (backgroundLink === 'goldBg') {
-        htmlEl.style.backgroundImage = `url("/static/media/gold-bg.e324d2a30cee541b0b26.webp")`
-    }
-
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
         if (btnBgGruop.current.style.display === 'flex') {
@@ -33,13 +29,8 @@ function Header() {
         const nameBtn = e.target.name || 'goldBg'
 
         if (nameBtn) {
-            htmlEl.style.backgroundImage = 'url(' + images[nameBtn] + ')'
             localStorage.setItem('bg', nameBtn)
             setBackgroundLink(nameBtn)
-
-            if (nameBtn === 'goldBg') {
-                htmlEl.style.backgroundImage = `url("/static/media/gold-bg.e324d2a30cee541b0b26.webp")`
-            }
         }
     }
 
