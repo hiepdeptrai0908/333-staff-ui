@@ -15,7 +15,9 @@ function Header() {
     const btnBgGruop = useRef()
 
     const htmlEl = document.getElementsByTagName('html')[0]
-    htmlEl.style.backgroundImage = 'url(' + images[backgroundLink] + ')'
+    htmlEl.style.backgroundImage = `url('${images.goldBg}')`
+
+    // htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
 
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
