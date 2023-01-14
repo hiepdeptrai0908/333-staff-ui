@@ -15,9 +15,11 @@ function Header() {
     const btnBgGruop = useRef()
 
     const htmlEl = document.getElementsByTagName('html')[0]
-    htmlEl.style.backgroundImage = `url('${images.goldBg}')`
+    htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
 
-    // htmlEl.style.backgroundImage = `url('${images[backgroundLink]}')`
+    if (backgroundLink === 'goldBg') {
+        htmlEl.style.backgroundImage = `url("/static/media/gold-bg.e324d2a30cee541b0b26.webp")`
+    }
 
     const handleTongleBtn = () => {
         console.log(btnBgGruop.current)
@@ -34,6 +36,10 @@ function Header() {
             htmlEl.style.backgroundImage = 'url(' + images[nameBtn] + ')'
             localStorage.setItem('bg', nameBtn)
             setBackgroundLink(nameBtn)
+
+            if (nameBtn === 'goldBg') {
+                htmlEl.style.backgroundImage = `url("/static/media/gold-bg.e324d2a30cee541b0b26.webp")`
+            }
         }
     }
 
