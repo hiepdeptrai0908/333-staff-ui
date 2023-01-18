@@ -11,6 +11,7 @@ import { baseURL } from '~/utils'
 import styles from './User.module.scss'
 import NoDataImage from '~/components/NoDataImage'
 import configRoutes from '~/config/routes'
+import Loading from '~/components/Loading'
 const cx = className.bind(styles)
 
 function User() {
@@ -21,6 +22,7 @@ function User() {
     const [adminAccount, setAdminAccount] = useState({})
     const [loginUsernameValue, setLoginUsernameValue] = useState('')
     const [loginPasswordValue, setLoginPasswordValue] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const contentRef = useRef()
     const loginUserRef = useRef()
@@ -29,14 +31,24 @@ function User() {
 
     useEffect(() => {
         const fetchApi = fetch(baseURL + 'get-accounts')
-        fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
+        fetchApi
+            .then((response) => response.json())
+            .then((datas) => {
+                setLoading(true)
+                setDatas([...datas])
+            })
 
         const getAdmin = fetch(baseURL + 'admin-login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({}),
         })
-        getAdmin.then((response) => response.json()).then((data) => setAdminAccount(data[0]))
+        getAdmin
+            .then((response) => response.json())
+            .then((data) => {
+                setAdminAccount(data[0])
+            })
+        setLoading(false)
     }, [])
 
     const handleLogin = (e) => {
@@ -68,55 +80,62 @@ function User() {
         <div className={cx('wrapper')} ref={contentRef}>
             <div className={cx('header')}>Danh sách nhân viên</div>
             <div className={cx('content')}>
-                {datas.length !== 0 ? (
-                    <table className={cx('styled-table')}>
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Mã số</th>
-                                <th>Họ và Tên</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
-                                <th>Số điện thoại</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datas.map((data, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td className={cx('table-data')} style={{ fontWeight: '600', width: '20px' }}>
-                                            {index + 1}
-                                        </td>
-                                        <td className={cx('table-data')}>{data.staff_id}</td>
-                                        <td className={cx('table-data')}>{data.fullname}</td>
-                                        <td className={cx('table-data')}>{data.sex}</td>
-                                        <td className={cx('table-data')}>{data.birthday}</td>
-                                        <td className={cx('table-data')}>{data.phone_number}</td>
-                                        <td className={cx('table-data')}>
-                                            <button
-                                                onClick={(e) => {
-                                                    setToProfile(data.staff_id)
-                                                    setIsShowModal(!isShowModal)
-                                                    localStorage.setItem('userId', JSON.stringify(data.user_id))
-                                                    setWantToProfileUser(
-                                                        datas.filter((user) => {
-                                                            return user.staff_id === data.staff_id
-                                                        }),
-                                                    )
-                                                }}
-                                                className={cx('info-btn')}
+                {loading ? (
+                    datas.length !== 0 ? (
+                        <table className={cx('styled-table')}>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã số</th>
+                                    <th>Họ và Tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Số điện thoại</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {datas.map((data, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td
+                                                className={cx('table-data')}
+                                                style={{ fontWeight: '600', width: '20px' }}
                                             >
-                                                Chi tiết
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                                                {index + 1}
+                                            </td>
+                                            <td className={cx('table-data')}>{data.staff_id}</td>
+                                            <td className={cx('table-data')}>{data.fullname}</td>
+                                            <td className={cx('table-data')}>{data.sex}</td>
+                                            <td className={cx('table-data')}>{data.birthday}</td>
+                                            <td className={cx('table-data')}>{data.phone_number}</td>
+                                            <td className={cx('table-data')}>
+                                                <button
+                                                    onClick={(e) => {
+                                                        setToProfile(data.staff_id)
+                                                        setIsShowModal(!isShowModal)
+                                                        localStorage.setItem('userId', JSON.stringify(data.user_id))
+                                                        setWantToProfileUser(
+                                                            datas.filter((user) => {
+                                                                return user.staff_id === data.staff_id
+                                                            }),
+                                                        )
+                                                    }}
+                                                    className={cx('info-btn')}
+                                                >
+                                                    Chi tiết
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <NoDataImage />
+                    )
                 ) : (
-                    <NoDataImage />
+                    <Loading />
                 )}
 
                 <div className={cx('modal-wrapper')} style={{ display: isShowModal ? 'flex' : 'none' }}>

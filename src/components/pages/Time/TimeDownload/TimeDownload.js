@@ -2,13 +2,13 @@ import className from 'classnames/bind'
 import { useRef, useEffect, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleDot, faDownload, faRightLong, faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './TimeDownload.module.scss'
 import images from '~/assets/images'
 import { baseURL } from '~/utils'
 import NoDataImage from '~/components/NoDataImage'
-import { toast } from 'react-toastify'
+import Loading from '~/components/Loading'
 
 const cx = className.bind(styles)
 
@@ -21,6 +21,7 @@ const yearValues = [2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
 function TimeDownload() {
     const [searchAction, setSearchAction] = useState(sessionStorage.getItem('searchTimeAction') || 'today')
     const [datas, setDatas] = useState([])
+    const [loading, setLoading] = useState(false)
     const contentRef = useRef()
     const dayRef = useRef()
     const monthRef = useRef()
@@ -70,12 +71,20 @@ function TimeDownload() {
             })
                 .then((response) => response.json())
                 .then((datas) => {
+                    setLoading(true)
                     setDatas([...datas])
                 })
+            setLoading(false)
             return
         }
         const fetchApi = fetch(baseURL + searchAction)
-        fetchApi.then((response) => response.json()).then((datas) => setDatas([...datas]))
+        fetchApi
+            .then((response) => response.json())
+            .then((datas) => {
+                setLoading(true)
+                setDatas([...datas])
+            })
+        setLoading(false)
     }, [searchAction])
 
     const handleSearchClick = (e) => {
@@ -106,8 +115,10 @@ function TimeDownload() {
         })
             .then((response) => response.json())
             .then((datas) => {
+                setLoading(true)
                 setDatas([...datas])
             })
+        setLoading(false)
     }
 
     const handlePrint = useReactToPrint({
@@ -170,46 +181,54 @@ function TimeDownload() {
             <div className={cx('content')} ref={contentRef}>
                 <img className={cx('background-image')} alt="background" src={images.logo} />
                 <div className={cx('content-heading')}>Danh sách thời gian làm việc</div>
-                {datas.length !== 0 ? (
-                    <table id="list-time" className={cx('styled-table')}>
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>コード</th>
-                                <th>氏名</th>
-                                <th>出勤日</th>
-                                <th>出勤</th>
-                                <th>退勤</th>
-                                <th>休憩</th>
-                                <th>合計</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {datas.map((data, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td className={cx('table-data')} style={{ fontWeight: '600', width: '20px' }}>
-                                            {index + 1}
-                                        </td>
-                                        <td className={cx('table-data')}>{data.staff_id}</td>
-                                        <td className={cx('table-data')}>{data.fullname}</td>
-                                        <td className={cx('table-data')}>{data.date_in}</td>
-                                        <td className={cx('table-data')}>{data.time_in}</td>
-                                        <td className={cx('table-data')}>
-                                            {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
-                                        </td>
-                                        <td className={cx('table-data')}>
-                                            {data.break_total === '00:00' ? '' : data.break_total || ''}
-                                        </td>
-                                        <td className={cx('table-data')}>{data.work_total || '00:00'}</td>
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                {loading ? (
+                    datas.length !== 0 ? (
+                        <table id="list-time" className={cx('styled-table')}>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>コード</th>
+                                    <th>氏名</th>
+                                    <th>出勤日</th>
+                                    <th>出勤</th>
+                                    <th>退勤</th>
+                                    <th>休憩</th>
+                                    <th>合計</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {datas.map((data, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td
+                                                className={cx('table-data')}
+                                                style={{ fontWeight: '600', width: '20px' }}
+                                            >
+                                                {index + 1}
+                                            </td>
+                                            <td className={cx('table-data')}>{data.staff_id}</td>
+                                            <td className={cx('table-data')}>{data.fullname}</td>
+                                            <td className={cx('table-data')}>{data.date_in}</td>
+                                            <td className={cx('table-data')}>{data.time_in}</td>
+                                            <td className={cx('table-data')}>
+                                                {data.time_out || <span style={{ color: '#079d07' }}>Đang làm</span>}
+                                            </td>
+                                            <td className={cx('table-data')}>
+                                                {data.break_total === '00:00' ? '' : data.break_total || ''}
+                                            </td>
+                                            <td className={cx('table-data')}>{data.work_total || '00:00'}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <NoDataImage />
+                    )
                 ) : (
-                    <NoDataImage />
+                    <Loading />
                 )}
+
                 <div className={cx('download-day')}>
                     <span className={cx('download-day-title')}>Được tải xuống ngày</span>{' '}
                     {day < 10 ? String('0' + day) : day}/{month < 10 ? String('0' + month) : month}/{year} vào lúc{' '}
