@@ -179,6 +179,7 @@ function Time() {
                     setTotalTime(datas.work_total)
                 }
             })
+        setLoading(false)
     }
 
     const handlePrint = useReactToPrint({
