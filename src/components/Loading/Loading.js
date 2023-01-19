@@ -7,7 +7,7 @@ function Loading({ loading }) {
     return (
         <div className={cx('ring')}>
             Loading
-            <span></span>
+            <span className={cx('ring-span')}></span>
         </div>
     )
 }

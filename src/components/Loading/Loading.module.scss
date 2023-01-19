@@ -34,7 +34,7 @@
     border-radius: 50%;
     animation: animateC 1.2s linear infinite;
 }
-span {
+.ring-span {
     display: block;
     position: absolute;
     top: calc(50% - 2px);
@@ -45,7 +45,7 @@ span {
     transform-origin: left;
     animation: animate 1.2s linear infinite;
 }
-span:before {
+.ring-span:before {
     content: '';
     position: absolute;
     width: 16px;
