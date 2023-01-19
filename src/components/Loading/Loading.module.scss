@@ -1,42 +1,74 @@
-.lds-facebook {
-    display: inline-block;
-    width: 80px;
-    height: 80px;
+.ring {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.661);
+    border: 3px solid #3c3c3c;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 150px;
+    font-family: sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.lds-facebook div {
-    display: inline-block;
+.ring:before {
+    content: '';
     position: absolute;
-    left: 8px;
+    top: -3px;
+    left: -3px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid red;
+    border-top: 3px solid #00ff15;
+    border-right: 3px solid #00ff15;
+    border-radius: 50%;
+    animation: animateC 1.2s linear infinite;
+}
+span {
+    display: block;
+    position: absolute;
+    top: calc(50% - 2px);
+    left: 50%;
+    width: 50%;
+    height: 4px;
+    background: transparent;
+    transform-origin: left;
+    animation: animate 1.2s linear infinite;
+}
+span:before {
+    content: '';
+    position: absolute;
     width: 16px;
-    background: rgb(16, 217, 26);
-    animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-    border: solid 1px white;
-    box-shadow: 2px -2px 3px #c0fff5;
+    height: 16px;
+    border-radius: 50%;
+    background: #00ff15;
+    top: -6px;
+    right: -8px;
+    box-shadow: 0 0 20px #00ff15;
 }
-.lds-facebook div:nth-child(1) {
-    left: 8px;
-    animation-delay: -0.24s;
-}
-.lds-facebook div:nth-child(2) {
-    left: 32px;
-    animation-delay: -0.12s;
-}
-.lds-facebook div:nth-child(3) {
-    left: 56px;
-    animation-delay: 0;
-}
-@keyframes lds-facebook {
+@keyframes animateC {
     0% {
-        top: 8px;
-        height: 64px;
+        transform: rotate(0deg);
     }
-    50%,
     100% {
-        top: 24px;
-        height: 32px;
+        transform: rotate(360deg);
+    }
+}
+@keyframes animate {
+    0% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: rotate(405deg);
     }
 }

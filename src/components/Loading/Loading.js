@@ -5,10 +5,9 @@ const cx = classNames.bind(styles)
 
 function Loading({ loading }) {
     return (
-        <div className={cx('lds-facebook')}>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div className={cx('ring')}>
+            Loading
+            <span></span>
         </div>
     )
 }
