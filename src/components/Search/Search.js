@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons'
 import classNames from 'classnames/bind'
 
-import { Fragment, useRef, useState, useEffect } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import styles from './Search.module.scss'
 import { baseURL } from '~/utils'
 import { ToastContainer, toast } from 'react-toastify'

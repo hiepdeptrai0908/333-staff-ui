@@ -187,7 +187,7 @@ function EditTime() {
         date_in: convertDatas.date_in,
         date_out: convertDatas.date_out === '0000-00-00' ? null : convertDatas.date_out,
         break_total: convertDatas.break_total,
-        work_time: datas.work_time,
+        work_time: datas.work_time === '00:00' ? null : convertDatas.work_time,
         work_total: datas.work_total,
         status: convertDatas.time_out === '00:00' ? 'online' : 'offline',
     }

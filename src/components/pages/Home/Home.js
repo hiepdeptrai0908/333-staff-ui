@@ -1,5 +1,4 @@
 import classname from 'classnames/bind'
-import { useEffect, useState } from 'react'
 import styles from './Home.module.scss'
 import Clock from '~/components/Clock'
 import { userInfo } from '~/components/Search/Search'
