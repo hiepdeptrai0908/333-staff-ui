@@ -56,14 +56,14 @@ function EditTime() {
 
     const checkValue = {
         for: (value) => {
-            if (/[0-9]/.test(value)) {
+            if (/[0-9]/.test(value) && value >= 0) {
                 return value.length < 4 ? '0' + value : value
             }
 
             return (value = '0000')
         },
         two: (value) => {
-            if (/[0-9]/.test(value)) {
+            if (/[0-9]/.test(value) && value >= 0) {
                 return value.length < 2 ? '0' + value : value
             }
 
@@ -136,7 +136,6 @@ function EditTime() {
             hour: String(hour),
             minute: String(minute),
         }
-        // const workTime = hour + ':' + minute
         return time
     }
 
