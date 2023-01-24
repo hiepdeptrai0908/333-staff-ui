@@ -27,7 +27,6 @@ function Search() {
         const fetchApi = fetch(baseURL + `search-staff-id/${searchValue}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 if (data[0].staff_id) {
                     setUserInfo(data[0])
                     toast.success(data[0].fullname + ' đã đăng nhập thành công.', {

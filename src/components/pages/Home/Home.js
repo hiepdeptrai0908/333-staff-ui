@@ -9,7 +9,6 @@ import UserContext from '~/context/UserContext'
 const cx = classname.bind(styles)
 function Home() {
     const { userInfo } = useContext(UserContext)
-    console.log(userInfo)
     const date = new Date(Date.now())
     let year = String(date.getFullYear())
     let month = String(date.getMonth() + 1)
