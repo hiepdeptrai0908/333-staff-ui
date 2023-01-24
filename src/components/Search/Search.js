@@ -2,62 +2,52 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons'
 import classNames from 'classnames/bind'
 
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useContext, useRef, useState } from 'react'
 import styles from './Search.module.scss'
 import { baseURL } from '~/utils'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import UserContext from '~/context/UserContext'
 
 const cx = classNames.bind(styles)
 
-export let userInfo
-
 function Search() {
+    const { userInfo, setUserInfo } = useContext(UserContext)
     const nextBtnClass = 'out-right'
     const [searchValue, setSearchValue] = useState('')
     const [outRightClass, setOutRightClass] = useState(undefined)
-    const [user, setUser] = useState({})
-
-    const resetUserTime = 300000
     const inputRef = useRef()
 
     const handleChange = (e) => {
         const searchValue = e.target.value
         !searchValue.startsWith(' ') && setSearchValue(searchValue)
     }
-    const resetUser = () => {
-        setTimeout(() => {
-            setUser({})
-            userInfo = null
-        }, resetUserTime)
-    }
 
     const handleClick = () => {
         const fetchApi = fetch(baseURL + `search-staff-id/${searchValue}`)
             .then((response) => response.json())
             .then((data) => {
-                userInfo = data[0]
-                if (userInfo.staff_id) {
-                    toast.success(userInfo.fullname + ' đã đăng nhập thành công.', {
+                console.log(data)
+                if (data[0].staff_id) {
+                    setUserInfo(data[0])
+                    toast.success(data[0].fullname + ' đã đăng nhập thành công.', {
                         position: toast.POSITION.TOP_RIGHT,
                     })
-                    resetUser()
+                    setTimeout(() => {
+                        setUserInfo(undefined)
+                    }, 60 * 1000)
                 } else {
                     toast.error('Mã nhân viên không đúng !', {
                         position: toast.POSITION.TOP_RIGHT,
                     })
-                    setUser({})
-                    userInfo = undefined
+                    setUserInfo(undefined)
                 }
-
-                return setUser(data[0])
             })
             .catch((error) => {
                 toast.error('Mã nhân viên không đúng !', {
                     position: toast.POSITION.TOP_RIGHT,
                 })
-                setUser({})
-                userInfo = undefined
+                setUserInfo(undefined)
             })
 
         setSearchValue('')
@@ -101,9 +91,9 @@ function Search() {
                 />
                 <ToastContainer />
             </div>
-            {user.fullname ? (
+            {userInfo?.fullname ? (
                 <div className={cx('staff-name')}>
-                    Xin chào<span>{user.fullname}</span>
+                    Xin chào<span>{userInfo.fullname}</span>
                 </div>
             ) : (
                 <></>

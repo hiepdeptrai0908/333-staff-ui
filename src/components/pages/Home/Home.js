@@ -1,13 +1,15 @@
+import { useContext } from 'react'
 import classname from 'classnames/bind'
 import styles from './Home.module.scss'
 import Clock from '~/components/Clock'
-import { userInfo } from '~/components/Search/Search'
 import { ToastContainer, toast } from 'react-toastify'
 import { baseURL } from '~/utils'
-export { userInfo } from '~/components/Search/Search'
+import UserContext from '~/context/UserContext'
 
 const cx = classname.bind(styles)
 function Home() {
+    const { userInfo } = useContext(UserContext)
+    console.log(userInfo)
     const date = new Date(Date.now())
     let year = String(date.getFullYear())
     let month = String(date.getMonth() + 1)
@@ -26,6 +28,12 @@ function Home() {
 
     const handleOnclick = (e) => {
         if (!userInfo) {
+            const toastMessage = toast.warning('Bạn chưa nhập mã số nhân viên !', {
+                position: toast.POSITION.TOP_RIGHT,
+            })
+            return toastMessage
+        }
+        if (userInfo.fullname === null) {
             const toastMessage = toast.warning('Bạn chưa nhập mã số nhân viên !', {
                 position: toast.POSITION.TOP_RIGHT,
             })
