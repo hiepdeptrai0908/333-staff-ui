@@ -216,7 +216,9 @@ function TimeDownload() {
                                             <td className={cx('table-data')}>
                                                 {data.break_total === '00:00' ? '' : data.break_total || ''}
                                             </td>
-                                            <td className={cx('table-data')}>{data.work_total || '00:00'}</td>
+                                            <td className={cx('table-data')}>
+                                                {data.work_total === '00:00' ? '' : data.work_total}
+                                            </td>
                                         </tr>
                                     )
                                 })}
