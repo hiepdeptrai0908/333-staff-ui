@@ -50,11 +50,16 @@
     cursor: pointer;
     overflow: hidden;
     transition: 0.2s;
-    -moz-appearance: none;
-    -webkit-appearance: none;
+    color: #fff;
     &:active {
-        animation: changeBgColor linear 0.2s forwards;
+        background-color: #333;
+        color: #fff;
     }
+}
+
+.item.active {
+    background-color: #333;
+    color: #fff;
 }
 
 .item:hover {
@@ -66,4 +71,9 @@
         background-color: #333;
         color: #fff;
     }
+}
+
+.active {
+    background-color: #333;
+    color: #fff;
 }

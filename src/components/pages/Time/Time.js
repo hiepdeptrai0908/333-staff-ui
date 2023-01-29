@@ -402,7 +402,7 @@ function Time() {
                                                                                     </span>
                                                                                 </span>
                                                                             ) : (
-                                                                                'Chưa kết thúc giải lao'
+                                                                                'Đang giải lao'
                                                                             )}
                                                                         </span>
                                                                     ) : (
@@ -413,7 +413,9 @@ function Time() {
                                                             <div className={cx('popover-group')}>
                                                                 <div className={cx('group-title')}>合計休憩 (1)</div>
                                                                 <div className={cx('group-data')}>
-                                                                    {data.break_total || '00:00'}
+                                                                    {data.break_total === '00:00'
+                                                                        ? ''
+                                                                        : data.break_total || ''}
                                                                 </div>
                                                             </div>
                                                             <div className={cx('popover-group')}>
