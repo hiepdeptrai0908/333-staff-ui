@@ -57,7 +57,7 @@ function EditTime() {
     const checkValue = {
         for: (value) => {
             if (/[0-9]/.test(value) && value >= 0) {
-                return value.length < 4 ? '0' + value : value
+                return value.length < 4 ? '000' + value : value
             }
 
             return (value = '0000')
@@ -131,7 +131,10 @@ function EditTime() {
 
         const hour = Math.floor(second / 60 / 60)
 
-        convertDatas.work_time = checkValue.two(hour) + ':' + checkValue.two(minute)
+        convertDatas.work_time =
+            (String(hour).length < 2 ? '0' + String(checkValue.two(hour)) : String(checkValue.two(hour))) +
+            ':' +
+            (String(minute).length < 2 ? '0' + String(checkValue.two(minute)) : String(checkValue.two(minute)))
         const time = {
             hour: String(hour),
             minute: String(minute),
