@@ -162,7 +162,10 @@ function EditTime() {
             Math.floor((resultTime / 1000 / 60) % 60) < 0 ? 0 : Math.floor((resultTime / 1000 / 60) % 60),
         )
 
-        const result = checkValue.two(hour) + ':' + checkValue.two(minute)
+        const result =
+            (String(hour).length < 2 ? '0' + String(checkValue.two(hour)) : String(checkValue.two(hour))) +
+            ':' +
+            (String(minute).length < 2 ? '0' + String(checkValue.two(minute)) : String(checkValue.two(minute)))
 
         convertDatas.work_total = result
         return result
