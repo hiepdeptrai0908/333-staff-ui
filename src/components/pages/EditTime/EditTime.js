@@ -718,7 +718,7 @@ function EditTime() {
                     <div className={cx('group-item')}>
                         <label className={cx('group-item-title')}>Update gần nhất</label>
                         <div className={cx('item-update-time')}>
-                            {dataUpdate.update_date && (
+                            {dataUpdate?.update_date && (
                                 <div>
                                     <p>{dataUpdate.update_date}</p>
                                     <p>{dataUpdate.update_time}</p>
