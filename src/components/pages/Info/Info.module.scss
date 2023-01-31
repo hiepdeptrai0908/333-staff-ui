@@ -21,10 +21,11 @@
     min-height: 88vh;
     background: linear-gradient(25deg, rgb(34, 101, 202), rgb(162, 17, 164), rgb(34, 101, 202));
     border-radius: 10px;
-    padding: 20px 20px 70px 20px;
+    padding: 20px 20px 100px 20px;
+
     color: #fff;
     font-size: 1rem;
-    transition: all 2s;
+    transition: all 1s;
 }
 
 .group-heading {
@@ -273,4 +274,110 @@
 .download-icon {
     padding: 0 8px;
     color: #28fe24;
+}
+
+.group-heading--salary {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.tongle-show {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #28fe24;
+    margin: 0 20px;
+    font-size: 20px;
+    background-color: transparent;
+    border: solid 1px #28fe24;
+    cursor: pointer;
+
+    &:hover {
+        transform: rotate(180deg);
+    }
+}
+
+.salary {
+    margin: 10px 0;
+    padding: 0 40px;
+    line-height: 24px;
+    transform: translateX(200px);
+    opacity: 0;
+    display: none;
+
+    &.fade-out {
+        display: block;
+        animation: fade-out 0.5s ease-out forwards;
+    }
+
+    &.fade-in {
+        display: block;
+
+        animation: fade-in 0.5s ease-in forwards;
+    }
+}
+
+.salary-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.salary-item__title {
+    font-size: 1rem;
+    font-weight: 600;
+    width: 180px;
+}
+
+.salary-item__input {
+    line-height: 30px;
+    width: 100px;
+    text-align: center;
+    margin: 6px 0;
+    border: solid 1px transparent;
+    outline: none;
+    border-radius: 6px;
+    color: rgb(90, 243, 25);
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0.364);
+
+    &:focus {
+        border-color: rgb(0, 255, 94);
+    }
+
+    &:disabled {
+        background-color: transparent;
+        border-color: transparent;
+        color: #fff;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+        display: block;
+    }
+    80% {
+        transform: translateX(200px);
+        opacity: 0;
+    }
+    100% {
+        overflow: hidden;
+    }
 }
