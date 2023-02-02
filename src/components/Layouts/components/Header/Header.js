@@ -40,14 +40,14 @@ function Header() {
                 <img className={cx('logo-img')} src={images.logo} alt="logo" onClick={handleTongleBtn} />
                 <div className={cx('bg-group')} ref={btnBgGruop}>
                     <button className={cx('bg-item', 'bg-item--a')} name="goldBg" onClick={handleChangeBg}>
-                        None
+                        Gold
                     </button>
-                    <button className={cx('bg-item', 'bg-item--b')} name="newYearBg1" onClick={handleChangeBg}>
+                    {/* <button className={cx('bg-item', 'bg-item--b')} name="newYearBg1" onClick={handleChangeBg}>
                         Tết 1
                     </button>
                     <button className={cx('bg-item', 'bg-item--c')} name="newYearBg2" onClick={handleChangeBg}>
                         Tết 2
-                    </button>
+                    </button> */}
                     <button className={cx('bg-item', 'bg-item--d')} name="snowBg" onClick={handleChangeBg}>
                         Tuyết
                     </button>
