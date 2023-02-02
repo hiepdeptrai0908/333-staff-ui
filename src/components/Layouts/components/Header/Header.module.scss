@@ -50,6 +50,7 @@
     color: #fff;
     border: solid 2px #fff;
     transition: all 0.5s;
+    background-color: #ff006a;
 
     &:hover {
         transform: scale(1.1);
@@ -60,21 +61,21 @@
     }
 }
 
-.bg-item--a {
-    background-color: rgb(236, 83, 208);
-}
+// .bg-item--a {
+//     background-color: #ff006a;
+// }
 
-.bg-item--b {
-    background-color: rgb(255, 98, 0);
-}
+// .bg-item--b {
+//     background-color: rgb(255, 98, 0);
+// }
 
-.bg-item--c {
-    background-color: rgb(255, 170, 0);
-}
+// .bg-item--c {
+//     background-color: rgb(255, 170, 0);
+// }
 
-.bg-item--d {
-    background-color: rgb(236, 83, 208);
-}
+// .bg-item--d {
+//     background-color: #ff006a;
+// }
 
 .manage-btn {
     width: 100px;
