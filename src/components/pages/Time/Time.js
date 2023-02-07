@@ -325,7 +325,20 @@ function Time() {
                                                             <span style={{ color: '#0ef30e' }}>Đang làm</span>
                                                         ))}
                                                 </td>
-                                                <td className={cx('table-data')}>
+                                                <td
+                                                    className={cx('table-data')}
+                                                    style={
+                                                        data.work_total === '00:00' ||
+                                                        Number(data.work_total.split(':')[0]) < 0
+                                                            ? {
+                                                                  backgroundColor: 'red',
+                                                                  boxShadow: 'inset 0px 0px 10px',
+                                                                  borderRadius: '10px',
+                                                                  textAlign: 'center',
+                                                              }
+                                                            : {}
+                                                    }
+                                                >
                                                     {data.work_total === '00:00' ? '' : data.work_total}
                                                 </td>
                                                 <td className={cx('table-data', 'detal-btn')}>
