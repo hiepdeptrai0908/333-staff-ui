@@ -156,22 +156,39 @@
     padding: 8px 10px;
 }
 
+@keyframes error {
+    from {
+        background-color: red;
+        box-shadow: 0px 0px 10px inset;
+        border-radius: 6px;
+    }
+    to {
+        background-color: transparent;
+    }
+}
+
+.styled-table td {
+    padding: 8px 10px;
+
+    &.error {
+        animation: error 0.6s ease-in-out infinite alternate;
+    }
+}
+
 .styled-table td:nth-child(2) {
     text-align: center;
     padding-right: 0;
 }
 
 .styled-table th:nth-child(3),
-.styled-table td:nth-child(3) {
+.styled-table td:nth-child(3),
+.styled-table th:nth-child(8),
+.styled-table td:nth-child(8) {
     text-align: center;
     padding-left: 0;
     margin-left: 0;
 }
-
-.styled-table td:first-child {
-    text-align: center;
-}
-
+.styled-table td:first-child,
 .styled-table td:last-child {
     text-align: center;
 }

@@ -326,18 +326,13 @@ function Time() {
                                                         ))}
                                                 </td>
                                                 <td
-                                                    className={cx('table-data')}
-                                                    style={
+                                                    className={cx(
+                                                        'table-data',
                                                         data.work_total === '00:00' ||
-                                                        Number(data.work_total.split(':')[0]) < 0
-                                                            ? {
-                                                                  backgroundColor: 'red',
-                                                                  boxShadow: 'inset 0px 0px 10px',
-                                                                  borderRadius: '10px',
-                                                                  textAlign: 'center',
-                                                              }
-                                                            : {}
-                                                    }
+                                                            Number(data.work_total.split(':')[0]) < 0
+                                                            ? 'error'
+                                                            : '',
+                                                    )}
                                                 >
                                                     {data.work_total === '00:00' ? '' : data.work_total}
                                                 </td>
