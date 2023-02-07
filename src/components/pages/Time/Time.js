@@ -328,8 +328,8 @@ function Time() {
                                                 <td
                                                     className={cx(
                                                         'table-data',
-                                                        data.work_total === '00:00' ||
-                                                            Number(data.work_total.split(':')[0]) < 0
+                                                        data?.work_total === '00:00' ||
+                                                            Number(data?.work_total.split(':')[0]) < 0
                                                             ? 'error'
                                                             : '',
                                                     )}
