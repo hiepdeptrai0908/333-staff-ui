@@ -1,6 +1,4 @@
-Link trang web: **[333staff](https://333staff.vercel.app)**
-
-**https://333staff.vercel.app**
+Link trang web: **<a href="https://333staff.vercel.app" target="_blank">https://333staff.vercel.app</a>**
 
 ### Mô tả dự án
 
