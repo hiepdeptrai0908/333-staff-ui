@@ -14,6 +14,7 @@ function Header() {
     const [backgroundLink, setBackgroundLink] = useState(localStorage.getItem('bg') || 'goldBg')
     const [arrayImages, setArrayImages] = useState([])
 
+    // Lấy key trong images
     useEffect(() => {
         Object.keys(images).forEach((key) => setArrayImages((prev) => [...prev, key]))
     }, [])
