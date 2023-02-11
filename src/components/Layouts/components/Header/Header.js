@@ -1,6 +1,6 @@
 import classname from 'classnames/bind'
 import { Link } from 'react-router-dom'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import styles from './Header.module.scss'
 import images from '~/assets/images'
@@ -12,6 +12,11 @@ const cx = classname.bind(styles)
 
 function Header() {
     const [backgroundLink, setBackgroundLink] = useState(localStorage.getItem('bg') || 'goldBg')
+    const [arrayImages, setArrayImages] = useState([])
+
+    useEffect(() => {
+        Object.keys(images).forEach((key) => setArrayImages((prev) => [...prev, key]))
+    }, [])
     const btnBgGruop = useRef()
 
     const htmlEl = document.getElementsByTagName('html')[0]
@@ -36,21 +41,27 @@ function Header() {
 
     return (
         <header className={cx('wrapper')}>
-            <div className={cx('logo-box')}>
+            <div
+                className={cx('logo-box')}
+                style={{ backgroundImage: `url('${images[backgroundLink]}')`, objectFit: 'cover' }}
+            >
                 <img className={cx('logo-img')} src={images.logo} alt="logo" onClick={handleTongleBtn} />
                 <div className={cx('bg-group')} ref={btnBgGruop}>
-                    <button className={cx('bg-item', 'bg-item--a')} name="goldBg" onClick={handleChangeBg}>
-                        Gold
-                    </button>
-                    {/* <button className={cx('bg-item', 'bg-item--b')} name="newYearBg1" onClick={handleChangeBg}>
-                        Tết 1
-                    </button>
-                    <button className={cx('bg-item', 'bg-item--c')} name="newYearBg2" onClick={handleChangeBg}>
-                        Tết 2
-                    </button> */}
-                    <button className={cx('bg-item', 'bg-item--d')} name="snowBg" onClick={handleChangeBg}>
-                        Tuyết
-                    </button>
+                    {arrayImages.map((key, index) => {
+                        return (
+                            <>
+                                {key !== 'logo' && key !== 'noData' && (
+                                    <button
+                                        key={index}
+                                        className={cx('bg-item')}
+                                        name={key}
+                                        style={{ backgroundImage: `url('${images[key]}')` }}
+                                        onClick={handleChangeBg}
+                                    ></button>
+                                )}
+                            </>
+                        )
+                    })}
                 </div>
             </div>
             <Search />

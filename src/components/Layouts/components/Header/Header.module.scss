@@ -36,14 +36,24 @@
 
 .bg-group {
     position: absolute;
+    left: 120%;
+    top: 0;
+    width: 350px;
+    height: 350px;
+    overflow: hidden;
+    padding: 10px;
     display: none;
-    left: 110%;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: rgba(255, 255, 255, 0.557);
+    border-radius: 10px;
 }
 
 .bg-item {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
     outline: none;
     cursor: pointer;
     font-weight: 600;
@@ -55,27 +65,7 @@
     &:hover {
         transform: scale(1.1);
     }
-
-    & + .bg-item {
-        margin-left: 10px;
-    }
 }
-
-// .bg-item--a {
-//     background-color: #ff006a;
-// }
-
-// .bg-item--b {
-//     background-color: rgb(255, 98, 0);
-// }
-
-// .bg-item--c {
-//     background-color: rgb(255, 170, 0);
-// }
-
-// .bg-item--d {
-//     background-color: #ff006a;
-// }
 
 .manage-btn {
     width: 100px;
