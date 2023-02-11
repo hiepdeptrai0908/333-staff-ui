@@ -2,7 +2,7 @@ Link trang web: **<a href="https://333staff.vercel.app" target="_blank">https://
 
 ### Mô tả dự án
 
-Dự án này dựa trên ý tưởng là làm ra 1 ứng ụng để có thể quản lý thời gian làm việc của mọi người trong quán (Quán ăn của một người chị ở gần ga 小伝馬町) thay thế cho excel, vì thấy chị ấy phải nhập từng giờ ra vào khá là vất vả, nên mình đã viết ra ứng dụng này.
+Dự án này dựa trên ý tưởng là làm ra 1 ứng ụng để có thể quản lý thời gian làm việc của mọi người trong quán (Quán ăn của một người chị ở gần ga 小伝馬町) thay thế cho excel, vì thấy chị ấy phải nhập từng giờ ra vào khá là vất vả, nên mình đã viết ra ứng dụng này để giúp chị, cũng tiện thể thực hành ôn tập lại kiến thức.
 
 ### Giới thiệu công nghệ sử dụng
 
@@ -16,8 +16,9 @@ Dự án này dựa trên ý tưởng là làm ra 1 ứng ụng để có thể 
 -   [x] **Spring Boot**
 -   [x] DB: **PostgreSQL**
 -   [x] Deploy: **Heroku**
+-   Github backend: https://github.com/hiepdeptrai0908/333-staff-api
 
-Phía back end sẽ tính toán thời gian và lưu vào database/gửi về cho front end bằng api (file JSON)
+-   Phía back end sẽ tính toán thời gian và lưu vào database/gửi về cho front end bằng api (file JSON)
 
 ### Giới thiệu sơ lược về một số chức năng trên trang web
 
