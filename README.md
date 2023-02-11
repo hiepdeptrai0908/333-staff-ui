@@ -17,7 +17,8 @@ Dự án này dựa trên ý tưởng là làm ra 1 ứng ụng để có thể 
 -   [x] **Spring Boot**
 -   [x] DB: **PostgreSQL**
 -   [x] Deploy: **Heroku**
-        Phía back end sẽ tính toán thời gian và lưu vào database/gửi về cho front end bằng api (file JSON)
+
+Phía back end sẽ tính toán thời gian và lưu vào database/gửi về cho front end bằng api (file JSON)
 
 ### Giới thiệu sơ lược về một số chức năng trên trang web
 
