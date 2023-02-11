@@ -1,3 +1,6 @@
+Link trang web: **[333staff](https://333staff.vercel.app)**
+**https://333staff.vercel.app**
+
 ### Mô tả dự án
 
 Dự án này dựa trên ý tưởng là làm ra 1 ứng ụng để có thể quản lý thời gian làm việc của mọi người trong quán (Quán ăn của một người chị ở gần ga 小伝馬町) thay thế cho excel, vì thấy chị ấy phải nhập từng giờ ra vào khá là vất vả, nên mình đã viết ra ứng dụng này.
