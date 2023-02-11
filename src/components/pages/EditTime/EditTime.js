@@ -454,7 +454,7 @@ function EditTime() {
             setCount(0)
         } else {
             e.preventDefault()
-            return toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại dữ liệu !')
+            return toast.error('Có lỗi xảy ra, hãy toàn tất trạng thái chỉnh sửa !')
         }
     }
 
