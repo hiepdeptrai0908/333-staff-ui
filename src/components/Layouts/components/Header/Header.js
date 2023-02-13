@@ -11,7 +11,7 @@ import Search from '~/components/Search'
 const cx = classname.bind(styles)
 
 function Header() {
-    const [backgroundLink, setBackgroundLink] = useState(localStorage.getItem('bg') || 'goldBg')
+    const [backgroundLink, setBackgroundLink] = useState(localStorage.getItem('bg') || 'bg9')
     const [arrayImages, setArrayImages] = useState([])
 
     // Lấy key trong images
