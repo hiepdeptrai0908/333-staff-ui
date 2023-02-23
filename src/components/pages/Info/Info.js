@@ -7,12 +7,14 @@ import NoDataImage from '~/components/NoDataImage'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useReactToPrint } from 'react-to-print'
+import images from '~/assets/images'
 
 const cx = classNames.bind(styles)
 
 function Info() {
     const userId = localStorage.getItem('userId')
     const [isLogin, setIslogin] = useState(sessionStorage.getItem('isLogin') || false)
+    const [listUsers, setListUsers] = useState([])
     const [disabledGlobal, setDisabledGlobal] = useState(true)
     const [fullnameValue, setFullnameValue] = useState('')
     const [birthdayValue, setBirthdayValue] = useState('')
@@ -30,6 +32,20 @@ function Info() {
 
     const [yearValue, setYearValue] = useState(new Date().getFullYear())
     const [monthValue, setMonthValue] = useState(new Date().getMonth() + 1)
+    const [yearSalaryValue, setYearSalaryValue] = useState(() => {
+        if (new Date().getMonth() + 1 === 1) {
+            return new Date().getFullYear() - 1
+        } else {
+            return new Date().getFullYear()
+        }
+    })
+    const [monthSalaryValue, setMonthSalaryValue] = useState(() => {
+        if (new Date().getMonth() + 1 === 1) {
+            return 12
+        } else {
+            return new Date().getMonth()
+        }
+    })
 
     const [currentDatas, setCurrentDatas] = useState({ create_user: '', staff_id: '' })
     const [timeDatas, setTimeDatas] = useState([])
@@ -52,6 +68,28 @@ function Info() {
     })
     const [basicSalaryValue, setBasicSalaryValue] = useState(salaryData.basic_salary || '')
     const [upSalaryValue, setUpSalaryValue] = useState(salaryData.up_salary || '')
+    const [isShowSalaryTable, setIsShowSalaryTable] = useState(false)
+    const [salaryUserData, setSalaryUserData] = useState({
+        allowance: '',
+        basic_salary: '',
+        create_at: '',
+        create_user: '',
+        delete_at: '',
+        delete_user: '',
+        fullname: '',
+        regular_time: '',
+        salary: '',
+        salary_date: '',
+        salary_id: '',
+        staff_id: '',
+        status: '',
+        total_days: '',
+        total_times: '',
+        total_times_up: '',
+        up_salary: '',
+        update_at: '',
+        update_user: '',
+    })
 
     const updateDatas = {
         user_id: userId,
@@ -83,11 +121,14 @@ function Info() {
 
     const yearRef = useRef()
     const monthRef = useRef()
+    const yearSalaryRef = useRef()
+    const monthSalaryRef = useRef()
     const contentRef = useRef()
 
     // Salary ref
     const basicSalaryRef = useRef()
     const upSalaryRef = useRef()
+    const salaryUserRef = useRef()
 
     const searchTimeData = {
         staff_id: updateDatas.staff_id,
@@ -116,8 +157,17 @@ function Info() {
                     setSalaryData(data[0])
                 }
             })
+
+        fetch(baseURL + 'get-accounts')
+            .then((res) => res.json())
+            .then((data) => {
+                if (data) {
+                    setListUsers(data)
+                }
+            })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     useEffect(() => {
         fetch(baseURL + `get-account/${userId}`)
             .then((res) => res.json())
@@ -245,6 +295,53 @@ function Info() {
         setTimeout(() => {}, 500)
     }
 
+    // Handle Salary
+    const handleSearchSalary = (e) => {
+        setIsShowSalaryTable(false)
+        console.log(monthSalaryValue, yearSalaryValue)
+        if (salaryUserRef.current.value === '') return toast.info('Vui lòng chọn tên nhân viên !')
+
+        if (monthSalaryValue === '' || yearSalaryValue === '') return toast.info('Tháng, Năm không được để trống!')
+        if (monthSalaryValue > new Date().getMonth() + 1 || yearSalaryValue > new Date().getFullYear)
+            return toast.info('Không thể xuất bảng lương của tương lai!')
+        const postData = {
+            staff_id: Number(salaryUserRef.current.value),
+            month: monthSalaryValue < 10 ? '0' + String(monthSalaryValue) : String(monthSalaryValue),
+            year: String(yearSalaryValue),
+        }
+        const nameBtn = e.target.name
+        if (nameBtn === 'create') {
+            fetch(baseURL + 'salary/get-salary-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+                .then((response) => response.json())
+                .then((datas) => {
+                    if (datas) {
+                        setSalaryUserData(datas[0])
+                    }
+                })
+            toast.success('Thành công!')
+            setIsShowSalaryTable(true)
+            return
+        } else if (nameBtn === 'delete') {
+            fetch(baseURL + 'salary/delete-salary-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData),
+            })
+
+            toast.success(`Đã xoá bảng lương tháng ${monthSalaryValue} của ${salaryUserData.fullname}.`)
+            setIsShowSalaryTable(false)
+            return
+        }
+    }
+
     const handleUpdateSalary = () => {
         disabledSalary ? setDisalbledSalary(false) : setDisalbledSalary(true)
 
@@ -254,7 +351,7 @@ function Info() {
             updateSalaryDatas.basic_salary === currentSalaryData.basic_salary &&
             updateSalaryDatas.up_salary === currentSalaryData.up_salary
         ) {
-            toast.info('Mức lương như cũ !')
+            toast.info('Thông tin không có sự thay đổi!')
             return
         }
         fetch(baseURL + 'salary/update-setting', {
@@ -436,13 +533,13 @@ function Info() {
                         onChange={() => setYearValue(yearRef.current.value)}
                     />
                     <div className={cx('group-item')}>
-                        <div className={cx('search-btn')} onClick={handleSearchTime}>
+                        <button className={cx('search-btn')} onClick={handleSearchTime}>
                             Tìm kiếm
-                        </div>
+                        </button>
                     </div>
                 </div>
                 {isSearchTime && timeDatas.length !== 0 ? (
-                    <div className={cx('table-wrapper')} ref={contentRef}>
+                    <div className={cx('table-wrapper')}>
                         <div className={cx('table-headding')}>
                             BẢNG CÔNG THÁNG {monthResutl}
                             <span style={{ color: 'green', paddingLeft: '10px' }}>{fullnameValue}</span>
@@ -495,9 +592,10 @@ function Info() {
 
                 {currentDatas?.staff_id === 333 && (
                     <Fragment>
+                        {/* Setting lương */}
                         <h3 className={cx('group-heading', 'group-heading--salary')}>Tuỳ chỉnh lương</h3>
                         <button
-                            className={cx('tongle-show')}
+                            className={cx('tongle-show__settings')}
                             onClick={() => {
                                 if (titleBtnSalary === 'Hiện') {
                                     setTitleBtnSalary('Ẩn')
@@ -550,10 +648,145 @@ function Info() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Bảng lương */}
+                        <h3 className={cx('group-heading')}>Bảng lương</h3>
+                        <div className={cx('group-item')}>
+                            <select ref={salaryUserRef} className={cx('salary-user')}>
+                                <option value="" key="0">
+                                    --- Chọn Nhân Viên ---
+                                </option>
+                                {listUsers
+                                    .filter((user) => user.staff_id !== 333)
+                                    .map((user) => {
+                                        return (
+                                            <option value={user.staff_id} key={user.user_id}>
+                                                {user.fullname}
+                                            </option>
+                                        )
+                                    })}
+                            </select>
+                            <div className={cx('group-item')}>
+                                <div className={cx('item-title', 'item-title--time')}>Tháng</div>
+                                <input
+                                    className={cx('item-input', 'item-input--time')}
+                                    ref={monthSalaryRef}
+                                    value={monthSalaryValue}
+                                    onChange={() => setMonthSalaryValue(monthSalaryRef.current.value)}
+                                />
+                                <div className={cx('item-title', 'item-title--time')}>Năm</div>
+                                <input
+                                    className={cx('item-input', 'item-input--time')}
+                                    ref={yearSalaryRef}
+                                    value={yearSalaryValue}
+                                    onChange={() => setYearSalaryValue(yearSalaryRef.current.value)}
+                                />
+                            </div>
+                            <div className={cx('group-item')}>
+                                <button className={cx('search-btn')} name="create" onClick={handleSearchSalary}>
+                                    Xuất bản
+                                </button>
+                                <button
+                                    className={cx('search-btn', 'search-btn--salary')}
+                                    name="delete"
+                                    onClick={handleSearchSalary}
+                                >
+                                    Xoá
+                                </button>
+                            </div>
+                        </div>
+                        {isShowSalaryTable && (
+                            <div className={cx('table-wrapper', 'salary-table-wrapper')} ref={contentRef}>
+                                <div className={cx('salary-heading')}>
+                                    <div>
+                                        <i style={{ fontWeight: 'bold' }}>333ベトナム料理</i>
+                                        <div>Họ & Tên : {salaryUserData.fullname}</div>
+                                        <div>Mã : {salaryUserData.staff_id}</div>
+                                    </div>
+                                    <img className={cx('salary-heading-logo')} src={images.logo} alt="logo" />
+                                </div>
+                                <table className={cx('salary-table')}>
+                                    <thead>
+                                        <tr key="">
+                                            <th className={cx('salary-table--title')} colSpan={2}>
+                                                Bảng Lương Tháng {salaryUserData.salary_date.split('-')[1]} năm{' '}
+                                                {salaryUserData.salary_date.split('-')[0]}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr className={cx('salary-table-content')} key="">
+                                            <th className={cx('salary-table-content--key')}>Lương cơ bản</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.basic_salary}円
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Số lần (ngày) làm</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.total_days}
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Tổng giờ làm</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.total_times}
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Giờ thường</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.regular_time}
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Giờ tăng ca</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.total_times_up}
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Hỗ trợ đi lại</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.allowance}円
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}></th>
+                                            <td className={cx('salary-table-content--value')}></td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}></th>
+                                            <td className={cx('salary-table-content--value')}></td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}></th>
+                                            <td className={cx('salary-table-content--value')}></td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}></th>
+                                            <td className={cx('salary-table-content--value')}></td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Thực lãnh</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.salary}円
+                                            </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}>Được xuất bản lúc</th>
+                                            <td className={cx('salary-table-content--value')}>
+                                                {salaryUserData.create_at}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </Fragment>
                 )}
             </div>
-            {isSearchTime && timeDatas.length !== 0 && (
+            {isShowSalaryTable && (
                 <button onClick={handlePrint} className={cx('download-btn')}>
                     <FontAwesomeIcon className={cx('download-icon')} icon={faDownload} />
                     Tải file PDF

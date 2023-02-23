@@ -17,7 +17,6 @@ const cx = className.bind(styles)
 function User() {
     const [datas, setDatas] = useState([])
     const [isShowModal, setIsShowModal] = useState(false)
-    const [toProfile, setToProfile] = useState()
     const [wantToProfileUser, setWantToProfileUser] = useState([])
     const [adminAccount, setAdminAccount] = useState({})
     const [loginUsernameValue, setLoginUsernameValue] = useState('')
@@ -112,7 +111,6 @@ function User() {
                                             <td className={cx('table-data')}>
                                                 <button
                                                     onClick={(e) => {
-                                                        setToProfile(data.staff_id)
                                                         setIsShowModal(!isShowModal)
                                                         localStorage.setItem('userId', JSON.stringify(data.user_id))
                                                         setWantToProfileUser(
