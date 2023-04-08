@@ -435,8 +435,10 @@
     & > div > i {
         font-weight: 600;
         font-size: 28px;
-        color: #1effe5;
-        text-shadow: 3px -2px #999;
+        background: linear-gradient(to right, rgb(226, 15, 241), #00ffff, red, gold, rgb(0, 255, 0));
+        background-clip: text;
+        font-style: normal;
+        color: transparent;
     }
 
     .salary-heading-logo {
@@ -451,6 +453,7 @@
     color: #333;
     height: auto;
     border: solid 2px #333;
+    border-radius: 10px;
     font-family: sans-serif;
 }
 

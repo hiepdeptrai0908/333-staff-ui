@@ -298,7 +298,6 @@ function Info() {
     // Handle Salary
     const handleSearchSalary = (e) => {
         setIsShowSalaryTable(false)
-        console.log(monthSalaryValue, yearSalaryValue)
         if (salaryUserRef.current.value === '') return toast.info('Vui lòng chọn tên nhân viên !')
 
         if (monthSalaryValue === '' || yearSalaryValue === '') return toast.info('Tháng, Năm không được để trống!')
@@ -306,7 +305,7 @@ function Info() {
             return toast.info('Không thể xuất bảng lương của tương lai!')
         const postData = {
             staff_id: Number(salaryUserRef.current.value),
-            month: monthSalaryValue < 10 ? '0' + String(monthSalaryValue) : String(monthSalaryValue),
+            month: Number(monthSalaryValue) < 10 ? '0' + String(monthSalaryValue) : String(monthSalaryValue),
             year: String(yearSalaryValue),
         }
         const nameBtn = e.target.name
@@ -772,6 +771,10 @@ function Info() {
                                             <td className={cx('salary-table-content--value')}>
                                                 {salaryUserData.salary}円
                                             </td>
+                                        </tr>
+                                        <tr className={cx('salary-table-content')}>
+                                            <th className={cx('salary-table-content--key')}></th>
+                                            <td className={cx('salary-table-content--value')}></td>
                                         </tr>
                                         <tr className={cx('salary-table-content')}>
                                             <th className={cx('salary-table-content--key')}>Được xuất bản lúc</th>
