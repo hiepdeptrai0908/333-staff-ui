@@ -186,13 +186,13 @@ function EditTime() {
         fullname: convertDatas.fullname,
         staff_id: convertDatas.staff_id,
         time_in: convertDatas.time_in,
-        time_out: convertDatas.time_out,
+        time_out: convertDatas.date_out === '0000-00-00' ? null : convertDatas.time_out,
         date_in: convertDatas.date_in,
         date_out: convertDatas.date_out === '0000-00-00' ? null : convertDatas.date_out,
         break_total: convertDatas.break_total,
         work_time: datas.work_time === '00:00' ? null : convertDatas.work_time,
         work_total: datas.work_total,
-        status: convertDatas.time_out === '00:00' ? 'online' : 'offline',
+        status: convertDatas.date_out === '0000-00-00' ? 'online' : 'offline',
     }
 
     const styleInput = {
