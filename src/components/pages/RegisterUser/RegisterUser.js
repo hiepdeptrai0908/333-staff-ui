@@ -11,6 +11,7 @@ import {
     faHouseUser,
     faSignsPost,
     faKey,
+    faMoneyCheckDollar,
 } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useRef, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
@@ -22,7 +23,25 @@ const cx = className.bind(styles)
 
 function RegisterUser() {
     const [hasLogin, setHasLogin] = useState(false)
-    const [userLogin, setUserLogin] = useState({})
+    const [userLogin, setUserLogin] = useState({
+        fullname: '',
+        address: '',
+        birthday: '',
+        create_at: null,
+        create_user: '',
+        delete_at: null,
+        delete_user: null,
+        email: '',
+        password: '',
+        phone_number: '',
+        sex: '',
+        staff_id: '',
+        status: null,
+        update_at: '',
+        update_user: null,
+        user_id: '',
+        username: '',
+    })
     const [fullnameValue, setFullnameValue] = useState('')
     const [staffIdValue, setStaffIdValue] = useState('')
     const [birthdayValue, setBirthdayValue] = useState('')
@@ -35,6 +54,8 @@ function RegisterUser() {
     const [usernameValue, setUserNameValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const [retypePasswordValue, setRetypePasswordValue] = useState('')
+    const [moneySupportValue, setMoneySupportValue] = useState('')
+    const [basicSalaryValue, setBasicSalaryValue] = useState('')
 
     const fullnameRef = useRef()
     const staffIdRef = useRef()
@@ -48,6 +69,8 @@ function RegisterUser() {
     const passwordRef = useRef()
     const retypePasswordRef = useRef()
     const registerTextRef = useRef()
+    const moneySupportRef = useRef()
+    const basicSalaryRef = useRef()
 
     const date = new Date()
     const year = date.getFullYear()
@@ -65,6 +88,8 @@ function RegisterUser() {
         address: addressValue,
         username: usernameValue,
         password: passwordValue,
+        money_support: moneySupportValue,
+        basic_salary: basicSalaryValue,
         create_at: today,
         create_user: userLogin.fullname,
     }
@@ -140,6 +165,8 @@ function RegisterUser() {
                 setUserNameValue('')
                 setPasswordValue('')
                 setRetypePasswordValue('')
+                setMoneySupportValue('')
+                setBasicSalaryValue('')
                 zipcodeRef.current.value = ''
                 toast('Bạn đã đăng ký thành công !')
             })
@@ -220,41 +247,56 @@ function RegisterUser() {
         setLoginPassword(loginPasswordRef.current.value)
     }
 
+    const handleChangeMoneySupport = (e) => {
+        setMoneySupportValue(moneySupportRef.current.value)
+        if (!(e.target.value === '')) {
+            setMessageMoneySupport('')
+        }
+    }
+    const handleChangeBasicSalary = (e) => {
+        setBasicSalaryValue(basicSalaryRef.current.value)
+        if (!(e.target.value === '')) {
+            setMessageBasicSalary('')
+        }
+    }
+
     // Message
-    const [mesageFullname, setMessageFullname] = useState('')
-    const [mesageStaffId, setMessageStaffId] = useState('')
-    const [mesageBirthday, setMessageBirthday] = useState('')
-    const [mesagePhoneNumber, setMessagePhoneNumber] = useState('')
-    const [mesageAddress, setMessageAddress] = useState('')
-    const [mesageUsername, setMessageUsername] = useState('')
-    const [mesagePassword, setMessagePassword] = useState('')
-    const [mesageRetypePassword, setMessageRetypePassword] = useState('')
+    const [messageFullname, setMessageFullname] = useState('')
+    const [messageStaffId, setMessageStaffId] = useState('')
+    const [messageBirthday, setMessageBirthday] = useState('')
+    const [messagePhoneNumber, setMessagePhoneNumber] = useState('')
+    const [messageAddress, setMessageAddress] = useState('')
+    const [messageUsername, setMessageUsername] = useState('')
+    const [messagePassword, setMessagePassword] = useState('')
+    const [messageRetypePassword, setMessageRetypePassword] = useState('')
+    const [messageMoneySupport, setMessageMoneySupport] = useState('')
+    const [messageBasicSalary, setMessageBasicSalary] = useState('')
 
     const validate = {
         fullname: function (value) {
             // Không được để trống
             if (value === '' || value === undefined) {
-                return setMessageFullname('Trường này không được để trống !')
+                return setMessageFullname('Mục này không được để trống !')
             }
             return true
         },
         staffId: function (value) {
             // Phải là số và không được để trống
             if (value === '' || value === undefined) {
-                return setMessageStaffId('Trường này không được để trống !')
+                return setMessageStaffId('Mục này không được để trống !')
             }
             return true
         },
         birthday: function (value) {
             // Phải là số và không được để trống
             if (value === '' || value === null) {
-                return setMessageBirthday('Trường này không được để trống !')
+                return setMessageBirthday('Mục này không được để trống !')
             }
             return true
         },
         phoneNumber: function (value) {
             if (value === '') {
-                return setMessagePhoneNumber('Trường này không được để trống !')
+                return setMessagePhoneNumber('Mục này không được để trống !')
             }
 
             if (value.length < 10 || value.length > 11) {
@@ -264,13 +306,13 @@ function RegisterUser() {
         },
         address: function (value) {
             if (value === '') {
-                return setMessageAddress('Trường này không được để trống !')
+                return setMessageAddress('Mục này không được để trống !')
             }
             return true
         },
         username: function (value) {
             if (value === '') {
-                return setMessageUsername('Trường này không được để trống !')
+                return setMessageUsername('Mục này không được để trống !')
             }
 
             if (value.indexOf(' ') >= 0) {
@@ -281,11 +323,11 @@ function RegisterUser() {
         },
         password: function (password, retypePassword, minLength) {
             if (password === '') {
-                setMessagePassword('Trường này không được để trống !')
+                setMessagePassword('Mục này không được để trống !')
             }
 
             if (retypePassword === '') {
-                return setMessageRetypePassword('Trường này không được để trống !')
+                return setMessageRetypePassword('Mục này không được để trống !')
             }
 
             if (password.length < minLength) {
@@ -303,6 +345,18 @@ function RegisterUser() {
             }
             return true
         },
+        moneySupport: function (value) {
+            if (value === '') {
+                return setMessageMoneySupport('Mục này không được để trống !')
+            }
+            return true
+        },
+        basicSalary: function (value) {
+            if (value === '') {
+                return setMessageBasicSalary('Mục này không được để trống !')
+            }
+            return true
+        },
     }
 
     const handleValidation = () => {
@@ -317,6 +371,8 @@ function RegisterUser() {
         const resultValidate5 = validate.username(datas.username)
         const resultValidate6 = validate.password(passwordValue, retypePasswordValue, 8)
         const resultValidate7 = validate.birthday(birthdayValue)
+        const resultValidate8 = validate.moneySupport(moneySupportValue)
+        const resultValidate9 = validate.basicSalary(basicSalaryValue)
         if (
             resultValidate1 === true &&
             resultValidate2 === true &&
@@ -324,7 +380,9 @@ function RegisterUser() {
             resultValidate4 === true &&
             resultValidate5 === true &&
             resultValidate6 === true &&
-            resultValidate7 === true
+            resultValidate7 === true &&
+            resultValidate8 === true &&
+            resultValidate9 === true
         ) {
             handleSubmitForm()
         } else {
@@ -370,7 +428,25 @@ function RegisterUser() {
             })
             .catch(() => {
                 toast.success('Có lỗi xảy ra, vui lòng liên hệ quản trị viên !')
-                setUserLogin({})
+                setUserLogin({
+                    fullname: '',
+                    address: '',
+                    birthday: '',
+                    create_at: null,
+                    create_user: '',
+                    delete_at: null,
+                    delete_user: null,
+                    email: '',
+                    password: '',
+                    phone_number: '',
+                    sex: '',
+                    staff_id: '',
+                    status: null,
+                    update_at: '',
+                    update_user: null,
+                    user_id: '',
+                    username: '',
+                })
                 setHasLogin(false)
             })
     }
@@ -393,7 +469,7 @@ function RegisterUser() {
                             <div className={cx('tilte')}>
                                 <FontAwesomeIcon className={cx('icon')} icon={faUser} /> <span>Họ và tên</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesageFullname}</span>
+                                <span className={cx('validate-message')}>{messageFullname}</span>
                             </div>
                             <input
                                 ref={fullnameRef}
@@ -410,7 +486,7 @@ function RegisterUser() {
                                 <FontAwesomeIcon className={cx('icon')} icon={faUserPlus} />
                                 <span>Mã nhân viên</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesageStaffId}</span>
+                                <span className={cx('validate-message')}>{messageStaffId}</span>
                             </div>
                             <input
                                 ref={staffIdRef}
@@ -433,7 +509,7 @@ function RegisterUser() {
                             <div className={cx('tilte')}>
                                 <FontAwesomeIcon className={cx('icon')} icon={faCakeCandles} /> <span>Ngày sinh</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesageBirthday}</span>
+                                <span className={cx('validate-message')}>{messageBirthday}</span>
                             </div>
                             <input
                                 ref={birthdayRef}
@@ -464,7 +540,7 @@ function RegisterUser() {
                                 <FontAwesomeIcon className={cx('icon')} icon={faMobileScreenButton} />{' '}
                                 <span>Số điện thoại</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesagePhoneNumber}</span>
+                                <span className={cx('validate-message')}>{messagePhoneNumber}</span>
                             </div>
                             <input
                                 ref={phoneNumberRef}
@@ -518,7 +594,7 @@ function RegisterUser() {
                             </button>
                         </div>
                     </div>
-                    <span className={cx('validate-message')}>{mesageAddress}</span>
+                    <span className={cx('validate-message')}>{messageAddress}</span>
                     <input
                         ref={addressRef}
                         value={addressValue}
@@ -527,14 +603,13 @@ function RegisterUser() {
                         type="text"
                         autoComplete="off"
                     />
-
                     <div className={cx('box', 'account')}>
                         <div className={cx('box-item')}>
                             <div className={cx('tilte')}>
                                 <FontAwesomeIcon className={cx('icon')} icon={faUser} /> <span>Tài khoản</span>
                                 <span className={cx('required')}>*</span>
                             </div>
-                            <span className={cx('validate-message')}>{mesageUsername}</span>
+                            <span className={cx('validate-message')}>{messageUsername}</span>
 
                             <input
                                 ref={userNameRef}
@@ -554,7 +629,7 @@ function RegisterUser() {
                                 <FontAwesomeIcon className={cx('icon')} icon={faKey} />
                                 <span>Mật khẩu</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesagePassword}</span>
+                                <span className={cx('validate-message')}>{messagePassword}</span>
                             </div>
                             <input
                                 ref={passwordRef}
@@ -572,7 +647,7 @@ function RegisterUser() {
                                 <FontAwesomeIcon className={cx('icon')} icon={faKey} />
                                 <span>Nhập lại mật khẩu</span>
                                 <span className={cx('required')}>*</span>
-                                <span className={cx('validate-message')}>{mesageRetypePassword}</span>
+                                <span className={cx('validate-message')}>{messageRetypePassword}</span>
                             </div>
                             <input
                                 ref={retypePasswordRef}
@@ -586,7 +661,45 @@ function RegisterUser() {
                             />
                         </div>
                     </div>
+                    {/* // */}
 
+                    <div className={cx('box')}>
+                        <div className={cx('staffid')}>
+                            <div className={cx('tilte')}>
+                                <FontAwesomeIcon className={cx('icon')} icon={faMoneyCheckDollar} />
+                                <span>Tiền hỗ trợ</span>
+                                <span className={cx('required')}>*</span>
+                                <span className={cx('validate-message')}>{messageMoneySupport}</span>
+                            </div>
+                            <input
+                                ref={moneySupportRef}
+                                value={moneySupportValue}
+                                onChange={handleChangeMoneySupport}
+                                type="number"
+                                className={cx('input', 'password-input')}
+                                required
+                                autoComplete="off"
+                            />
+                        </div>
+                        <div className={cx('staffid')}>
+                            <div className={cx('tilte')}>
+                                <FontAwesomeIcon className={cx('icon')} icon={faMoneyCheckDollar} />
+                                <span>Lương cơ bản</span>
+                                <span className={cx('required')}>*</span>
+                                <span className={cx('validate-message')}>{messageBasicSalary}</span>
+                            </div>
+                            <input
+                                ref={basicSalaryRef}
+                                value={basicSalaryValue}
+                                onChange={handleChangeBasicSalary}
+                                type="number"
+                                className={cx('input', 'password-input')}
+                                required
+                                autoComplete="off"
+                            />
+                        </div>
+                    </div>
+                    {/*  */}
                     <button className={cx('register-btn')} onClick={handleValidation}>
                         <span ref={registerTextRef} className={cx('register-btn-text')}>
                             Hoàn tất đăng ký

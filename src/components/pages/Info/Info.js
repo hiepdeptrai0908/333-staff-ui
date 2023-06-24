@@ -59,15 +59,6 @@ function Info() {
     // Salary
     const [titleBtnSalary, setTitleBtnSalary] = useState('Hiện')
     const [classSalary, setClassSalary] = useState('')
-    const [disabledSalary, setDisalbledSalary] = useState(true)
-    const [salaryData, setSalaryData] = useState({ basic_salary: '1050', up_salary: '1260', fresher_salary: '950' })
-    const [currentSalaryData, setCurrentSalaryData] = useState({
-        basic_salary: '1050',
-        up_salary: '1260',
-        fresher_salary: '950',
-    })
-    const [basicSalaryValue, setBasicSalaryValue] = useState(salaryData.basic_salary || '')
-    const [upSalaryValue, setUpSalaryValue] = useState(salaryData.up_salary || '')
     const [isShowSalaryTable, setIsShowSalaryTable] = useState(false)
     const [salaryUserData, setSalaryUserData] = useState({
         allowance: '',
@@ -103,11 +94,6 @@ function Info() {
         username: usernameValue,
     }
 
-    const updateSalaryDatas = {
-        basic_salary: Number(basicSalaryValue),
-        up_salary: Number(upSalaryValue),
-    }
-
     const fullnameRef = useRef()
     const sexRef = useRef()
     const birthdayRef = useRef()
@@ -126,8 +112,6 @@ function Info() {
     const contentRef = useRef()
 
     // Salary ref
-    const basicSalaryRef = useRef()
-    const upSalaryRef = useRef()
     const salaryUserRef = useRef()
 
     const searchTimeData = {
@@ -142,21 +126,6 @@ function Info() {
             setIslogin('')
             sessionStorage.removeItem('isLogin')
         }
-        fetch(baseURL + 'salary/get-setting', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data[0]) {
-                    setCurrentSalaryData(data[0])
-                    setBasicSalaryValue(data[0].basic_salary || '')
-                    setUpSalaryValue(data[0].up_salary || '')
-                    setSalaryData(data[0])
-                }
-            })
 
         fetch(baseURL + 'get-accounts')
             .then((res) => res.json())
@@ -339,32 +308,6 @@ function Info() {
             setIsShowSalaryTable(false)
             return
         }
-    }
-
-    const handleUpdateSalary = () => {
-        disabledSalary ? setDisalbledSalary(false) : setDisalbledSalary(true)
-
-        if (disabledSalary === true) return
-
-        if (
-            updateSalaryDatas.basic_salary === currentSalaryData.basic_salary &&
-            updateSalaryDatas.up_salary === currentSalaryData.up_salary
-        ) {
-            toast.info('Thông tin không có sự thay đổi!')
-            return
-        }
-        fetch(baseURL + 'salary/update-setting', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updateSalaryDatas),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setCurrentSalaryData(updateSalaryDatas)
-                toast[data?.status](data?.title)
-            })
     }
 
     const handlePrint = useReactToPrint({
@@ -591,63 +534,6 @@ function Info() {
 
                 {currentDatas?.staff_id === 333 && (
                     <Fragment>
-                        {/* Setting lương */}
-                        <h3 className={cx('group-heading', 'group-heading--salary')}>Tuỳ chỉnh lương</h3>
-                        <button
-                            className={cx('tongle-show__settings')}
-                            onClick={() => {
-                                if (titleBtnSalary === 'Hiện') {
-                                    setTitleBtnSalary('Ẩn')
-                                    setClassSalary(cx('fade-in'))
-                                } else if (titleBtnSalary === 'Ẩn') {
-                                    setTitleBtnSalary('Hiện')
-                                    setClassSalary(cx('fade-out'))
-                                }
-                            }}
-                        >
-                            {titleBtnSalary === 'Hiện' ? (
-                                <FontAwesomeIcon icon={faPlus} />
-                            ) : (
-                                <FontAwesomeIcon icon={faMinus} />
-                            )}
-                        </button>
-                        <div className={cx('salary', classSalary)}>
-                            <div className={cx('salary-item')}>
-                                <div className={cx('salary-item__title')}> Lương cơ bản:</div>
-                                <input
-                                    className={cx('salary-item__input')}
-                                    type="text"
-                                    ref={basicSalaryRef}
-                                    value={basicSalaryValue}
-                                    onChange={() => {
-                                        setBasicSalaryValue(basicSalaryRef.current.value)
-                                    }}
-                                    disabled={disabledSalary}
-                                />
-                            </div>
-                            <div className={cx('salary-item')}>
-                                <div className={cx('salary-item__title')}> Lương tối / Tăng ca:</div>
-                                <input
-                                    className={cx('salary-item__input')}
-                                    type="text"
-                                    ref={upSalaryRef}
-                                    value={upSalaryValue}
-                                    onChange={() => {
-                                        setUpSalaryValue(upSalaryRef.current.value)
-                                    }}
-                                    disabled={disabledSalary}
-                                />
-                            </div>
-                            <div className={cx('group-item')}>
-                                <div
-                                    className={cx('update-btn', disabledSalary ? 'disabled' : '')}
-                                    onClick={handleUpdateSalary}
-                                >
-                                    {disabledSalary ? 'Chỉnh Lương' : 'Xác Nhận'}
-                                </div>
-                            </div>
-                        </div>
-
                         {/* Bảng lương */}
                         <h3 className={cx('group-heading')}>Bảng lương</h3>
                         <div className={cx('group-item')}>
@@ -657,7 +543,7 @@ function Info() {
                                 </option>
                                 {listUsers
                                     .filter((user) => user.staff_id !== 333)
-                                    .map((user) => {
+                                    .map((user, index) => {
                                         return (
                                             <option value={user.staff_id} key={user.user_id}>
                                                 {user.fullname}
@@ -745,7 +631,7 @@ function Info() {
                                             </td>
                                         </tr>
                                         <tr className={cx('salary-table-content')}>
-                                            <th className={cx('salary-table-content--key')}>Hỗ trợ đi lại</th>
+                                            <th className={cx('salary-table-content--key')}>Hỗ trợ</th>
                                             <td className={cx('salary-table-content--value')}>
                                                 {salaryUserData.allowance}円
                                             </td>
