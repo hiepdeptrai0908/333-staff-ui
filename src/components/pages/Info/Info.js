@@ -289,7 +289,6 @@ function Info() {
                 .then((datas) => {
                     if (datas) {
                         setSalaryUserData(datas[0])
-                        console.log(datas)
                     }
                 })
             toast.success('Thành công!')
