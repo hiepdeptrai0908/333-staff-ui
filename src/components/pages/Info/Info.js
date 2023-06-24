@@ -270,8 +270,7 @@ function Info() {
         if (salaryUserRef.current.value === '') return toast.info('Vui lòng chọn tên nhân viên !')
 
         if (monthSalaryValue === '' || yearSalaryValue === '') return toast.info('Tháng, Năm không được để trống!')
-        if (monthSalaryValue > new Date().getMonth() + 1 && yearSalaryValue > new Date().getFullYear)
-            return toast.info('Không thể xuất bảng lương của tương lai!')
+
         const postData = {
             staff_id: Number(salaryUserRef.current.value),
             month: Number(monthSalaryValue) < 10 ? '0' + String(monthSalaryValue) : String(monthSalaryValue),
