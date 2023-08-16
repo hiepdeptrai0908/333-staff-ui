@@ -330,7 +330,7 @@ function Time() {
                                                         'table-data',
                                                         (searchAction === 'date' && data?.work_total === '00:00') ||
                                                             Number(data.work_total?.split(':')[0]) < 0 ||
-                                                            Number(data.work_total?.split(':')[0]) > 15 ||
+                                                            Number(data.work_total?.split(':')[0]) > 16 ||
                                                             Number(data.break_total?.split(':')[0]) < 0 ||
                                                             Number(data.break_total?.split(':')[0]) > 8
                                                             ? 'error'
