@@ -7,12 +7,13 @@ import styles from './Search.module.scss'
 import { baseURL } from '~/utils'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import UserContext from '~/context/UserContext'
+import {UserContext, LoadingContext} from '~/context/UserContext'
 
 const cx = classNames.bind(styles)
 
 function Search() {
     const { userInfo, setUserInfo } = useContext(UserContext)
+    const { loading, setLoading } = useContext(LoadingContext)
     const nextBtnClass = 'out-right'
     const [searchValue, setSearchValue] = useState('')
     const [outRightClass, setOutRightClass] = useState(undefined)
@@ -24,6 +25,7 @@ function Search() {
     }
 
     const handleClick = () => {
+        setLoading(true)
         const fetchApi = fetch(baseURL + `search-staff-id/${searchValue}`)
             .then((response) => response.json())
             .then((data) => {
@@ -48,6 +50,9 @@ function Search() {
                 })
                 setUserInfo(undefined)
             })
+            .finally(() => {
+                setLoading(false)
+            })
 
         setSearchValue('')
         inputRef.current.focus()
@@ -59,7 +64,7 @@ function Search() {
         setTimeout(() => {
             handleClick()
             setOutRightClass(undefined)
-        }, 1500)
+        }, 1000)
     }
 
     function handleKeypress(e) {

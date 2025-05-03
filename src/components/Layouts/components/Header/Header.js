@@ -1,6 +1,6 @@
 import classname from 'classnames/bind'
 import { Link } from 'react-router-dom'
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import styles from './Header.module.scss'
 import images from '~/assets/images'
@@ -50,17 +50,17 @@ function Header() {
                 <div className={cx('bg-group')} ref={btnBgGruop}>
                     {arrayImages.map((key, index) => {
                         return (
-                            <>
-                                {key !== 'logo' && key !== 'noData' && (
+                            key !== 'logo' &&
+                            key !== 'noData' && (
+                                <React.Fragment key={key}>
                                     <button
-                                        key={index}
                                         className={cx('bg-item')}
                                         name={key}
                                         style={{ backgroundImage: `url('${images[key]}')` }}
                                         onClick={handleChangeBg}
                                     ></button>
-                                )}
-                            </>
+                                </React.Fragment>
+                            )
                         )
                     })}
                 </div>

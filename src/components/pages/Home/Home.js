@@ -1,14 +1,17 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import classname from 'classnames/bind'
 import styles from './Home.module.scss'
 import Clock from '~/components/Clock'
 import { ToastContainer, toast } from 'react-toastify'
 import { baseURL } from '~/utils'
-import UserContext from '~/context/UserContext'
+import {UserContext, LoadingContext } from '~/context/UserContext'
+import Loading from '~/components/Loading'
 
 const cx = classname.bind(styles)
 function Home() {
     const { userInfo } = useContext(UserContext)
+    const { loading } = useContext(LoadingContext)
+    
     const date = new Date(Date.now())
     let year = String(date.getFullYear())
     let month = String(date.getMonth() + 1)
@@ -54,38 +57,44 @@ function Home() {
                 })
             })
             .catch((error) => {
+                alert("Có lỗi xảy ra, vui lòng liên hệ quản trị viên !")
                 console.error('Error:', error)
             })
     }
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('actions')}>
-                <div className={cx('today')}>
-                    {year}
-                    <span>年</span>
-                    {month}
-                    <span>月</span>
-                    {day}
-                    <span>日</span>
-                </div>
-                {btnTitles.map((btnTitle, index) => {
-                    return (
-                        <button
-                            id={idBtn[index]}
-                            className={cx('action-btn')}
-                            onClick={(event) => handleOnclick(event)}
-                            key={index}
-                        >
-                            {btnTitle}
-                        </button>
-                    )
-                })}
-            </div>
-            <ToastContainer />
-            <Clock />
+            {loading ? (
+                <Loading />
+            ) : (
+                <>
+                    <div className={cx('actions')}>
+                        <div className={cx('today')}>
+                            {year}
+                            <span>年</span>
+                            {month}
+                            <span>月</span>
+                            {day}
+                            <span>日</span>
+                        </div>
+                        {btnTitles.map((btnTitle, index) => (
+                            <button
+                                id={idBtn[index]}
+                                className={cx('action-btn')}
+                                onClick={(event) => handleOnclick(event)}
+                                key={index}
+                            >
+                                {btnTitle}
+                            </button>
+                        ))}
+                    </div>
+                    <ToastContainer />
+                    <Clock />
+                </>
+            )}
         </div>
     )
+    
 }
 
 export default Home
